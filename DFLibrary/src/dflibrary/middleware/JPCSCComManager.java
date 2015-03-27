@@ -57,33 +57,33 @@ public class JPCSCComManager implements ComManager {
 	/**
 	 * 
 	 */
-	public void select(String reader) {
+	public void select(String readerName) {
 		
-		if(reader == null) throw new NullPointerException();
+		if(readerName == null) throw new NullPointerException();
 		
 		String[] readers = listReaders();
 		
-		if(!findReader(reader, readers)) 
+		if(!findReader(readerName, readers)) 
 			throw new DFLException(ExType.READER_NOT_FOUND);
 		
-		this.rn = reader;
+		this.rn = readerName;
 		
 
 	}
 
 	/**
 	 * 
-	 * @param reader
+	 * @param readerName
 	 * @param readers
 	 * @return
 	 */
-	private boolean findReader(String reader, String[] readers){
+	private boolean findReader(String readerName, String[] readers){
 		
-		if((reader == null) || (readers == null)) throw new NullPointerException();
+		if((readerName == null) || (readers == null)) throw new NullPointerException();
 		
 		for(int i = 0; i < readers.length; i++)
 		{
-			if(readers[i].equals(reader)) return true;
+			if(readers[i].equals(readerName)) return true;
 		}
 		return false;
 	}
@@ -134,11 +134,11 @@ public class JPCSCComManager implements ComManager {
 	/**
 	 * 
 	 */
-	public boolean isCardPresent(String reader) {
+	public boolean isCardPresent(String readerName) {
 		
-		if(reader == null) throw new NullPointerException();
+		if(readerName == null) throw new NullPointerException();
 		
-		select(reader);
+		select(readerName);
 		
 		boolean b = isCardPresent();
 		
@@ -161,7 +161,7 @@ public class JPCSCComManager implements ComManager {
 	/**
 	 * 
 	 */
-	public void waitForCard(String reader) {
+	public void waitForCard(String readerName) {
 		// TODO Auto-generated method stub
 
 	}
@@ -179,7 +179,7 @@ public class JPCSCComManager implements ComManager {
 	/**
 	 * 
 	 */
-	public void waitCardExtraction(String reader) {
+	public void waitCardExtraction(String readerName) {
 		// TODO Auto-generated method stub
 
 	}
@@ -197,7 +197,8 @@ public class JPCSCComManager implements ComManager {
 			throw new DFLException(ExType.CONTEXT_NOT_INITIALIZED);
 		
 		try{
-			this.card = ctx.Connect(this.rn, PCSC.SHARE_SHARED, PCSC.PROTOCOL_T0 | PCSC.PROTOCOL_T1);	
+			this.card = ctx.Connect(this.rn, PCSC.SHARE_SHARED, 
+					PCSC.PROTOCOL_T0 | PCSC.PROTOCOL_T1);	
 			
 		}catch(PCSCException e){
 			throw new DFLException(e);
@@ -211,11 +212,11 @@ public class JPCSCComManager implements ComManager {
 	/**
 	 * 
 	 */
-	public void connect(String reader){
+	public void connect(String readerName){
 		
-		if(reader == null) throw new NullPointerException();
+		if(readerName == null) throw new NullPointerException();
 		
-		select(reader);
+		select(readerName);
 		
 		connect();
 		

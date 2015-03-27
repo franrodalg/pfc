@@ -22,9 +22,9 @@ public interface ComManager {
 	
 	/**
 	 * 
-	 * @param reader
+	 * @param readerName
 	 */
-	public void select(String reader);
+	public void select(String readerName);
 	
 	/**
 	 * 
@@ -39,10 +39,10 @@ public interface ComManager {
 	
 	/**
 	 * 
-	 * @param reader
+	 * @param readerName
 	 * @return
 	 */
-	public boolean isCardPresent(String reader);
+	public boolean isCardPresent(String readerName);
 	
 	/**
 	 * 
@@ -51,9 +51,9 @@ public interface ComManager {
 	
 	/**
 	 * 
-	 * @param reader
+	 * @param readerName
 	 */
-	public void waitForCard(String reader);
+	public void waitForCard(String readerName);
 	
 	/**
 	 * 
@@ -62,9 +62,9 @@ public interface ComManager {
 	
 	/**
 	 * 
-	 * @param reader
+	 * @param readerName
 	 */
-	public void waitCardExtraction(String reader);
+	public void waitCardExtraction(String readerName);
 	
 	
 	/**
@@ -74,9 +74,9 @@ public interface ComManager {
 	
 	/**
 	 * 
-	 * @param reader
+	 * @param readerName
 	 */
-	public void connect(String reader);
+	public void connect(String readerName);
 	
 	
 	/**

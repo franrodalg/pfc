@@ -24,7 +24,7 @@ public class RemoteComManager implements ComManager {
 	}
 
 	@Override
-	public void select(String reader) {}
+	public void select(String readerName) {}
 
 	@Override
 	public void deselect() {}
@@ -33,25 +33,25 @@ public class RemoteComManager implements ComManager {
 	public boolean isCardPresent() { return true;}
 
 	@Override
-	public boolean isCardPresent(String reader) {	return true; }
+	public boolean isCardPresent(String readerName) {	return true; }
 
 	@Override
 	public void waitForCard() {}
 
 	@Override
-	public void waitForCard(String reader) {}
+	public void waitForCard(String readerName) {}
 
 	@Override
 	public void waitCardExtraction() {}
 
 	@Override
-	public void waitCardExtraction(String reader) {}
+	public void waitCardExtraction(String readerName) {}
 
 	@Override
 	public void connect() {}
 
 	@Override
-	public void connect(String reader) {}
+	public void connect(String readerName) {}
 
 	@Override
 	public byte[] send(byte[] command) {
