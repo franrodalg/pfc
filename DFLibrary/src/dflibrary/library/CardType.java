@@ -55,5 +55,11 @@ public enum CardType {
 			return "Mifare Plus";
 		}
 	};
+	
+	public static final String DESFIRE_ATR = "3B8180018080";
+	public static final String MIFARE_CLASSIC_1K_ATR = "3B8F8001804F0CA000000306030001000000006A";
+	public static final String MIFARE_CLASSIC_4K_ATR = "3B8F8001804F0CA0000003060300020000000069";
+	public static final String MIFARE_ULTRALIGHT_ATR = "3B8F8001804F0CA0000003060300030000000068";
+	public static final String MIFARE_PLUS_ATR = "3B878001C1052F2F01BCD6A9";
 
 }

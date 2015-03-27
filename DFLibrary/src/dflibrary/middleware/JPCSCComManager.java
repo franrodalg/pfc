@@ -20,10 +20,10 @@ public class JPCSCComManager implements ComManager {
 	 */
 	public void scan() {
 		
-		this.ctx = new Context();
+		this.context = new Context();
 		
 		try{
-			ctx.EstablishContext(PCSC.SCOPE_SYSTEM, null, null);
+			context.EstablishContext(PCSC.SCOPE_SYSTEM, null, null);
 		}catch(PCSCException e){
 			throw new DFLException(e);
 		}
@@ -36,12 +36,12 @@ public class JPCSCComManager implements ComManager {
 	 */
 	public String[] listReaders() {
 
-		if(ctx == null) throw new DFLException(ExType.CONTEXT_NOT_INITIALIZED);
+		if(context == null) throw new DFLException(ExType.CONTEXT_NOT_INITIALIZED);
 		
 		String[] readers = null;
 		
 		try{
-			readers = ctx.ListReaders();
+			readers = context.ListReaders();
 		}catch(PCSCException e){
 			throw new DFLException(e);
 		}
@@ -66,7 +66,7 @@ public class JPCSCComManager implements ComManager {
 		if(!findReader(readerName, readers)) 
 			throw new DFLException(ExType.READER_NOT_FOUND);
 		
-		this.rn = readerName;
+		this.reader = readerName;
 		
 
 	}
@@ -94,7 +94,7 @@ public class JPCSCComManager implements ComManager {
 	 */
 	public void deselect() {
 		
-		this.rn = null;
+		this.reader = null;
 		
 
 	}
@@ -105,19 +105,19 @@ public class JPCSCComManager implements ComManager {
 	 */
 	public boolean isCardPresent() {
 		
-		if(this.rn == null) 
+		if(this.reader == null) 
 			throw new DFLException(ExType.NO_READER_SELECTED);
 		
-		if(this.ctx == null)
+		if(this.context == null)
 			throw new DFLException(ExType.CONTEXT_NOT_INITIALIZED);
 		
 		try{
 		
-			State state = new State(this.rn);
+			State state = new State(this.reader);
 			State[] states = new State[1];
 			states[0] = state;
 			
-			ctx.GetStatusChange(0, states);
+			context.GetStatusChange(0, states);
 			
 			if((state.dwEventState & PCSC.STATE_PRESENT) != 0){
 				return true;
@@ -190,14 +190,14 @@ public class JPCSCComManager implements ComManager {
 	 */
 	public void connect() {
 		
-		if(this.rn == null)
+		if(this.reader == null)
 			throw new DFLException(ExType.NO_READER_SELECTED);
 		
-		if(this.ctx == null)
+		if(this.context == null)
 			throw new DFLException(ExType.CONTEXT_NOT_INITIALIZED);
 		
 		try{
-			this.card = ctx.Connect(this.rn, PCSC.SHARE_SHARED, 
+			this.card = context.Connect(this.reader, PCSC.SHARE_SHARED, 
 					PCSC.PROTOCOL_T0 | PCSC.PROTOCOL_T1);	
 			
 		}catch(PCSCException e){
@@ -257,7 +257,7 @@ public class JPCSCComManager implements ComManager {
 		if(this.card == null)
 			throw new DFLException(ExType.CARD_NOT_CONNECTED);
 		
-		if(this.rn == null)
+		if(this.reader == null)
 			throw new DFLException(ExType.NO_READER_SELECTED);
 		
 		try{
@@ -296,10 +296,10 @@ public class JPCSCComManager implements ComManager {
 	 */
 	public void release() {
 		
-		if(ctx == null) throw new DFLException(ExType.CONTEXT_NOT_INITIALIZED);
+		if(context == null) throw new DFLException(ExType.CONTEXT_NOT_INITIALIZED);
 		
 		try{
-			ctx.ReleaseContext();
+			context.ReleaseContext();
 		}catch(PCSCException e){
 			throw new DFLException(e);
 		}
@@ -318,12 +318,18 @@ public class JPCSCComManager implements ComManager {
 		
 		String atr = BAUtils.toString(state.rgbAtr);
 		
-		if(atr.equals(DESFIRE_ATR)) return CardType.MIFARE_DESFIRE;
-		else if(atr.equals(MIFARE_CLASSIC_1K_ATR)) return CardType.MIFARE_CLASSIC_1K;
-		else if(atr.equals(MIFARE_CLASSIC_4K_ATR)) return CardType.MIFARE_CLASSIC_4K;
-		else if(atr.equals(MIFARE_ULTRALIGHT_ATR)) return CardType.MIFARE_ULTRALIGHT;
-		else if(atr.equals(MIFARE_PLUS_ATR)) return CardType.MIFARE_PLUS;
-		else throw new DFLException(ExType.UNKNOWN_CARD_TYPE);
+		if(atr.equals(CardType.DESFIRE_ATR)) 
+			return CardType.MIFARE_DESFIRE;
+		else if(atr.equals(CardType.MIFARE_CLASSIC_1K_ATR)) 
+			return CardType.MIFARE_CLASSIC_1K;
+		else if(atr.equals(CardType.MIFARE_CLASSIC_4K_ATR)) 
+			return CardType.MIFARE_CLASSIC_4K;
+		else if(atr.equals(CardType.MIFARE_ULTRALIGHT_ATR)) 
+			return CardType.MIFARE_ULTRALIGHT;
+		else if(atr.equals(CardType.MIFARE_PLUS_ATR)) 
+			return CardType.MIFARE_PLUS;
+		else 
+			throw new DFLException(ExType.UNKNOWN_CARD_TYPE);
 		
 		
 		
@@ -334,20 +340,12 @@ public class JPCSCComManager implements ComManager {
 	 * @return
 	 */
 	public String getReader(){
-		return this.rn;
+		return this.reader;
 	}
 	
-	private Context ctx;
+	private Context context;
 	private Card card;
 	
-	private String rn;
-	
-	
-	public static final String DESFIRE_ATR = "3B8180018080";
-	public static final String MIFARE_CLASSIC_1K_ATR = "3B8F8001804F0CA000000306030001000000006A";
-	public static final String MIFARE_CLASSIC_4K_ATR = "3B8F8001804F0CA0000003060300020000000069";
-	public static final String MIFARE_ULTRALIGHT_ATR = "3B8F8001804F0CA0000003060300030000000068";
-	public static final String MIFARE_PLUS_ATR = "3B878001C1052F2F01BCD6A9";
-	
+	private String reader;
 	
 }
