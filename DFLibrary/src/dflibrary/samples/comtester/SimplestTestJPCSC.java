@@ -2,16 +2,17 @@ package dflibrary.samples.comtester;
 
 import dflibrary.library.*;
 import dflibrary.middleware.*;
+import java.util.Arrays;
 
-
-public class SimplestTest {
+public class SimplestTestJPCSC {
 	
 	public static void main(String[] args){		
 		
-		JPCSCComManager cm = new JPCSCComManager();		
+		ComManager cm = new SCIOComManager();		
 		try{
 				cm.scan();				
-				String[] readers = cm.listReaders();				
+				String[] readers = cm.listReaders();
+				System.out.println(Arrays.toString(readers));
 				cm.select(readers[0]);
 				
 				if(cm.isCardPresent()){					
