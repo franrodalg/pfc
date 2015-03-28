@@ -25,7 +25,7 @@ public class JPCSCComManager implements ComManager {
 		try{
 			context.EstablishContext(PCSC.SCOPE_SYSTEM, null, null);
 		}catch(PCSCException e){
-			throw new DFLException(e);
+			throw convertException(e);
 		}
 
 	}
@@ -36,14 +36,15 @@ public class JPCSCComManager implements ComManager {
 	 */
 	public String[] listReaders() {
 
-		if(context == null) throw new DFLException(ExType.CONTEXT_NOT_INITIALIZED);
+		if(context == null) 
+			throw new DFLException(ExType.CONTEXT_NOT_INITIALIZED);
 		
 		String[] readers = null;
 		
 		try{
 			readers = context.ListReaders();
 		}catch(PCSCException e){
-			throw new DFLException(e);
+			throw convertException(e);
 		}
 		
 		if((readers == null) || (readers.length == 0))
@@ -126,7 +127,7 @@ public class JPCSCComManager implements ComManager {
 			return false;
 		
 		}catch(PCSCException e){
-			throw new DFLException(e);
+			throw convertException(e);
 		}
 	}	
 
@@ -201,7 +202,7 @@ public class JPCSCComManager implements ComManager {
 					PCSC.PROTOCOL_T0 | PCSC.PROTOCOL_T1);	
 			
 		}catch(PCSCException e){
-			throw new DFLException(e);
+			throw convertException(e);
 		}
 
 		//TODO: Call to reconnect needed to avoid "6700" response in DESFire EV1
@@ -243,7 +244,7 @@ public class JPCSCComManager implements ComManager {
 			return card.Transmit(apdu);
 			
 		}catch(PCSCException e){
-			throw new DFLException(e);
+			throw convertException(e);
 		}
 		
 	}
@@ -265,7 +266,7 @@ public class JPCSCComManager implements ComManager {
 			card.Reconnect(PCSC.SHARE_SHARED, PCSC.PROTOCOL_T0 | PCSC.PROTOCOL_T1, PCSC.RESET_CARD);
 			
 		}catch(PCSCException e){
-			throw new DFLException(e);
+			throw convertException(e);
 		}
 		
 
@@ -283,7 +284,7 @@ public class JPCSCComManager implements ComManager {
 		try{
 			card.Disconnect();
 		}catch(PCSCException e){
-			throw new DFLException(e);
+			throw convertException(e);
 		}
 		
 		this.card = null;
@@ -296,12 +297,13 @@ public class JPCSCComManager implements ComManager {
 	 */
 	public void release() {
 		
-		if(context == null) throw new DFLException(ExType.CONTEXT_NOT_INITIALIZED);
+		if(context == null) 
+			throw new DFLException(ExType.CONTEXT_NOT_INITIALIZED);
 		
 		try{
 			context.ReleaseContext();
 		}catch(PCSCException e){
-			throw new DFLException(e);
+			throw convertException(e);
 		}
 	}
 
@@ -319,13 +321,111 @@ public class JPCSCComManager implements ComManager {
 		return CardType.getCardType(BAUtils.toString(state.rgbAtr));
 		
 	}
-	
+
 	/**
 	 * 
+	 * @param e
 	 * @return
 	 */
-	public String getReader(){
-		return this.reader;
+	private DFLException convertException(Exception e){
+	
+		ExType type;
+		
+		if (e instanceof PCSCException){
+			
+			int r = ((PCSCException) e).getReason();
+			
+			if (r == PCSC.E_CANCELLED){
+				type = ExType.PCSC_CANCELLED;
+			}
+			else if(r == PCSC.E_CANT_DISPOSE){
+				type = ExType.PCSC_CANT_DISPOSE;
+			}
+			else if(r == PCSC.E_CARD_UNSUPPORTED){
+				type = ExType.PCSC_CARD_UNSUPPORTED;
+			}
+			else if(r == PCSC.E_DUPLICATE_READER){
+				type = ExType.PCSC_DUPLICATE_READER;
+			}
+			else if(r == PCSC.E_INSUFFICIENT_BUFFER){
+				type = ExType.PCSC_INSUFFICIENT_BUFFER;
+			}
+			else if(r == PCSC.E_INVALID_ATR){
+				type = ExType.PCSC_INSUFFICIENT_BUFFER;
+			}
+			else if(r == PCSC.E_INVALID_HANDLE){
+				type = ExType.PCSC_INVALID_HANDLE;
+			}
+			else if(r == PCSC.E_INVALID_PARAMETER){
+				type = ExType.PCSC_INVALID_PARAMETER;
+			}
+			else if(r == PCSC.E_INVALID_TARGET){
+				type = ExType.PCSC_INVALID_TARGET;
+			}
+			else if(r == PCSC.E_INVALID_VALUE){
+				type = ExType.PCSC_INVALID_VALUE;
+			}
+			else if(r == PCSC.E_NO_MEMORY){
+				type = ExType.PCSC_NO_MEMORY;
+			}
+			else if(r == PCSC.E_NO_SERVICE){
+				type = ExType.PCSC_NO_SERVICE;
+			}
+			else if(r == PCSC.E_NO_SMARTCARD){
+				type = ExType.PCSC_NO_SMARTCARD;
+			}
+			else if(r == PCSC.E_NOT_READY){
+				type = ExType.PCSC_NOT_READY;
+			}	
+			else if(r == PCSC.E_NOT_TRANSACTED){
+				type = ExType.PCSC_NOT_TRANSACTED;
+			}
+			else if(r == PCSC.E_PCI_TOO_SMALL){
+				type = ExType.PCSC_PCI_TOO_SMALL;
+			}
+			else if(r == PCSC.E_PROTO_MISMATCH){
+				type = ExType.PCSC_PROTO_MISMATCH;
+			}
+			else if(r == PCSC.E_READER_UNAVAILABLE){
+				type = ExType.PCSC_READER_UNAVAILABLE;
+			}
+			else if(r == PCSC.E_READER_UNSUPPORTED){
+				type = ExType.PCSC_READER_UNSUPPORTED;
+			}
+			else if(r == PCSC.E_SERVICE_STOPPED){
+				type = ExType.PCSC_SERVICE_STOPPED;
+			}
+			else if(r == PCSC.E_SHARING_VIOLATION){
+				type = ExType.PCSC_SHARING_VIOLATION;
+			}
+			else if(r == PCSC.E_SYSTEM_CANCELLED){
+				type = ExType.PCSC_SYSTEM_CANCELLED;
+			}
+			else if(r == PCSC.E_TIMEOUT){
+				type = ExType.PCSC_TIMEOUT;
+			}
+			else if(r == PCSC.E_UNKNOWN_CARD){
+				type = ExType.PCSC_UNKNOWN_CARD;
+			}
+			else if(r == PCSC.E_UNKNOWN_READER){
+				type = ExType.PCSC_UNKNOWN_READER;
+			}
+			else if(r == PCSC.F_COMM_ERROR){
+				type = ExType.COMM_ERROR;
+			}
+			else if(r == PCSC.F_INTERNAL_ERROR){
+				type = ExType.INTERNAL_ERROR;
+			}
+			else if(r == PCSC.F_WAITED_TOO_LONG){
+				type = ExType.WAITED_TOO_LONG;
+			}
+			else type = ExType.UNKNOWN_ERROR;
+		}
+		else
+			type = ExType.UNKNOWN_ERROR;
+		
+		return new DFLException(type);
+		
 	}
 	
 	private Context context;
