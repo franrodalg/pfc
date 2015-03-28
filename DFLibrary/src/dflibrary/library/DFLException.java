@@ -67,4 +67,8 @@ public class DFLException extends RuntimeException {
 		
 	}
 	
+	public String toString(){
+		return "DESFire Library Exception: " + type.toString();
+	}
+	
 }
