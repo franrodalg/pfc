@@ -336,79 +336,79 @@ public class JPCSCComManager implements ComManager {
 			int r = ((PCSCException) e).getReason();
 			
 			if (r == PCSC.E_CANCELLED){
-				type = ExType.PCSC_CANCELLED;
+				type = ExType.CANCELLED;
 			}
 			else if(r == PCSC.E_CANT_DISPOSE){
-				type = ExType.PCSC_CANT_DISPOSE;
+				type = ExType.CANT_DISPOSE;
 			}
 			else if(r == PCSC.E_CARD_UNSUPPORTED){
-				type = ExType.PCSC_CARD_UNSUPPORTED;
+				type = ExType.CARD_UNSUPPORTED;
 			}
 			else if(r == PCSC.E_DUPLICATE_READER){
-				type = ExType.PCSC_DUPLICATE_READER;
+				type = ExType.DUPLICATE_READER;
 			}
 			else if(r == PCSC.E_INSUFFICIENT_BUFFER){
-				type = ExType.PCSC_INSUFFICIENT_BUFFER;
+				type = ExType.INSUFFICIENT_BUFFER;
 			}
 			else if(r == PCSC.E_INVALID_ATR){
-				type = ExType.PCSC_INSUFFICIENT_BUFFER;
+				type = ExType.INSUFFICIENT_BUFFER;
 			}
 			else if(r == PCSC.E_INVALID_HANDLE){
-				type = ExType.PCSC_INVALID_HANDLE;
+				type = ExType.INVALID_HANDLE;
 			}
 			else if(r == PCSC.E_INVALID_PARAMETER){
-				type = ExType.PCSC_INVALID_PARAMETER;
+				type = ExType.INVALID_PARAMETER;
 			}
 			else if(r == PCSC.E_INVALID_TARGET){
-				type = ExType.PCSC_INVALID_TARGET;
+				type = ExType.INVALID_TARGET;
 			}
 			else if(r == PCSC.E_INVALID_VALUE){
-				type = ExType.PCSC_INVALID_VALUE;
+				type = ExType.INVALID_VALUE;
 			}
 			else if(r == PCSC.E_NO_MEMORY){
-				type = ExType.PCSC_NO_MEMORY;
+				type = ExType.NO_MEMORY;
 			}
 			else if(r == PCSC.E_NO_SERVICE){
-				type = ExType.PCSC_NO_SERVICE;
+				type = ExType.NO_SERVICE;
 			}
 			else if(r == PCSC.E_NO_SMARTCARD){
-				type = ExType.PCSC_NO_SMARTCARD;
+				type = ExType.NO_SMARTCARD;
 			}
 			else if(r == PCSC.E_NOT_READY){
-				type = ExType.PCSC_NOT_READY;
+				type = ExType.NOT_READY;
 			}	
 			else if(r == PCSC.E_NOT_TRANSACTED){
-				type = ExType.PCSC_NOT_TRANSACTED;
+				type = ExType.NOT_TRANSACTED;
 			}
 			else if(r == PCSC.E_PCI_TOO_SMALL){
-				type = ExType.PCSC_PCI_TOO_SMALL;
+				type = ExType.PCI_TOO_SMALL;
 			}
 			else if(r == PCSC.E_PROTO_MISMATCH){
-				type = ExType.PCSC_PROTO_MISMATCH;
+				type = ExType.PROTO_MISMATCH;
 			}
 			else if(r == PCSC.E_READER_UNAVAILABLE){
-				type = ExType.PCSC_READER_UNAVAILABLE;
+				type = ExType.READER_UNAVAILABLE;
 			}
 			else if(r == PCSC.E_READER_UNSUPPORTED){
-				type = ExType.PCSC_READER_UNSUPPORTED;
+				type = ExType.READER_UNSUPPORTED;
 			}
 			else if(r == PCSC.E_SERVICE_STOPPED){
-				type = ExType.PCSC_SERVICE_STOPPED;
+				type = ExType.SERVICE_STOPPED;
 			}
 			else if(r == PCSC.E_SHARING_VIOLATION){
-				type = ExType.PCSC_SHARING_VIOLATION;
+				type = ExType.SHARING_VIOLATION;
 			}
 			else if(r == PCSC.E_SYSTEM_CANCELLED){
-				type = ExType.PCSC_SYSTEM_CANCELLED;
+				type = ExType.SYSTEM_CANCELLED;
 			}
 			else if(r == PCSC.E_TIMEOUT){
-				type = ExType.PCSC_TIMEOUT;
+				type = ExType.TIMEOUT;
 			}
 			else if(r == PCSC.E_UNKNOWN_CARD){
-				type = ExType.PCSC_UNKNOWN_CARD;
+				type = ExType.UNKNOWN_CARD;
 			}
 			else if(r == PCSC.E_UNKNOWN_READER){
-				type = ExType.PCSC_UNKNOWN_READER;
+				type = ExType.UNKNOWN_READER;
 			}
 			else if(r == PCSC.F_COMM_ERROR){
 				type = ExType.COMM_ERROR;

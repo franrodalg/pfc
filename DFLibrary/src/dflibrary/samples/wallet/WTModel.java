@@ -386,7 +386,7 @@ public class WTModel {
 			
 		}catch(DFLException e){
 			
-			if(e.getType() == ExType.PCSC_INVALID_HANDLE){
+			if(e.getType() == ExType.INVALID_HANDLE){
 				getView().log(e.getMessage());
 				connect();
 				factoryReset();
@@ -446,7 +446,7 @@ public class WTModel {
 			
 		}catch(DFLException e){
 			
-			if(e.getType() == ExType.PCSC_INVALID_HANDLE){
+			if(e.getType() == ExType.INVALID_HANDLE){
 				getView().log(e.getMessage());
 				connect();
 				walletConfig();
@@ -541,7 +541,7 @@ public class WTModel {
 			
 		}catch(DFLException e){
 			
-			if(e.getType() == ExType.PCSC_INVALID_HANDLE){
+			if(e.getType() == ExType.INVALID_HANDLE){
 				getView().log(e.getMessage());
 				connect();
 				balanceCheck();
@@ -632,7 +632,7 @@ public class WTModel {
 			
 		}catch(DFLException e){
 			
-			if(e.getType() == ExType.PCSC_INVALID_HANDLE){
+			if(e.getType() == ExType.INVALID_HANDLE){
 				getView().log(e.getMessage());
 				connect();
 				refilling();
@@ -714,7 +714,7 @@ public class WTModel {
 			
 		}catch(DFLException e){
 			
-			if(e.getType() == ExType.PCSC_INVALID_HANDLE){
+			if(e.getType() == ExType.INVALID_HANDLE){
 				getView().log(e.getMessage());
 				connect();
 				tickConfig(tdAllowed, tcAllowed);
@@ -856,7 +856,7 @@ public class WTModel {
 			
 		}catch(DFLException e){
 			
-			if(e.getType() == ExType.PCSC_INVALID_HANDLE){
+			if(e.getType() == ExType.INVALID_HANDLE){
 				getView().log(e.getMessage());
 				connect();
 				purchase();
@@ -974,7 +974,7 @@ public class WTModel {
 //			
 		}catch(DFLException e){
 			
-			if(e.getType() == ExType.PCSC_INVALID_HANDLE){
+			if(e.getType() == ExType.INVALID_HANDLE){
 				getView().log(e.getMessage());
 				connect();
 				entrance();

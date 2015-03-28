@@ -333,7 +333,7 @@ public class TicketingModel {
 			
 		}catch(DFLException e){
 			
-			if(e.getType() == ExType.PCSC_INVALID_HANDLE){
+			if(e.getType() == ExType.INVALID_HANDLE){
 				getView().log(e.getMessage());
 				connect();
 				config();
@@ -385,7 +385,7 @@ public class TicketingModel {
 			
 		}catch(DFLException e){
 			
-			if(e.getType() == ExType.PCSC_INVALID_HANDLE){
+			if(e.getType() == ExType.INVALID_HANDLE){
 				getView().log(e.getMessage());
 				connect();
 				buy();
@@ -427,7 +427,7 @@ public class TicketingModel {
 			
 		}catch(DFLException e){
 			
-			if(e.getType() == ExType.PCSC_INVALID_HANDLE){
+			if(e.getType() == ExType.INVALID_HANDLE){
 				getView().log(e.getMessage());
 				connect();
 				entrance();
