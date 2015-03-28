@@ -327,7 +327,7 @@ public class JPCSCComManager implements ComManager {
 	 * @param e
 	 * @return
 	 */
-	private DFLException convertException(Exception e){
+	protected static DFLException convertException(Exception e){
 	
 		ExType type;
 		

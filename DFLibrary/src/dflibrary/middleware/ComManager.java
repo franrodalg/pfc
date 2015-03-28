@@ -106,7 +106,6 @@ public interface ComManager {
 	 * @return
 	 */
 	public CardType getCardType();
-	
 
 	
 }
