@@ -8,7 +8,7 @@ public class SimplestTestJPCSC {
 	
 	public static void main(String[] args){		
 		
-		ComManager cm = new SCIOComManager();		
+		ComManager cm = new JPCSCComManager();		
 		try{
 			cm.scan();				
 			String[] readers = cm.listReaders();
@@ -23,7 +23,10 @@ public class SimplestTestJPCSC {
 					System.out.println(df.getKeyVersion(0));												
 				}										
 				cm.disconnect();									
-			}					
+			}
+			else{
+				System.out.println("No card present");
+			}
 			cm.deselect();				
 		}catch(DFLException e){	e.printStackTrace();}
 		try{

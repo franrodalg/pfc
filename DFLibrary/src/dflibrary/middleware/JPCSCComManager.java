@@ -80,7 +80,8 @@ public class JPCSCComManager implements ComManager {
 	 */
 	private boolean findReader(String readerName, String[] readers){
 		
-		if((readerName == null) || (readers == null)) throw new NullPointerException();
+		if((readerName == null) || (readers == null)) 
+			throw new NullPointerException();
 		
 		for(int i = 0; i < readers.length; i++)
 		{
@@ -105,13 +106,9 @@ public class JPCSCComManager implements ComManager {
 	 * 
 	 */
 	public boolean isCardPresent() {
-		
-		if(this.reader == null) 
-			throw new DFLException(ExType.NO_READER_SELECTED);
-		
-		if(this.context == null)
-			throw new DFLException(ExType.CONTEXT_NOT_INITIALIZED);
-		
+			
+		checkSetUp();
+
 		try{
 		
 			State state = new State(this.reader);
@@ -191,11 +188,7 @@ public class JPCSCComManager implements ComManager {
 	 */
 	public void connect() {
 		
-		if(this.reader == null)
-			throw new DFLException(ExType.NO_READER_SELECTED);
-		
-		if(this.context == null)
-			throw new DFLException(ExType.CONTEXT_NOT_INITIALIZED);
+		checkSetUp();
 		
 		try{
 			this.card = context.Connect(this.reader, PCSC.SHARE_SHARED, 
@@ -238,10 +231,12 @@ public class JPCSCComManager implements ComManager {
 			throw new DFLException(ExType.CARD_NOT_CONNECTED);
 		
 		try{
-			
+			System.out.println(BAUtils.toString(command));
 			Apdu apdu = new Apdu(command);
-			
-			return card.Transmit(apdu);
+			System.out.println(apdu);	
+			byte[] r = card.Transmit(apdu);
+			System.out.println(BAUtils.toString(r));
+			return r;
 			
 		}catch(PCSCException e){
 			throw convertException(e);
@@ -255,16 +250,11 @@ public class JPCSCComManager implements ComManager {
 	 */
 	public void reconnect() {
 		
-		if(this.card == null)
-			throw new DFLException(ExType.CARD_NOT_CONNECTED);
+		checkSetUp();
 		
-		if(this.reader == null)
-			throw new DFLException(ExType.NO_READER_SELECTED);
-		
-		try{
-			
-			card.Reconnect(PCSC.SHARE_SHARED, PCSC.PROTOCOL_T0 | PCSC.PROTOCOL_T1, PCSC.RESET_CARD);
-			
+		try{		
+			card.Reconnect(PCSC.SHARE_SHARED, 
+					PCSC.PROTOCOL_T0 | PCSC.PROTOCOL_T1, PCSC.RESET_CARD);	
 		}catch(PCSCException e){
 			throw convertException(e);
 		}
@@ -282,7 +272,7 @@ public class JPCSCComManager implements ComManager {
 			throw new DFLException(ExType.CARD_NOT_CONNECTED);
 		
 		try{
-			card.Disconnect();
+			this.card.Disconnect();
 		}catch(PCSCException e){
 			throw convertException(e);
 		}
@@ -319,6 +309,16 @@ public class JPCSCComManager implements ComManager {
 		State state = card.Status();
 		
 		return CardType.getCardType(BAUtils.toString(state.rgbAtr));
+		
+	}
+	
+	private void checkSetUp(){
+		
+		if(this.context == null)
+			throw new DFLException(ExType.CONTEXT_NOT_INITIALIZED);
+		
+		if(this.reader == null) 
+			throw new DFLException(ExType.NO_READER_SELECTED);
 		
 	}
 
