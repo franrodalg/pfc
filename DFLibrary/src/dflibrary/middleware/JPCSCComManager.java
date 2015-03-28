@@ -316,22 +316,7 @@ public class JPCSCComManager implements ComManager {
 		
 		State state = card.Status();
 		
-		String atr = BAUtils.toString(state.rgbAtr);
-		
-		if(atr.equals(CardType.DESFIRE_ATR)) 
-			return CardType.MIFARE_DESFIRE;
-		else if(atr.equals(CardType.MIFARE_CLASSIC_1K_ATR)) 
-			return CardType.MIFARE_CLASSIC_1K;
-		else if(atr.equals(CardType.MIFARE_CLASSIC_4K_ATR)) 
-			return CardType.MIFARE_CLASSIC_4K;
-		else if(atr.equals(CardType.MIFARE_ULTRALIGHT_ATR)) 
-			return CardType.MIFARE_ULTRALIGHT;
-		else if(atr.equals(CardType.MIFARE_PLUS_ATR)) 
-			return CardType.MIFARE_PLUS;
-		else 
-			throw new DFLException(ExType.UNKNOWN_CARD_TYPE);
-		
-		
+		return CardType.getCardType(BAUtils.toString(state.rgbAtr));
 		
 	}
 	
