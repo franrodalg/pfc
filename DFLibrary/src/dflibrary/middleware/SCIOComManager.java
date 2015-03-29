@@ -77,9 +77,21 @@ public class SCIOComManager implements ComManager {
 	}
 
 	@Override
+	/**
+	 * 
+	 */
 	public boolean isCardPresent(String readerName) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		if(readerName == null) throw new NullPointerException();
+		
+		select(readerName);
+		
+		boolean b = isCardPresent();
+		
+		deselect();
+		
+		return b;
+		
 	}
 
 	@Override
