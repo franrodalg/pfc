@@ -124,7 +124,7 @@ public class SCIOComManager implements ComManager {
 		checkSetUp();
 		
 		try {
-			this.card = this.reader.connect("T=1");
+			this.card = this.reader.connect("*");
 		} catch (CardException e) {
 			throw convertException(e);
 		}
