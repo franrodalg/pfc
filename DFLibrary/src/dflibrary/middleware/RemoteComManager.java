@@ -6,13 +6,21 @@ import java.util.*;
 import dflibrary.library.CardType;
 import dflibrary.utils.ba.BAUtils;
 
-
+/**
+ * Provides an implementation of the ComManager interface, mainly
+ * addressed to the transmission of commands to and the reception of 
+ * responses from a card located in a remote device.
+ * @author Francisco Rodríguez Algarra
+ *
+ */
 public class RemoteComManager implements ComManager {
 
 	/**
-	 * 
-	 * @param in
-	 * @param out
+	 * Creates an instance of RemoteComManager
+	 * @param in a Scanner instance representing the input channel for 
+	 * 			receiving responses
+	 * @param out a PrintWriter instance representing the output channel
+	 * 			for sending commands
 	 */
 	public RemoteComManager(Scanner in, PrintWriter out){
 		
@@ -30,9 +38,7 @@ public class RemoteComManager implements ComManager {
 	 * 
 	 */
 	@Override
-	public String[] listReaders() {
-		return null;
-	}
+	public String[] listReaders() { return null; }
 
 	/** {@inheritDoc}
 	 * 
@@ -50,13 +56,13 @@ public class RemoteComManager implements ComManager {
 	 * 
 	 */
 	@Override
-	public boolean isCardPresent() { return true;}
+	public boolean isCardPresent() { return true; }
 
 	/** {@inheritDoc}
 	 * 
 	 */
 	@Override
-	public boolean isCardPresent(String readerName) {	return true; }
+	public boolean isCardPresent(String readerName) { return true; }
 
 	/** {@inheritDoc}
 	 * 
@@ -138,10 +144,7 @@ public class RemoteComManager implements ComManager {
 	 * 
 	 */
 	@Override
-	public CardType getCardType() {
-		
-		return null;
-	}
+	public CardType getCardType() { return null; }
 
 	private Scanner in;
 	private PrintWriter out;
