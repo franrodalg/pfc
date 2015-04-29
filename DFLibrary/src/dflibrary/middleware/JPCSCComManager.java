@@ -150,7 +150,7 @@ public class JPCSCComManager implements ComManager {
 	/**
 	 * 
 	 */
-	public void waitForCard() {
+	public void waitCardInsertion() {
 		// TODO Auto-generated method stub
 
 	}
@@ -159,7 +159,7 @@ public class JPCSCComManager implements ComManager {
 	/**
 	 * 
 	 */
-	public void waitForCard(String readerName) {
+	public void waitCardInsertion(String readerName) {
 		// TODO Auto-generated method stub
 
 	}

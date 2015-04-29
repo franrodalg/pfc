@@ -62,14 +62,14 @@ public interface ComManager {
 	 * Halts the program execution until a card insertion event is detected
 	 * in the selected device.
 	 */
-	public void waitForCard();
+	public void waitCardInsertion();
 	
 	/**
 	 * Halts the program execution until a card insertion event is detected
 	 * in the device identified by readerName.
 	 * @param readerName the device name, as stored in the listReaders() response
 	 */
-	public void waitForCard(String readerName);
+	public void waitCardInsertion(String readerName);
 	
 	/**
 	 * Halts the program execution until a card extraction event is detected

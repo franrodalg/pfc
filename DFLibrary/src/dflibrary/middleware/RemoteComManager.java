@@ -36,10 +36,10 @@ public class RemoteComManager implements ComManager {
 	public boolean isCardPresent(String readerName) {	return true; }
 
 	@Override
-	public void waitForCard() {}
+	public void waitCardInsertion() {}
 
 	@Override
-	public void waitForCard(String readerName) {}
+	public void waitCardInsertion(String readerName) {}
 
 	@Override
 	public void waitCardExtraction() {}
