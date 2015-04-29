@@ -11,19 +11,20 @@ import javax.smartcardio.*;
 
 public class SCIOComManager implements ComManager {
 
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public void scan() {
 		
 		this.context = TerminalFactory.getDefault();
+		
 	}
 
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public String[] listReaders() {
 		
 		if(context == null) 
@@ -45,8 +46,12 @@ public class SCIOComManager implements ComManager {
 			throw new DFLException(ExType.NO_READERS_FOUND);
 		
 		return readers;
+		
 	}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void select(String readerName) {
 		
@@ -58,11 +63,19 @@ public class SCIOComManager implements ComManager {
 			throw new DFLException(ExType.READER_NOT_FOUND);
 	}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void deselect() {
+		
 		this.reader = null;
+	
 	}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public boolean isCardPresent() {
 		
@@ -74,12 +87,13 @@ public class SCIOComManager implements ComManager {
 		catch(CardException e){
 			throw convertException(e);
 		}
+	
 	}
 
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public boolean isCardPresent(String readerName) {
 		
 		if(readerName == null) throw new NullPointerException();
@@ -94,30 +108,45 @@ public class SCIOComManager implements ComManager {
 		
 	}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void waitCardInsertion() {
 		// TODO Auto-generated method stub
 
 	}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void waitCardInsertion(String readerName) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void waitCardExtraction() {
 		// TODO Auto-generated method stub
 
 	}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void waitCardExtraction(String readerName) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void connect() {
 		
@@ -131,6 +160,9 @@ public class SCIOComManager implements ComManager {
 
 	}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void connect(String readerName) {
 		
@@ -145,6 +177,9 @@ public class SCIOComManager implements ComManager {
 		
 	}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public byte[] send(byte[] command) {
 		
@@ -167,12 +202,17 @@ public class SCIOComManager implements ComManager {
 		
 	}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void reconnect() {
 		// TODO Auto-generated method stub
-
 	}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void disconnect() {
 		
@@ -189,6 +229,9 @@ public class SCIOComManager implements ComManager {
 
 	}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void release() {
 		
@@ -196,6 +239,9 @@ public class SCIOComManager implements ComManager {
 
 	}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public CardType getCardType() {
 		
@@ -208,6 +254,9 @@ public class SCIOComManager implements ComManager {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	private void checkSetUp(){
 		
 		if(this.context == null)
@@ -218,6 +267,11 @@ public class SCIOComManager implements ComManager {
 		
 	}
 	
+	/**
+	 * 
+	 * @param e
+	 * @return
+	 */
 	protected static DFLException convertException(Exception e){
 		
 		String m = e.getCause().getMessage();

@@ -9,55 +9,98 @@ import dflibrary.utils.ba.BAUtils;
 
 public class RemoteComManager implements ComManager {
 
+	/**
+	 * 
+	 * @param in
+	 * @param out
+	 */
 	public RemoteComManager(Scanner in, PrintWriter out){
 		
 		this.in = in;
 		this.out = out;
 	}
 	
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void scan() {}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public String[] listReaders() {
 		return null;
 	}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void select(String readerName) {}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void deselect() {}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public boolean isCardPresent() { return true;}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public boolean isCardPresent(String readerName) {	return true; }
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void waitCardInsertion() {}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void waitCardInsertion(String readerName) {}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void waitCardExtraction() {}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void waitCardExtraction(String readerName) {}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void connect() {}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public void connect(String readerName) {}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public byte[] send(byte[] command) {
 		
-		out.println(BAUtils.toString(command));
-		
+		out.println(BAUtils.toString(command));	
 		
 		boolean ended = false;
 		
@@ -73,27 +116,30 @@ public class RemoteComManager implements ComManager {
 		
 	}
 
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
-	public void reconnect() {
-		// TODO Auto-generated method stub
+	public void reconnect() {}
 
-	}
-
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
-	public void disconnect() {
-		// TODO Auto-generated method stub
+	public void disconnect() {}
 
-	}
-
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
-	public void release() {
-		// TODO Auto-generated method stub
+	public void release() {}
 
-	}
-
+	/** {@inheritDoc}
+	 * 
+	 */
 	@Override
 	public CardType getCardType() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

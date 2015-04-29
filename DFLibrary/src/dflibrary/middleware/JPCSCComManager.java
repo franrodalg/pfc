@@ -8,16 +8,17 @@ import dflibrary.library.DFLException.ExType;
 import dflibrary.utils.ba.BAUtils;
 
 /**
- * 
+ * Provides an implementation of the ComManager interface by means of
+ * the functionalities offered by the jpcsc library.
  * @author Francisco Rodríguez Algarra
  *
  */
 public class JPCSCComManager implements ComManager {
 
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public void scan() {
 		
 		this.context = new Context();
@@ -30,10 +31,10 @@ public class JPCSCComManager implements ComManager {
 
 	}
 
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public String[] listReaders() {
 
 		if(context == null) 
@@ -54,10 +55,10 @@ public class JPCSCComManager implements ComManager {
 
 	}
 
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public void select(String readerName) {
 		
 		if(readerName == null) throw new NullPointerException();
@@ -67,8 +68,7 @@ public class JPCSCComManager implements ComManager {
 		if(!findReader(readerName, readers)) 
 			throw new DFLException(ExType.READER_NOT_FOUND);
 		
-		this.reader = readerName;
-		
+		this.reader = readerName;	
 
 	}
 
@@ -87,24 +87,25 @@ public class JPCSCComManager implements ComManager {
 		{
 			if(readers[i].equals(readerName)) return true;
 		}
+		
 		return false;
+		
 	}
 	
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public void deselect() {
 		
 		this.reader = null;
 		
-
 	}
 
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public boolean isCardPresent() {
 			
 		checkSetUp();
@@ -128,10 +129,10 @@ public class JPCSCComManager implements ComManager {
 		}
 	}	
 
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public boolean isCardPresent(String readerName) {
 		
 		if(readerName == null) throw new NullPointerException();
@@ -146,46 +147,46 @@ public class JPCSCComManager implements ComManager {
 	}
 
 	
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public void waitCardInsertion() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public void waitCardInsertion(String readerName) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public void waitCardExtraction() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public void waitCardExtraction(String readerName) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public void connect() {
 		
 		checkSetUp();
@@ -203,9 +204,10 @@ public class JPCSCComManager implements ComManager {
 		reconnect();
 	}
 	
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public void connect(String readerName){
 		
 		if(readerName == null) throw new NullPointerException();
@@ -218,11 +220,10 @@ public class JPCSCComManager implements ComManager {
 		
 	}
 
-
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public byte[] send(byte[] command) {
 		
 		if(command == null) throw new NullPointerException();
@@ -244,10 +245,10 @@ public class JPCSCComManager implements ComManager {
 		
 	}
 
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public void reconnect() {
 		
 		checkSetUp();
@@ -257,15 +258,14 @@ public class JPCSCComManager implements ComManager {
 					PCSC.PROTOCOL_T0 | PCSC.PROTOCOL_T1, PCSC.RESET_CARD);	
 		}catch(PCSCException e){
 			throw convertException(e);
-		}
-		
+		}	
 
 	}
 
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public void disconnect() {
 		
 		if(this.card == null)
@@ -281,10 +281,10 @@ public class JPCSCComManager implements ComManager {
 
 	}
 
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public void release() {
 		
 		if(context == null) 
@@ -295,12 +295,13 @@ public class JPCSCComManager implements ComManager {
 		}catch(PCSCException e){
 			throw convertException(e);
 		}
+		
 	}
 
-	@Override
-	/**
+	/** {@inheritDoc}
 	 * 
 	 */
+	@Override
 	public CardType getCardType(){
 		
 		if(this.card == null)
@@ -312,6 +313,9 @@ public class JPCSCComManager implements ComManager {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	private void checkSetUp(){
 		
 		if(this.context == null)
@@ -429,8 +433,7 @@ public class JPCSCComManager implements ComManager {
 	}
 	
 	private Context context;
-	private Card card;
-	
+	private Card card;	
 	private String reader;
 	
 }
