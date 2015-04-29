@@ -43,8 +43,7 @@ public interface ComManager {
 	 * Returns <code>true</code> if a card is already present in the selected 
 	 * device.
 	 * @return <code>true</code> if a card is already present in the selected 
-	 * 			device;
-	 * 			<false> otherwise
+	 * device; <code>false</false> otherwise
 	 */
 	public boolean isCardPresent();
 	
@@ -53,8 +52,7 @@ public interface ComManager {
 	 * identified by readerName.
 	 * @param readerName the device name, as stored in the listReaders() response
 	 * @return <code>true</code> if a card is already present in the device
-	 * 			identified by readerName;
-	 * 			<false> otherwise
+	 * identified by readerName; <code>false</false> otherwise
 	 */
 	public boolean isCardPresent(String readerName);
 	
@@ -124,7 +122,7 @@ public interface ComManager {
 	 * Obtains a representation of the model of the currently connected card,
 	 * usually via its ATR, if known.
 	 * @return an instance of class CardType representing the model of the
-	 * 			currently connected card.
+	 * currently connected card.
 	 */
 	public CardType getCardType();
 
