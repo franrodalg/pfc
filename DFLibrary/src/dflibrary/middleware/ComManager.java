@@ -84,7 +84,6 @@ public interface ComManager {
 	 */
 	public void waitCardExtraction(String readerName);
 	
-	
 	/**
 	 * Establishes a communication channel with a card currently present in the
 	 * selected device.
@@ -97,7 +96,6 @@ public interface ComManager {
 	 * @param readerName the device name, as stored in the listReaders() response
 	 */
 	public void connect(String readerName);
-	
 	
 	/**
 	 * Transmits a byte frame to the currently connected card and obtains the
@@ -130,5 +128,4 @@ public interface ComManager {
 	 */
 	public CardType getCardType();
 
-	
 }
