@@ -94,24 +94,6 @@ public class SCIOComManager implements ComManager {
 	 * 
 	 */
 	@Override
-	public boolean isCardPresent(String readerName) {
-		
-		if(readerName == null) throw new NullPointerException();
-		
-		select(readerName);
-		
-		boolean b = isCardPresent();
-		
-		deselect();
-		
-		return b;
-		
-	}
-
-	/** {@inheritDoc}
-	 * 
-	 */
-	@Override
 	public void waitCardInsertion() {
 		// TODO Auto-generated method stub
 
@@ -121,25 +103,7 @@ public class SCIOComManager implements ComManager {
 	 * 
 	 */
 	@Override
-	public void waitCardInsertion(String readerName) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/** {@inheritDoc}
-	 * 
-	 */
-	@Override
 	public void waitCardExtraction() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/** {@inheritDoc}
-	 * 
-	 */
-	@Override
-	public void waitCardExtraction(String readerName) {
 		// TODO Auto-generated method stub
 
 	}
@@ -160,22 +124,6 @@ public class SCIOComManager implements ComManager {
 
 	}
 
-	/** {@inheritDoc}
-	 * 
-	 */
-	@Override
-	public void connect(String readerName) {
-		
-		if(readerName == null) 
-			throw new NullPointerException();
-		
-		select(readerName);
-		
-		connect();
-		
-		deselect();
-		
-	}
 
 	/** {@inheritDoc}
 	 * 

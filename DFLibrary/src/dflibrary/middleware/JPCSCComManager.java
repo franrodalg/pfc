@@ -128,24 +128,6 @@ public class JPCSCComManager implements ComManager {
 			throw convertException(e);
 		}
 	}	
-
-	/** {@inheritDoc}
-	 * 
-	 */
-	@Override
-	public boolean isCardPresent(String readerName) {
-		
-		if(readerName == null) throw new NullPointerException();
-		
-		select(readerName);
-		
-		boolean b = isCardPresent();
-		
-		deselect();
-		
-		return b;
-	}
-
 	
 	/** {@inheritDoc}
 	 * 
@@ -160,25 +142,7 @@ public class JPCSCComManager implements ComManager {
 	 * 
 	 */
 	@Override
-	public void waitCardInsertion(String readerName) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/** {@inheritDoc}
-	 * 
-	 */
-	@Override
 	public void waitCardExtraction() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/** {@inheritDoc}
-	 * 
-	 */
-	@Override
-	public void waitCardExtraction(String readerName) {
 		// TODO Auto-generated method stub
 
 	}
@@ -204,22 +168,6 @@ public class JPCSCComManager implements ComManager {
 		reconnect();
 	}
 	
-	/** {@inheritDoc}
-	 * 
-	 */
-	@Override
-	public void connect(String readerName){
-		
-		if(readerName == null) throw new NullPointerException();
-		
-		select(readerName);
-		
-		connect();
-		
-		deselect();
-		
-	}
-
 	/** {@inheritDoc}
 	 * 
 	 */

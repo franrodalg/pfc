@@ -48,26 +48,10 @@ public interface ComManager {
 	public boolean isCardPresent();
 	
 	/**
-	 * Returns <code>true</code> if a card is already present in the device 
-	 * identified by readerName.
-	 * @param readerName the device name, as stored in the listReaders() response
-	 * @return <code>true</code> if a card is already present in the device
-	 * identified by readerName; <code>false</false> otherwise
-	 */
-	public boolean isCardPresent(String readerName);
-	
-	/**
 	 * Halts the program execution until a card insertion event is detected
 	 * in the selected device.
 	 */
 	public void waitCardInsertion();
-	
-	/**
-	 * Halts the program execution until a card insertion event is detected
-	 * in the device identified by readerName.
-	 * @param readerName the device name, as stored in the listReaders() response
-	 */
-	public void waitCardInsertion(String readerName);
 	
 	/**
 	 * Halts the program execution until a card extraction event is detected
@@ -76,24 +60,10 @@ public interface ComManager {
 	public void waitCardExtraction();
 	
 	/**
-	 * Halts the program execution until a card extraction event is detected
-	 * in the device identified by readerName.
-	 * @param readerName the device name, as stored in the listReaders() response
-	 */
-	public void waitCardExtraction(String readerName);
-	
-	/**
 	 * Establishes a communication channel with a card currently present in the
 	 * selected device.
 	 */
 	public void connect();
-	
-	/**
-	 * Establishes a communication channel with a card currently present in the
-	 * device identified by readerName.
-	 * @param readerName the device name, as stored in the listReaders() response
-	 */
-	public void connect(String readerName);
 	
 	/**
 	 * Transmits a byte frame to the currently connected card and obtains the

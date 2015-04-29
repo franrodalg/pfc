@@ -62,19 +62,7 @@ public class RemoteComManager implements ComManager {
 	 * 
 	 */
 	@Override
-	public boolean isCardPresent(String readerName) { return true; }
-
-	/** {@inheritDoc}
-	 * 
-	 */
-	@Override
 	public void waitCardInsertion() {}
-
-	/** {@inheritDoc}
-	 * 
-	 */
-	@Override
-	public void waitCardInsertion(String readerName) {}
 
 	/** {@inheritDoc}
 	 * 
@@ -86,19 +74,7 @@ public class RemoteComManager implements ComManager {
 	 * 
 	 */
 	@Override
-	public void waitCardExtraction(String readerName) {}
-
-	/** {@inheritDoc}
-	 * 
-	 */
-	@Override
 	public void connect() {}
-
-	/** {@inheritDoc}
-	 * 
-	 */
-	@Override
-	public void connect(String readerName) {}
 
 	/** {@inheritDoc}
 	 * 
