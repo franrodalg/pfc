@@ -8,7 +8,7 @@ public class SimplestTestSCIO {
 	
 	public static void main(String[] args){		
 		
-		ComManager cm = new SCIOComManager();		
+		ComManager cm = new JSCIOComManager();		
 		try{
 			cm.scan();				
 			String[] readers = cm.listReaders();

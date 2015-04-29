@@ -29,7 +29,7 @@ public class WTModel {
 		
 		this.view = view;
 		this.currApp = WTApp.SELECT_READER;
-		this.cm = new SCIOComManager();
+		this.cm = new JSCIOComManager();
 		//this.cm = new JPCSCComManager();
 		this.opt = ConfigOption.FORMAT_AND_CONFIG;
 		this.bdb = new BankDBManager(view);

@@ -9,7 +9,7 @@ import dflibrary.utils.ba.BAUtils;
 
 import javax.smartcardio.*;
 
-public class SCIOComManager implements ComManager {
+public class JSCIOComManager implements ComManager {
 
 	/** {@inheritDoc}
 	 * 
