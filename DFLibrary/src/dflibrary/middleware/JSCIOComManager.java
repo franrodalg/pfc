@@ -140,9 +140,7 @@ public class JSCIOComManager implements ComManager {
 		
 		try {
 			CommandAPDU c = new CommandAPDU(command);
-			System.out.println(BAUtils.toString(c.getBytes()));
 			ResponseAPDU r = channel.transmit(c);
-			System.out.println(BAUtils.toString(r.getBytes()));
 			return r.getBytes();
 		} catch (CardException e) {
 			throw convertException(e);

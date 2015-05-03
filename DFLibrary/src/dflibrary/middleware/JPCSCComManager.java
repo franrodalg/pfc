@@ -180,11 +180,8 @@ public class JPCSCComManager implements ComManager {
 			throw new DFLException(ExType.CARD_NOT_CONNECTED);
 		
 		try{
-			System.out.println(BAUtils.toString(command));
 			Apdu apdu = new Apdu(command);
-			System.out.println(apdu);	
 			byte[] r = card.Transmit(apdu);
-			System.out.println(BAUtils.toString(r));
 			return r;
 			
 		}catch(PCSCException e){
