@@ -220,7 +220,6 @@ public class WTModel {
 		
 		if(getAppState() == AppState.S0){
 			boolean b = true;
-			//System.out.println(getAppState());
 			while(getLock()){
 				if(b){ 
 					getView().log("Waiting for user interface to be updated...");
@@ -230,23 +229,18 @@ public class WTModel {
 					Thread.sleep(50);
 				}catch(InterruptedException e){}
 			}
-			//System.out.println("Model Lock: " + getLock());
 		}
 		else if(getAppState() == AppState.S1){
-			//System.out.println(getAppState());
 			getView().log("User interface successfully updated\n");
 			setCard();
 		}
 		else if(getAppState() == AppState.S2){
-			//System.out.println(getAppState());
 			while((isCard())&&(!getLock()));
 		}
 		else if(getAppState() == AppState.S3){
-			//System.out.println(getAppState());
 			while((!isCard())&&(!getLock()));
 		}
 		else if(getAppState() == AppState.S4){
-			//System.out.println(getAppState());
 			doTask();
 			while(isCard());
 		}
@@ -939,7 +933,7 @@ public class WTModel {
 		if(!res.isOk()) throw new RuntimeException("Writing ticket data failed");		
 		getView().log("");
 	
-		int currNumOfRecords = ((RecordFileSettings)df.getTicketFileSettings().getFileSettings()).getCurrentNumberOfRecords();
+		//int currNumOfRecords = ((RecordFileSettings)df.getTicketFileSettings().getFileSettings()).getCurrentNumberOfRecords();
 	
 	}
 	
@@ -1224,8 +1218,10 @@ public class WTModel {
 					else if(line.trim().startsWith("ERROR:")){
 						ended = true;
 						String error = line.trim().substring("ERROR: ".length());
-						if(error.trim().equals("ID")) throw new RuntimeException("Error accessing application remotely");
-						if(error.trim().equals("FID")) throw new RuntimeException("Error reading file remotely");
+						if(error.trim().equals("ID")) 
+							throw new RuntimeException("Error accessing application remotely");
+						if(error.trim().equals("FID")) 
+							throw new RuntimeException("Error reading file remotely");
 						if(error.trim().startsWith("CREDIT ")){
 							int i = Integer.parseInt(error.trim().substring("CREDIT ".length()));
 							throw new RuntimeException("The amount you requested excesses the maximum allowed. \nPlease write " + i + " or less and try it again");
@@ -1449,7 +1445,7 @@ enum WTApp{
 		public String toString(){ return "Wallet Balance Check"; }
 	},
 	REFILLING{
-		public String toString(){ return "Select Wallet Application"; }
+		public String toString(){ return "Refill Wallet"; }
 	},
 	SELECT_TICK_APP{
 		public String toString(){ return "Select Ticketing Application"; }
