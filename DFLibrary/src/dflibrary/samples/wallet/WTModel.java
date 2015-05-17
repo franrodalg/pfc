@@ -1442,7 +1442,7 @@ enum WTApp{
 		public String toString(){ return "Configure Wallet Application"; }
 	},
 	BALANCE_CHECK{
-		public String toString(){ return "Wallet Balance Check"; }
+		public String toString(){ return "Check Wallet Balance"; }
 	},
 	REFILLING{
 		public String toString(){ return "Refill Wallet"; }
@@ -1454,7 +1454,7 @@ enum WTApp{
 		public String toString(){ return "Configure Ticketing Application"; }
 	},
 	PURCHASE_TICKET{
-		public String toString(){ return "Purchase Ticket"; }
+		public String toString(){ return "Purchase Tickets"; }
 	},
 	EVENT_ENTRANCE{
 		public String toString(){ return "Event Entrance"; }

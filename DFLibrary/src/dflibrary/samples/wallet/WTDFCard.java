@@ -20,32 +20,7 @@ public class WTDFCard {
 		setLegacyUID();
 		
 	}
-	
-	
-	
-	
-	/**
-	 * NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-	 * @return
-	 */
-	protected DFResponse format(){
 		
-		DFResponse res;
-		
-		AID aid = new AID(WTModel.MASTER);
-		
-		res = df.selectApplication(aid);
-		if(!res.isOk()) return res;
-		
-		res = authentication(WTModel.MASTER);
-		if(!res.isOk()) return res;
-		
-		res = df.formatPICC();	
-		
-		return res;
-
-	}
-	
 	/**
 	 * 
 	 * @return
@@ -68,7 +43,6 @@ public class WTDFCard {
 
 	}
 
-	
 	/**
 	 * 
 	 * @param bankID
@@ -130,7 +104,6 @@ public class WTDFCard {
 		return res;
 
 	}
-	
 	
 	/**
 	 * 
