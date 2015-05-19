@@ -715,7 +715,7 @@ public class WTView {
 			 */
 			public SelectAppPanel(){
 				
-				btnFactReset = new JButton("Factory Reset");
+				btnFactReset = new JButton("Format");
 				btnFactReset.addActionListener(new ChangeAppListener(WTApp.FACTORY_RESET));
 				this.add(btnFactReset);
 				
@@ -773,7 +773,7 @@ public class WTView {
 				btnWalletConfig.addActionListener(new ChangeAppListener(WTApp.CONFIG_WALLET));
 				this.add(btnWalletConfig);
 				
-				btnBalanceCheck = new JButton("Balance Check");
+				btnBalanceCheck = new JButton("Balance");
 				btnBalanceCheck.addActionListener(new ChangeAppListener(WTApp.BALANCE_CHECK));
 				this.add(btnBalanceCheck);
 				
@@ -880,11 +880,11 @@ public class WTView {
 				btnTickConfig.addActionListener(new ChangeAppListener(WTApp.CONFIG_TICK));
 				add(btnTickConfig);
 				
-				btnPurchase = new JButton("Purchase Tickets");
+				btnPurchase = new JButton("Purchase");
 				btnPurchase.addActionListener(new ChangeAppListener(WTApp.PURCHASE_TICKET));
 				add(btnPurchase);
 				
-				btnEntrance = new JButton("Event Entrance");
+				btnEntrance = new JButton("Entrance");
 				btnEntrance.addActionListener(new ChangeAppListener(WTApp.EVENT_ENTRANCE));
 				add(btnEntrance);
 				
@@ -918,8 +918,7 @@ public class WTView {
 				cfgBtnsPanel.add(btnBackTickCfg);
 				
 				this.add(btnBackTickCfg);
-				
-				
+								
 			}
 			
 		}
@@ -1073,29 +1072,6 @@ public class WTView {
 			/**
 			 * 
 			 */
-			/*
-			public CfgOptPanel(){
-				
-				this.setLayout(new GridLayout(3,1));
-				
-				groupCfgOpt = new ButtonGroup();
-				
-				ConfigOption opt;
-				
-				opt = ConfigOption.FORMAT_AND_CONFIG;				
-				addBtn(opt.toString(), opt, true);
-				
-				opt = ConfigOption.DELETE;				
-				addBtn(opt.toString(), opt, false);
-				
-				opt = ConfigOption.KEEP_CONFIG;				
-				addBtn(opt.toString(), opt, false);
-				
-				this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Configure Option"));
-				
-				
-			}
-			*/
 			
 			public CfgOptPanel(){
 				
@@ -1109,7 +1085,7 @@ public class WTView {
 				checkTickCreate.addActionListener(new CheckTickCreateListener());
 				this.add(checkTickCreate);
 				
-				this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Configure Options"));
+				this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Configuration Options"));
 				
 				
 			}
@@ -1200,9 +1176,6 @@ public class WTView {
 			}
 			
 		}
-		
-
-		
 		
 		//LISTENERS
 		
@@ -1360,18 +1333,13 @@ public class WTView {
 			 * 
 			 * @param e
 			 */
-			public void keyPressed(KeyEvent event){
-				
-			}
+			public void keyPressed(KeyEvent event){}
 			
 			/**
 			 * 
 			 * @param e
 			 */
-			public void keyTyped(KeyEvent event){
-				
-				
-			}
+			public void keyTyped(KeyEvent event){}
 			
 			/**
 			 * 
@@ -1412,18 +1380,13 @@ public class WTView {
 			 * 
 			 * @param e
 			 */
-			public void keyPressed(KeyEvent event){
-				
-			}
+			public void keyPressed(KeyEvent event){}
 			
 			/**
 			 * 
 			 * @param e
 			 */
-			public void keyTyped(KeyEvent event){
-				
-				
-			}
+			public void keyTyped(KeyEvent event){}
 			
 			/**
 			 * 
