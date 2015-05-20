@@ -1147,7 +1147,7 @@ public class WTView {
 				this.add(ticketLabel);
 				
 				btnChangeTicket = new JButton("Change");
-				btnChangeTicket.setEnabled(false);
+				btnChangeTicket.setVisible(false);
 				this.add(btnChangeTicket);
 
 				btnBackBuy = new JButton("Back");
@@ -1989,8 +1989,9 @@ public class WTView {
 				try{
 					ticket = getModel().getAvTicket(event, date);
 					Ticket.Ubication ub = ticket.getUbication();
+					int price = ticket.getPrice();
 					
-					ticketLabel.setText(ub.toString());
+					ticketLabel.setText(ub.toString() + " -- Price: " + price);
 				
 				}catch(Exception e){
 					ticket = null;

@@ -23,6 +23,7 @@ public class Ticket {
 		this.user = user;	
 		this.state = state;
 		this.ubication = new Ubication();
+		this.price = 0;
 		
 	}
 	
@@ -36,8 +37,8 @@ public class Ticket {
 		this.event = BAUtils.toInt(BAUtils.extractSubBA(ticket, 4, 4));
 		this.user = BAUtils.toInt(BAUtils.extractSubBA(ticket, 8, 4));
 		this.state = BAUtils.toBoolean(BAUtils.extractSubBA(ticket, 12, 4));
-		System.out.println(this.state);
 		this.ubication = new Ubication();
+		this.price = 0;
 		
 	}
 	
@@ -52,10 +53,32 @@ public class Ticket {
 	 * @param row
 	 * @param seat
 	 */
-	public Ticket(int id, int event, int user, boolean state, int area, int zone, int row, int seat){
+	public Ticket(int id, int event, int user, boolean state, 
+			int area, int zone, int row, int seat){
 		
 		this(id, event, user, state);
 		this.ubication = new Ubication(area, zone, row, seat);
+		
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param event
+	 * @param user
+	 * @param state
+	 * @param area
+	 * @param zone
+	 * @param row
+	 * @param seat
+	 * @param price
+	 */
+	public Ticket(int id, int event, int user, boolean state, 
+			int area, int zone, int row, int seat, int price){
+		
+		this(id, event, user, state);
+		this.ubication = new Ubication(area, zone, row, seat);
+		this.price = price;
 		
 		
 	}
@@ -106,7 +129,7 @@ public class Ticket {
 	 */
 	public int getPrice(){
 		
-		return 2;
+		return this.price;
 		
 	}
 	
@@ -166,7 +189,8 @@ public class Ticket {
 		s = s + "User id: " + user + "\n";
 		s = s + "Event id: " + event + "\n";
 		s = s + "Ubication: " + ubication + "\n";
-		s = s + "Used: " + state;
+		s = s + "Price: " + price + "\n";
+		s = s + "Used: "  + state;
 		
 		return s;
 		
@@ -177,6 +201,7 @@ public class Ticket {
 	private int event;
 	private boolean state;
 	private Ubication ubication;
+	private int price;
 
 	/**
 	 * 
