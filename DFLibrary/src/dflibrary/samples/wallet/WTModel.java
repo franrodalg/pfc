@@ -817,6 +817,11 @@ public class WTModel {
 			
 			Ticket ticket = getTicket();
 			
+			//Looking for the userID associated with the UID of the card at the Ticketing database
+			
+			int user_id = getUserID();
+			getView().log("User successfully found in database. User ID: " + user_id);
+			
 			//Proceed with the payment
 			
 			int price = ticket.getPrice();
@@ -825,12 +830,7 @@ public class WTModel {
 			int bankID = getBankID();
 			
 			payment(bankID, price);
-
-			//Looking for the userID associated with the UID of the card at the Ticketing database
-			
-			int user_id = getUserID();
-			getView().log("User successfully found in database. User ID: " + user_id);
-			
+		
 			//
 			
 			getTicket().setUser(user_id);
@@ -1228,7 +1228,7 @@ public class WTModel {
 						}
 						if(error.trim().startsWith("DEBIT ")){
 							int i = Integer.parseInt(error.trim().substring("DEBIT ".length()));
-							throw new RuntimeException("Price excesses the amount available in the wallet. \nPurchase aborted");
+							throw new RuntimeException("Price exceeds the amount available in the wallet. \nPurchase aborted");
 						}
 						throw new RuntimeException(line.trim());
 					}
