@@ -294,8 +294,10 @@ public class TickDBManager {
 	            int zone = rs.getInt(TICKETS_ZONE);
 	            int row = rs.getInt(TICKETS_ROW);
 	            int seat = rs.getInt(TICKETS_SEAT);
+	            int price = rs.getInt(TICKETS_PRICE);
 	            
-	            return new Ticket(id, event, user, state, area, zone, row, seat);
+	            return new Ticket(id, event, user, state, 
+	            		area, zone, row, seat, price);
 	            
 	           
 	        } catch (Exception e) {
