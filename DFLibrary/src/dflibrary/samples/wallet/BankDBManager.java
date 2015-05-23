@@ -9,154 +9,174 @@ import java.sql.*;
  */
 public class BankDBManager {
 	
-		/**
-		 * 
-		 */
-		public BankDBManager(WTView view){
+	/**
+	 * 
+	 */
+	public BankDBManager(){
+		this(null);
+	}
+	
+	/**
+	 * 
+	 */
+	public BankDBManager(WTView view){
 
-			setIP(LOCALHOST);
-			this.view = view;
-					
-		}
+		setIP(LOCALHOST);
+		this.view = view;
+				
+	}
+	
+	/**
+	 * 
+	 */
+	protected void connect(){ setConnection();}
+	
+	/**
+	 * 
+	 */
+	private void setConnection(){
 		
-		/**
-		 * 
-		 */
-		protected void connect(){ setConnection();}
+		log("Trying to connect to database");
 		
-		/**
-		 * 
-		 */
-		private void setConnection(){
-			
-			view.log("Trying to connect to database");
-			
+		try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (Exception e) {
+        	e.printStackTrace();
+            throw new RuntimeException("MySql Driver creation failed.");
+        }
+        
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://" + 
+            			getIP() + ":" + PORT + "/" + 
+            			DB_NAME, DB_USER_NAME, DB_USER_PWD);
+        } catch (Exception e){
+        	throw new RuntimeException("Database connection failed.");
+        	}
+	        
+	    this.conStatus = true;
+        log("Database connection successful");
+    }
+	
+	protected void disconnect(){
+		
+		if(con != null){
+				
 			try {
-	            Class.forName("com.mysql.jdbc.Driver");
-	        } catch (Exception e) {
-	        	e.printStackTrace();
-	            throw new RuntimeException("MySql Driver creation failed.");
-	        }
-	        
-	        try {
-	            con = DriverManager.getConnection("jdbc:mysql://" + 
-	            			getIP() + ":" + PORT + "/" + 
-	            			DB_NAME, DB_USER_NAME, DB_USER_PWD);
+				con.close();
 	        } catch (Exception e){
-	        	throw new RuntimeException("Database connection failed.");
-	        }
-	        
-	        this.conStatus = true;
-	        view.log("Database connection successful");
-	        
-		}
-		
-		protected void disconnect(){
-			
-			if(con != null){
+	        	throw new RuntimeException("Database disconnection failed.");
+	        }		
 				
-				try {
-					con.close();
-		        } catch (Exception e){
-		        	throw new RuntimeException("Database disconnection failed.");
-		        }		
-				
-			}
-			
-			this.conStatus = false;
-	        view.log("Database disconnection successful");
-			
 		}
+			
+		this.conStatus = false;
+        log("Database disconnection successful");
 		
+	}
+			
+	/**
+	 * 
+	 * @return
+	 */
+	public Connection getCon(){
+			
+		return this.con;
+			
+	}
 		
-		/**
-		 * 
-		 * @return
-		 */
-		public Connection getCon(){
+	/**
+	 * 
+	 * @return
+	 */
+	public Bank[] getBanks(){
 			
-			return this.con;
-			
-		}
+		Bank[] res = null;
 		
-		/**
-		 * 
-		 * @return
-		 */
-		public Bank[] getBanks(){
-			
-			Bank[] res = null;
-			
-	        try {
-	 
-	            Statement s = con.createStatement();
-	            ResultSet rs = s.executeQuery ("SELECT * FROM banks");
+        try {
+ 
+            Statement s = con.createStatement();
+            ResultSet rs = s.executeQuery ("SELECT * FROM banks");
+            
+            if(!rs.next()) return null;
 	            
-	            if(!rs.next()) return null;
+            rs.last();
 	            
-	            rs.last();
+            res = new Bank[rs.getRow()];
+            rs.beforeFirst();
+            int i = 0;
 	            
-	            res = new Bank[rs.getRow()];
-	            rs.beforeFirst();
-	            int i = 0;
-	            
-	            while (rs.next()) {
+            while (rs.next()) {
 	                    	
-	                res[i] = new Bank(rs.getInt(BANKS_BANK_ID), rs.getString(BANKS_BANK_NAME));
-	                i++;
-	            }
-	        } catch (Exception e) {
-	        	System.out.println(e.getMessage());
-	        	throw new RuntimeException(e.toString());
+                res[i] = new Bank(rs.getInt(BANKS_BANK_ID), rs.getString(BANKS_BANK_NAME));
+                i++;
+            }
+        } catch (Exception e) {
+        	System.out.println(e.getMessage());
+        	throw new RuntimeException(e.toString());
 	        	
-	        }
+        }
 			
-			return res;
+		return res;
 						
-		}
+	}
 
 		
-		/**
-		 * 
-		 * @return
-		 */
-		public String getIP(){
+	/**
+	 * 
+	 * @return
+	 */
+	public String getIP(){
+		
+		return this.IP;
+		
+	}
+	
+	/**
+	 * 
+	 * @param IP
+	 */
+	public void setIP(String IP){
+		
+		this.IP = IP;
 			
-			return this.IP;
+	}
+    
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean getConStatus(){ return this.conStatus; }
+	
+	/**
+	 * 
+	 */
+	private void log(String msg){
 			
+		if(this.view != null){
+			view.log(msg);
 		}
-		
-		/**
-		 * 
-		 * @param IP
-		 */
-		public void setIP(String IP){
-			
-			this.IP = IP;
-			
+		else{
+			System.out.println(msg);
 		}
-		/**
-		 * 
-		 * @return
-		 */
-		public boolean getConStatus(){ return this.conStatus; }
+			
+	}
 		
-		private String IP;
-		private Connection con;
-		private boolean conStatus;
+	private String IP;
+	private Connection con;
+	private boolean conStatus;
 		
-		private WTView view;
+	private WTView view;
 		
-		public static final int BANKS_BANK_ID = 1;
-		public static final int BANKS_BANK_NAME = 2;
+	public static final int BANKS_BANK_ID = 1;
+	public static final int BANKS_BANK_NAME = 2;
 		
-		public static final int CLIENTS_CLIENT_ID = 1;
-		public static final int CLIENTS_CLIENT_USERNAME = 2;
-		public static final int CLIENTS_CLIENT_PWD = 3;
-		
-		public static final int ACCOUNTS_ACCOUNT_ID = 1;
-		public static final int ACCOUNTS_BANK_ID = 2;
-		public static final int ACCOUNTS_CLIENT_ID = 3;
+	public static final int CLIENTS_CLIENT_ID = 1;
+	public static final int CLIENTS_CLIENT_USERNAME = 2;
+	public static final int CLIENTS_CLIENT_PWD = 3;
+	
+	public static final int ACCOUNTS_ACCOUNT_ID = 1;
+	public static final int ACCOUNTS_BANK_ID = 2;
+	public static final int ACCOUNTS_CLIENT_ID = 3;
 		public static final int ACCOUNTS_BALANCE = 4;
 		
 		public static final String LOCALHOST = "127.0.0.1";

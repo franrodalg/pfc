@@ -15,21 +15,25 @@ import dflibrary.library.param.fileset.ValueFileSettings;
 import dflibrary.library.security.DFKey;
 
 
-public class BankServer {
+public class BankServer implements Runnable {
+	
+	public BankServer(int bankID){
+		this.bankID = bankID;
+	}
 
-	public static void main(String[] args){
+	public void run(){
 		
 		try{
 			
 			int i = 1;
 			
-			ServerSocket s = new ServerSocket(BANKID);
+			ServerSocket s = new ServerSocket(this.bankID);
 			
 			while(true){
 				
 				Socket inSock = s.accept();
 				System.out.println("Generating handler number " + i);
-				Runnable r = new BankHandler(inSock, i);
+				Runnable r = new BankHandler(inSock, this.bankID, i);
 				Thread t = new Thread(r);
 				t.start();
 				i++;
@@ -40,18 +44,19 @@ public class BankServer {
 		
 	}
 	
-	public static int getBankID(){ return BANKID;}
+	public int getBankID(){ return this.bankID;}
 	
-	public static final int BANKID = 8189;
+	private int bankID = 8189;
 	
 }
 
 class BankHandler implements Runnable{
 	
-	public BankHandler(Socket s, int c){
+	public BankHandler(Socket s, int bankID, int c){
 		
 		this.s = s;
 		this.count = c;
+		this.bankID = bankID;
 	}
 	
 	public void run(){
@@ -167,7 +172,7 @@ class BankHandler implements Runnable{
 		
         alg = getKeyAlg();
 			
-		key = BankKeyProvider.getKey(keyVersion, alg, BankServer.getBankID());
+		key = BankKeyProvider.getKey(keyVersion, alg, this.bankID);
 
 		//Authenticating with the specified key
 		
@@ -291,5 +296,6 @@ class BankHandler implements Runnable{
 	boolean legacy;
 	
 	private Socket s;
+	private int bankID;
 	private int count;
 }
