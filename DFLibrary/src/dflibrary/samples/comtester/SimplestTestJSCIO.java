@@ -2,9 +2,11 @@ package dflibrary.samples.comtester;
 
 import dflibrary.library.*;
 import dflibrary.middleware.*;
+import dflibrary.utils.ba.BAUtils;
+
 import java.util.Arrays;
 
-public class SimplestTestSCIO {
+public class SimplestTestJSCIO {
 	
 	public static void main(String[] args){		
 		
@@ -21,8 +23,11 @@ public class SimplestTestSCIO {
 				CardType ct = cm.getCardType();			
 				if(ct == CardType.MIFARE_DESFIRE){
 					System.out.println("Card identified as Mifare DESFire");
+					System.out.println("****");
 					DFCard df = new DFCard(cm);						
-					System.out.println(df.getKeyVersion(0));												
+					System.out.println(BAUtils.toString(df.GetVersion()));
+					System.out.println("****");
+					System.out.println(df.getVersion());
 				}
 				else{
 					System.out.println("Card is not a DESFire");
