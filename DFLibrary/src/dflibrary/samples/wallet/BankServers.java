@@ -1,5 +1,12 @@
 package dflibrary.samples.wallet;
 
+/**
+ * When executed, generates as many instances of <code>BankServer</code> 
+ * as entries exist in the Banking Services Database. It sets each one in
+ * a port corresponding to its own bankID.
+ * @author Francisco Rodriguez Algarra
+ *
+ */
 public class BankServers {
 
 	public static void main(String[] args){
@@ -14,12 +21,11 @@ public class BankServers {
 			t.start();
 		}
 		
-		
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Obtains information about banks from the database
+	 * @return an array containing the banks stored in the database
 	 */
 	private static Bank[] getBanks(){
 		
