@@ -1,3 +1,5 @@
+package dflibrary.samples.wallet;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -1158,8 +1160,6 @@ public class WTModel {
         if(ticket_used)
             throw new RuntimeException("All tickets available for this event " + 
                                         "are already used");
-        
-        markUsed(ticket);
             
     }
 
