@@ -118,8 +118,9 @@ public class DFCard {
 		
 		byte[] RndA = DFCrypto.getRndA(alg);
 		
-		byte[] RndB = DFCrypto.getRndB(BAUtils.extractSubBA(res, 1, 8), 
-										keyData, alg);
+		byte[] RndB = DFCrypto.getRndB(
+				BAUtils.extractSubBA(res, 1, 8),
+				keyData, alg);
 		
 		byte[] dkRndARndBp = DFCrypto.getDKRndARndBp(RndA, RndB, keyData, alg);
 		
@@ -128,14 +129,16 @@ public class DFCard {
 		if(!SC.isOk(res))
 			return res;
 		
-		byte[] isPICCAuth = BAUtils.toBA(DFCrypto.getPICCAuth(RndA, 
-											BAUtils.extractSubBA(res, 1, 8), 
-											keyData, alg));
+		byte[] isPICCAuth = BAUtils.toBA(
+				DFCrypto.getPICCAuth(
+						RndA, BAUtils.extractSubBA(res, 1, 8), 
+						keyData, alg));
 		
 		byte[] sessionKey = DFCrypto.getSessionKey(RndA, RndB, alg);
 		
-		return BAUtils.concatenateBAs(BAUtils.extractSubBA(res, 0, 1), 
-										sessionKey, isPICCAuth);
+		return BAUtils.concatenateBAs(
+				BAUtils.extractSubBA(res, 0, 1), 
+				sessionKey, isPICCAuth);
 		
 	}
 	
@@ -153,11 +156,13 @@ public class DFCard {
 	 */
 	public DFResponse authenticateISO(int keyNum, DFKey key){
 		
-		if(key == null) throw new NullPointerException();
+		if(key == null) 
+			throw new NullPointerException();
 		
 		CipAlg alg = key.getAlg();
 		
-		if(alg == CipAlg.AES) throw new IllegalArgumentException();
+		if(alg == CipAlg.AES) 
+			throw new IllegalArgumentException();
 		
 		return authenticateISO(keyNum, key.getKeyBytes());
 		
@@ -190,9 +195,8 @@ public class DFCard {
 		}
 		
 		byte[] sessionKey = BAUtils.extractSubBA(res, 1, res.length-2);
-		boolean PICCAuth = BAUtils.toBoolean((BAUtils.extractSubBA(res, 
-																	res.length-1, 
-																	1)));
+		boolean PICCAuth = BAUtils.toBoolean(
+				(BAUtils.extractSubBA(res, res.length-1, 1)));
 		
 		CipAlg alg = DFCrypto.getDESAlg(keyData);
 		if(alg == CipAlg.TDEA3)
@@ -234,7 +238,8 @@ public class DFCard {
 	
 		byte[] iv = BAUtils.extractSubBA(ekRndB, ekRndB.length - 8, 8);
 		
-		byte[] ekRndARndBp = DFCrypto.getEKRndARndBp(RndA, RndB, keyData, iv, alg);
+		byte[] ekRndARndBp = DFCrypto.getEKRndARndBp(
+				RndA, RndB, keyData, iv, alg);
 
 		res = send(SC.ADDITIONAL_FRAME.toBA(), ekRndARndBp);
 		
@@ -244,11 +249,13 @@ public class DFCard {
 		
 		byte[] ekRndAp = BAUtils.extractSubBA(res, 1, res.length - 1);
 		
-		byte[] isPICCAuth = BAUtils.toBA(DFCrypto.getPICCAuth(RndA, ekRndAp, keyData, iv, alg));
+		byte[] isPICCAuth = BAUtils.toBA(
+				DFCrypto.getPICCAuth(RndA, ekRndAp, keyData, iv, alg));
 		
 		byte[] sessionKey = DFCrypto.getSessionKey(RndA, RndB, alg);
 		
-		return BAUtils.concatenateBAs(BAUtils.extractSubBA(res, 0, 1), sessionKey, isPICCAuth);
+		return BAUtils.concatenateBAs(
+				BAUtils.extractSubBA(res, 0, 1), sessionKey, isPICCAuth);
 
 	}
 	
@@ -307,7 +314,8 @@ public class DFCard {
 		}
 		
 		byte[] sessionKey = BAUtils.extractSubBA(res, 1, 16);
-		boolean PICCAuth = BAUtils.toBoolean((BAUtils.extractSubBA(res, 17, 1)));
+		boolean PICCAuth = BAUtils.toBoolean(
+				BAUtils.extractSubBA(res, 17, 1));
 		setSession(AuthType.AES, keyNum, sessionKey, PICCAuth);
 		
 		return new DFResponse(sc);
@@ -344,32 +352,25 @@ public class DFCard {
 		
 		byte[] iv = BAUtils.extractSubBA(ekRndB, ekRndB.length - 16, 16);
 		
-		byte[] ekRndARndBp = DFCrypto.getEKRndARndBp(RndA, 
-														RndB, 
-														keyData, 
-														iv, 
-														alg);
+		byte[] ekRndARndBp = DFCrypto.getEKRndARndBp(
+				RndA, RndB, keyData, iv, alg);
 		
 		res = send(SC.ADDITIONAL_FRAME.toBA(), ekRndARndBp);
 		
-		if(!SC.isOk(res)) return res;
+		if(!SC.isOk(res)) 
+			return res;
 		
 		iv = BAUtils.extractSubBA(ekRndARndBp, ekRndARndBp.length - 16, 16);
 		 
 		byte[] ekRndAp = BAUtils.extractSubBA(res, 1, res.length - 1);
 		
-		byte[] isPICCAuth = BAUtils.toBA(DFCrypto.getPICCAuth(RndA, 
-																ekRndAp, 
-																keyData, 
-																iv, 
-																alg));
+		byte[] isPICCAuth = BAUtils.toBA(
+				DFCrypto.getPICCAuth(RndA, ekRndAp, keyData, iv, alg));
 		
 		byte[] sessionKey = DFCrypto.getSessionKey(RndA, RndB, alg);
 		
-		return BAUtils.concatenateBAs(BAUtils.extractSubBA(res, 0, 1), 
-										sessionKey, 
-										isPICCAuth);
-		
+		return BAUtils.concatenateBAs(
+				BAUtils.extractSubBA(res, 0, 1), sessionKey, isPICCAuth);
 		
 	}	
 	
@@ -391,12 +392,12 @@ public class DFCard {
 		
 		byte[] ksBA = ks.toBA();
 		
-		byte[] crc = DFCrypto.CRC(ComCode.CHANGE_KEY_SETTINGS, 
-									ksBA, 
-									getSession().getAuthType());
+		byte[] crc = DFCrypto.CRC(
+				ComCode.CHANGE_KEY_SETTINGS, ksBA, 
+				getSession().getAuthType());
 		
-		byte[] cipKeySettings = DFCrypto.encode(BAUtils.concatenateBAs(ksBA, crc), 
-												getSession());
+		byte[] cipKeySettings = DFCrypto.encode(
+				BAUtils.concatenateBAs(ksBA, crc), getSession());
 		
 		byte[] res = ChangeKeySettings(cipKeySettings);
 		
@@ -414,8 +415,8 @@ public class DFCard {
 	 * Executes the raw version of the Change Key Settings command,
 	 * as defined in the Mifare DESFire API.
 	 * @param cipKeySettings a byte array containing the new key settings
-	 * of the currently selected card application, transformed as asked
-	 * by the Mifare DESFire API for security purposes
+	 * of the currently selected card application, transformed
+	 * for security as required
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -424,8 +425,8 @@ public class DFCard {
 		if(cipKeySettings == null) 
 			throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.CHANGE_KEY_SETTINGS.toBA(), 
-											cipKeySettings);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.CHANGE_KEY_SETTINGS.toBA(), cipKeySettings);
 		
 		return send(com);
 	
@@ -471,8 +472,7 @@ public class DFCard {
 	 * @param opt a byte array representing the configuration option
 	 * to be set in the card
 	 * @param encData a byte array representing the data to be set
-	 * in the card, transformed as asked
-	 * by the Mifare DESFire API for security purposes
+	 * in the card, transformed for security as required
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -481,9 +481,8 @@ public class DFCard {
 		if((opt == null) || (encData == null)) 
 			throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.SET_CONFIGURATION.toBA(), 
-											opt, 
-											encData);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.SET_CONFIGURATION.toBA(), opt, encData);
 	
 		return send(com);
 		
@@ -530,22 +529,19 @@ public class DFCard {
 		if(authKeyNum != keyNum) 
 			data = BAUtils.xor(newKey.getKeyBytes(), oldKey.getKeyBytes());
 		else 
-			data = BAUtils.extractSubBA(newKey.getKeyBytes(), 0, 
-										newKey.getKeyBytes().length);
+			data = BAUtils.extractSubBA(
+					newKey.getKeyBytes(), 0, newKey.getKeyBytes().length);
 		
 		if(newKey.getAlg() == CipAlg.AES) 
-			data = BAUtils.concatenateBAs(data, 
-											BAUtils.toBA(newKey.getKeyVersion(), 
-													1));		
+			data = BAUtils.concatenateBAs(
+					data, BAUtils.toBA(newKey.getKeyVersion(), 1));		
 		
-		data = BAUtils.concatenateBAs(data, 
-										DFCrypto.CRC(ComCode.CHANGE_KEY, 
-										keyNumBA, data, auth));
+		data = BAUtils.concatenateBAs(
+				data, DFCrypto.CRC(ComCode.CHANGE_KEY, keyNumBA, data, auth));
 		
 		if(authKeyNum != keyNum) 
-			data = BAUtils.concatenateBAs(data, 
-											DFCrypto.CRC(newKey.getKeyBytes(), 
-											auth));
+			data = BAUtils.concatenateBAs(
+					data, DFCrypto.CRC(newKey.getKeyBytes(), auth));
 		
 		data = DFCrypto.padding(data, auth);
 		
@@ -572,16 +568,17 @@ public class DFCard {
 	 * @param keyNum a byte array representing the key number within the 
 	 * selected card application with which we want to authenticate
 	 * @param encKeyData a byte array containing the new key,
-	 * transformed as asked
-	 * by the Mifare DESFire API for security purposes
+	 * transformed for security as required
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
 	public byte[] ChangeKey(byte[] keyNum, byte[] encKeyData){
 		
-		if((keyNum == null) || (encKeyData == null)) throw new NullPointerException();
+		if((keyNum == null) || (encKeyData == null)) 
+			throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.CHANGE_KEY.toBA(), keyNum, encKeyData);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.CHANGE_KEY.toBA(), keyNum, encKeyData);
 		
 		return send(com);
 		
@@ -636,7 +633,8 @@ public class DFCard {
 		
 		if(keyNum == null) throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.GET_KEY_VERSION.toBA(), keyNum);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.GET_KEY_VERSION.toBA(), keyNum);
 		
 		return send(com);
 		
@@ -706,7 +704,7 @@ public class DFCard {
 	 * to the transmitted command
 	 */
 	public DFResponse createApplication(AID aid, KeySettings ks, int numOfKeys, 
-										boolean ISOFidAllow, CipAlg alg){
+			boolean ISOFidAllow, CipAlg alg){
 		
 		if((aid == null) || (ks == null) || (alg == null))
 			throw new NullPointerException();
@@ -749,7 +747,7 @@ public class DFCard {
 	 * are allowed or not in the new application
 	 * @param alg an instance of class <code>CipAlg</alg> representing the
 	 * criptographic algorithm to be used in the security of the new application
-	 * @param fid an instance of class <code>ISOFileID</code> representing the
+	 * @param isoFid an instance of class <code>ISOFileID</code> representing the
 	 * ISO file identifier of the new application to be created in the card
 	 * @param name an instance of class <code>DFName</code> representing the
 	 * DF name of the new application to be created in the card
@@ -758,11 +756,10 @@ public class DFCard {
 	 * to the transmitted command
 	 */
 	public DFResponse createApplication(AID aid, KeySettings ks, int numOfKeys, 
-										boolean ISOFidAllow, CipAlg alg, 
-										ISOFileID fid, DFName name){
+			boolean ISOFidAllow, CipAlg alg, ISOFileID isoFid, DFName name){
 		
 		if((aid == null) || (ks == null) || (alg == null) || 
-				(fid == null) || (name == null))
+				(isoFid == null) || (name == null))
 			throw new NullPointerException();
 		
 		if((numOfKeys < 1) || (numOfKeys > 14)) 
@@ -773,7 +770,7 @@ public class DFCard {
 
 		byte[] ks2 = DFCrypto.getKeySettings2(numOfKeys, ISOFidAllow, alg);
 		
-		byte[] fidBA = fid.toBA();
+		byte[] fidBA = isoFid.toBA();
 		byte[] nameBA = name.getDFName();
 		
 		byte[] res = CreateApplication(aidBA, ksBA, ks2, fidBA, nameBA);
@@ -783,11 +780,9 @@ public class DFCard {
 			return new DFResponse(res);
 		}
 		
-		byte[] data = BAUtils.concatenateBAs(aidBA, ksBA, ks2, 
-												fidBA, nameBA);
+		byte[] data = BAUtils.concatenateBAs(aidBA, ksBA, ks2, fidBA, nameBA);
 		
-		DFCrypto.updateCmacIV(ComCode.CREATE_APPLICATION, data, 
-								getSession());
+		DFCrypto.updateCmacIV(ComCode.CREATE_APPLICATION, data, getSession());
 		
 		DFCrypto.checkCMAC(res, getSession());
 		
@@ -797,8 +792,7 @@ public class DFCard {
 	
 	/**
 	 * Executes the raw version of the Create Application command,
-	 * as defined in the Mifare DESFire API. Response only includes
-	 * the Status Code returned by the card.
+	 * as defined in the Mifare DESFire API.
 	 * @param aid a byte array representing the
 	 * application identifier of the new application to be created in the card
 	 * @param keySettings a byte array representing
@@ -808,13 +802,14 @@ public class DFCard {
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
-	public byte[] CreateApplication(byte[] aid, byte[] keySettings, byte[] numOfKeys){
+	public byte[] CreateApplication(byte[] aid, byte[] keySettings, 
+			byte[] numOfKeys){
 		
 		if((aid == null) || (keySettings == null) || (numOfKeys == null)) 
 			throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.CREATE_APPLICATION.toBA(), 
-											aid, keySettings, numOfKeys);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.CREATE_APPLICATION.toBA(), aid, keySettings, numOfKeys);
 		
 		return send(com);
 		
@@ -822,8 +817,7 @@ public class DFCard {
 	
 	/**
 	 * Executes the raw version of the Create Application command,
-	 * as defined in the Mifare DESFire EV1 API. Response only includes
-	 * the Status Code returned by the card.
+	 * as defined in the Mifare DESFire EV1 API.
 	 * @param aid a byte array representing the
 	 * application identifier of the new application to be created in the card
 	 * @param ks a byte array representing
@@ -840,16 +834,14 @@ public class DFCard {
 	 * from the Mifare DESFire card to the transmitted command
 	 */
 	public byte[] CreateApplication(byte[] aid, byte[] ks, 
-									byte[] ks2, byte[] fid, 
-									byte[] name){
+			byte[] ks2, byte[] fid, byte[] name){
 		
 		if((aid == null) || (ks == null) || (ks2 == null) || 
 				(fid == null) || (name == null)) 
 			throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.CREATE_APPLICATION.toBA(), 
-											aid, ks, ks2, 
-											fid, name);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.CREATE_APPLICATION.toBA(), aid, ks, ks2, fid, name);
 		
 		return send(com);
 		
@@ -858,8 +850,11 @@ public class DFCard {
 	//Delete Application
 	
 	/**
-	 * 
-	 * @param aid
+	 * Executes the interpreted version of the Delete Application command,
+	 * as defined in the Mifare DESFire API. Response only includes
+	 * the Status Code returned by the card. 
+	 * @param aid an instance of class <code>AID</code> representing the
+	 * application identifier of the new application to be created in the card
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -872,12 +867,14 @@ public class DFCard {
 		
 		byte[] res = DeleteApplication(aidBA);
 		
-		if(!SC.isOk(res) || (session.getSelectedAID().toInt() == aid.toInt())){
+		if(!SC.isOk(res) ||
+				(session.getSelectedAID().toInt() == aid.toInt())){
 			session.resetAuth();
 			return new DFResponse(res);
 		}
 		
-		DFCrypto.updateCmacIV(ComCode.DELETE_APPLICATION, aidBA, getSession());
+		DFCrypto.updateCmacIV(ComCode.DELETE_APPLICATION, 
+				aidBA, getSession());
 		
 		DFCrypto.checkCMAC(res, getSession());
 		
@@ -886,17 +883,22 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param aid
+	 * Executes the raw version of the Delete Application command,
+	 * as defined in the Mifare DESFire API.
+	 * @param aid a byte array representing the
+	 * application identifier of the new application to be created in the card
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
 	public byte[] DeleteApplication(byte[] aid){
 	
-		if(aid == null) throw new NullPointerException();
-		if(aid.length != 3) throw new IllegalArgumentException();
+		if(aid == null) 
+			throw new NullPointerException();
+		if(aid.length != 3) 
+			throw new IllegalArgumentException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.DELETE_APPLICATION.toBA(), aid);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.DELETE_APPLICATION.toBA(), aid);
 	
 		return send(com);
 		
@@ -905,7 +907,10 @@ public class DFCard {
 	//Get Application IDs
 	
 	/**
-	 * 
+	 * Executes the interpreted version of the Get Application IDs command,
+	 * as defined in the Mifare DESFire API. Response includes an object
+	 * of class <code>AIDS</code>, which can be retrieved with
+	 * its method <code>getAIDs()</code>.
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -930,7 +935,8 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
+	 * Executes the raw version of the Get Application IDs command,
+	 * as defined in the Mifare DESFire API.
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -945,7 +951,8 @@ public class DFCard {
 			rres = send(com);
 			
 			if(rres.length > 1)
-				res = BAUtils.concatenateBAs(res, BAUtils.extractSubBA(rres, 1, rres.length-1));
+				res = BAUtils.concatenateBAs(
+						res, BAUtils.extractSubBA(rres, 1, rres.length-1));
 			
 			com = SC.ADDITIONAL_FRAME.toBA();
 			
@@ -953,15 +960,20 @@ public class DFCard {
 		
 		byte[] sc = BAUtils.extractSubBA(rres, 0, 1);
 		
-		if(SC.isOk(rres)) return BAUtils.concatenateBAs(sc, res);
+		if(SC.isOk(rres)) 
+			return BAUtils.concatenateBAs(sc, res);
 		
 		else return sc;
 		
 	}
 	
 	//Get Free Memory
+	
 	/**
-	 * 
+	 * Executes the interpreted version of the Free Memory command,
+	 * as defined in the Mifare DESFire EV1 API. Response includes an object
+	 * of class <code>Size</code>, which can be retrieved with
+	 * its method <code>getFreeMemory()</code>.
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -988,7 +1000,8 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
+	 * Executes the raw version of the Free Memory command,
+	 * as defined in the Mifare DESFire EV1 API. 
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -1001,7 +1014,10 @@ public class DFCard {
 	//Get DF Names
 
 	/**
-	 * 
+	 * Executes the interpreted version of the Free Memory command,
+	 * as defined in the Mifare DESFire EV1 API. Response includes an object
+	 * of class <code>DFNamesRes</code>, which can be retrieved with
+	 * its method <code>getDFNames()</code>.
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -1030,7 +1046,10 @@ public class DFCard {
 						
 			cmacData = BAUtils.concatenateBAs(cmacData, res[res.length - 1]); 
 			
-			byte[] lastFrame = DFCrypto.getData(BAUtils.concatenateBAs(new byte[1], res[res.length - 1]), session);
+			byte[] lastFrame = DFCrypto.getData(
+					BAUtils.concatenateBAs(new byte[1], res[res.length - 1]), 
+					session);
+			
 			if(lastFrame.length == 0){
 				
 				byte[][] aux = new byte[dfNames.length - 1][];
@@ -1051,7 +1070,8 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
+	 * Executes the raw version of the Free Memory command,
+	 * as defined in the Mifare DESFire EV1 API.
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -1066,7 +1086,8 @@ public class DFCard {
 			rres = send(com);
 		
 			if(rres.length > 1)
-				res = BAUtils.create2dBA(res, BAUtils.extractSubBA(rres, 1, rres.length-1));
+				res = BAUtils.create2dBA(res, 
+						BAUtils.extractSubBA(rres, 1, rres.length-1));
 				
 			com = SC.ADDITIONAL_FRAME.toBA();
 		
@@ -1083,7 +1104,12 @@ public class DFCard {
 	//Get Key Settings
 	
 	/**
-	 * 
+	 * Executes the interpreted version of the Get Key Settings command,
+	 * as defined in the Mifare DESFire API. Response includes an object
+	 * of class <code>KeySettingsRes</code>, which contains an instance of
+	 * <code>KeySettings</code> that can be retrieved with
+	 * its method <code>getKeySettings()</code>, and the number of keys that
+	 * can be obtained with its method <code>getNumOfKeys()</code>.
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -1103,7 +1129,6 @@ public class DFCard {
 		
 		DFCrypto.checkCMAC(res, getSession());
 		
-		
 		KeySettingsRes ksr = new KeySettingsRes(BAUtils.extractSubBA(res, 1, 2));
 		
 		return new DFResponse(SC.OPERATION_OK, ksr);
@@ -1111,7 +1136,8 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
+	 * Executes the raw version of the Get Key Settings command,
+	 * as defined in the Mifare DESFire API.
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -1123,12 +1149,14 @@ public class DFCard {
 	
 	}
 	
-	
 	//Select Application
 	
 	/**
-	 * 
-	 * @param aid
+	 * Executes the interpreted version of the Select Application command,
+	 * as defined in the Mifare DESFire API. Response only includes
+	 * the Status Code returned by the card.
+	 * @param aid an instance of class <code>AID</code> representing the
+	 * application identifier of the application to be selected
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -1155,11 +1183,12 @@ public class DFCard {
 		return new DFResponse(SC.OPERATION_OK);
 		
 	}
-	
-	
+		
 	/**
-	 * 
-	 * @param aid
+	 * Executes the raw version of the Select Application command,
+	 * as defined in the Mifare DESFire API.
+	 * @param aid a byte array representing the
+	 * application identifier of the application to be created in the card
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -1167,7 +1196,8 @@ public class DFCard {
 		
 		if(aid == null) throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.SELECT_APPLICATION.toBA(), aid);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.SELECT_APPLICATION.toBA(), aid);
 		
 		return send(com);
 		
@@ -1176,7 +1206,9 @@ public class DFCard {
 	//Format PICC
 	
 	/**
-	 * 
+	 * Executes the interpreted version of the Format PICC command,
+	 * as defined in the Mifare DESFire API. Response only includes
+	 * the Status Code returned by the card.
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -1202,7 +1234,8 @@ public class DFCard {
 	
 	
 	/**
-	 * 
+	 * Executes the raw version of the Format PICC command,
+	 * as defined in the Mifare DESFire API.
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -1217,7 +1250,11 @@ public class DFCard {
 	//Get Version
 	
 	/**
-	 * 
+	 * Executes the interpreted version of the Get Version command,
+	 * as defined in the Mifare DESFire API. Response includes an object
+	 * of class <code>PICCVersion</code>, which can be retrieved with
+	 * its method <code>getPICCVersion()</code>. The card UID can be retrieved
+	 * directly with the method <code>getUID()</code>.
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -1248,7 +1285,8 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
+	 * Executes the raw version of the Get Version command,
+	 * as defined in the Mifare DESFire API.
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -1263,7 +1301,8 @@ public class DFCard {
 			rres = send(com);
 			
 			if(rres.length > 1)
-				res = BAUtils.concatenateBAs(res, BAUtils.extractSubBA(rres, 1, rres.length-1));
+				res = BAUtils.concatenateBAs(res, 
+						BAUtils.extractSubBA(rres, 1, rres.length-1));
 			
 			com = SC.ADDITIONAL_FRAME.toBA();
 			
@@ -1280,7 +1319,11 @@ public class DFCard {
 	//Get Card UID
 	
 	/**
-	 * 
+	 * Executes the interpreted version of the Get Card UID command,
+	 * as defined in the Mifare DESFire EV1 API. Response includes an object
+	 * of class <code>UIDRes</code>, which can be retrieved with
+	 * its method <code>getUIDRes()</code>. The card UID can be retrieved
+	 * directly with the method <code>getUID()</code>.
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -1303,14 +1346,16 @@ public class DFCard {
 		byte[] uid = BAUtils.extractSubBA(dec, 0, 7);
 		byte[] crcPad = BAUtils.extractSubBA(dec, 7, dec.length);
 		
-		boolean checked = DFCrypto.checkCRC(dec, SC.OPERATION_OK, session, crcPad);
+		boolean checked = DFCrypto.checkCRC(
+				dec, SC.OPERATION_OK, session, crcPad);
 		
 		return new DFResponse(SC.OPERATION_OK, new UIDRes(uid, checked));
 		
 	}	
 	
 	/**
-	 * 
+	 * Executes the raw version of the Get Card UID command,
+	 * as defined in the Mifare DESFire EV1 API. 
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -1327,7 +1372,10 @@ public class DFCard {
 	//Get File IDs
 	
 	/**
-	 * 
+	 * Executes the interpreted version of the Get File IDs command,
+	 * as defined in the Mifare DESFire API. Response includes an object
+	 * of class <code>FIDS</code>, which can be retrieved with
+	 * its method <code>getFIDs()</code>.
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -1354,7 +1402,8 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
+	 * Executes the raw version of the Get File IDs command,
+	 * as defined in the Mifare DESFire API.
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -1369,7 +1418,10 @@ public class DFCard {
 	//Get ISO File IDs
 	
 	/**
-	 * 
+	 * Executes the interpreted version of the Get ISO File IDs command,
+	 * as defined in the Mifare DESFire EV1 API. Response includes an object
+	 * of class <code>ISOFileIDs</code>, which can be retrieved with
+	 * its method <code>getISOFileIDs()</code>.
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -1396,7 +1448,8 @@ public class DFCard {
 	}
 
 	/**
-	 * 
+	 * Executes the raw version of the Get ISO File IDs command,
+	 * as defined in the Mifare DESFire EV1 API.
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -1411,7 +1464,9 @@ public class DFCard {
 			rres = send(com);
 			
 			if(rres.length > 1)
-				res = BAUtils.concatenateBAs(res, BAUtils.extractSubBA(rres, 1, rres.length-1));
+				res = BAUtils.concatenateBAs(
+						res, 
+						BAUtils.extractSubBA(rres, 1, rres.length-1));
 			
 			com = SC.ADDITIONAL_FRAME.toBA();
 			
@@ -1428,8 +1483,14 @@ public class DFCard {
 	//Get File Settings
 	
 	/**
-	 * 
-	 * @param fid
+	 * Executes the interpreted version of the Get File Settings command,
+	 * as defined in the Mifare DESFire API. Response includes an object
+	 * of class <code>FileSettings</code>, which can be retrieved with
+	 * its method <code>getFileSettings()</code>. Depending on the type
+	 * of file, this object can be casted to <code>DataFileSettings</code>,
+	 * <code>ValueFileSettings</code>, or <code>RecordFileSettings</code>. 
+	 * @param fid an instance of class <code>FID</code> representing the
+	 * file identifier
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -1449,7 +1510,8 @@ public class DFCard {
 			
 		}	
 		
-		DFCrypto.updateCmacIV(ComCode.GET_FILE_SETTINGS, fidBA, getSession());
+		DFCrypto.updateCmacIV(
+				ComCode.GET_FILE_SETTINGS, fidBA, getSession());
 		
 		DFCrypto.checkCMAC(res, getSession());
 		
@@ -1457,21 +1519,27 @@ public class DFCard {
 		
 		System.out.println(BAUtils.toString(fileSetBA));
 
-		FileType ft = FileType.toFileType(BAUtils.extractSubBA(fileSetBA, 0, 1));
+		FileType ft = FileType.toFileType(
+				BAUtils.extractSubBA(fileSetBA, 0, 1));
 		
 		FileSettings fs;
 		
-		if((ft == FileType.STANDARD_DATA)||(ft == FileType.BACKUP_DATA)) fs = new DataFileSettings(fileSetBA);
-		else if(ft == FileType.VALUE) fs = new ValueFileSettings(fileSetBA);
-		else fs = new RecordFileSettings(fileSetBA);
+		if((ft == FileType.STANDARD_DATA) || (ft == FileType.BACKUP_DATA))
+			fs = new DataFileSettings(fileSetBA);
+		else if(ft == FileType.VALUE)
+			fs = new ValueFileSettings(fileSetBA);
+		else
+			fs = new RecordFileSettings(fileSetBA);
 		
 		return new DFResponse(SC.OPERATION_OK, fs);	
 		
 	}
 	
 	/**
-	 * 
-	 * @param fid
+	 * Executes the raw version of the Get File Settings command,
+	 * as defined in the Mifare DESFire API.
+	 * @param fid a byte array representing the
+	 * file identifier
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -1479,7 +1547,8 @@ public class DFCard {
 		
 		if(fid == null) throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.GET_FILE_SETTINGS.toBA(), fid);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.GET_FILE_SETTINGS.toBA(), fid);
 		
 		return send(com);
 				
@@ -1488,18 +1557,27 @@ public class DFCard {
 	//Change File Settings
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param comSet
-	 * @param newAR
-	 * @param oldAR
+	 * Executes the interpreted version of the Change File Settings command,
+	 * as defined in the Mifare DESFire API. Response only includes
+	 * the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing the
+	 * file identifier
+	 * @param comSet an instance of class <code>ComSet</code> representing
+	 * the new communication settings to be set
+	 * @param newAR an instance of class <code>AccessRights</code> representing
+	 * the new access rights to be set
+	 * @param oldAR an instance of class <code>AccessRights</code> representing
+	 * the current access rights of the file
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
 	 */
-	public DFResponse changeFileSettings(FID fid, ComSet comSet, AccessRights newAR, AccessRights oldAR){
+	public DFResponse changeFileSettings(FID fid, ComSet comSet, 
+			AccessRights newAR, AccessRights oldAR){
 		
-		if((fid == null) || (comSet == null) || (newAR == null) || (oldAR == null)) throw new NullPointerException();
+		if((fid == null) || (comSet == null) || 
+				(newAR == null) || (oldAR == null)) 
+			throw new NullPointerException();
 		
 		byte[] fidBA = fid.toBA();
 		byte[] comSetBA = comSet.toBA();
@@ -1514,17 +1592,19 @@ public class DFCard {
 		}
 		else{
 			
-			if(getSession().getAuthType() == AuthType.NO_AUTH) return new DFResponse(SC.AUTHENTICATION_ERROR);
+			if(getSession().getAuthType() == AuthType.NO_AUTH) 
+				return new DFResponse(SC.AUTHENTICATION_ERROR);
 			
 			byte[] fsBA = BAUtils.concatenateBAs(comSetBA, arBA);
 			
-			byte[] crc = DFCrypto.CRC(ComCode.CHANGE_FILE_SETTINGS, fidBA, fsBA, getSession().getAuthType());
+			byte[] crc = DFCrypto.CRC(ComCode.CHANGE_FILE_SETTINGS, 
+					fidBA, fsBA, getSession().getAuthType());
 			
-			byte[] cipFileSettings = DFCrypto.encode(BAUtils.concatenateBAs(fsBA, crc), getSession());
+			byte[] cipFileSettings = DFCrypto.encode(
+					BAUtils.concatenateBAs(fsBA, crc), getSession());
 			
 			res = ChangeFileSettings(fidBA, cipFileSettings);		
-			
-			
+					
 		}	
 		
 		if(!SC.isOk(res)){
@@ -1539,34 +1619,53 @@ public class DFCard {
 	}	
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param comSet
-	 * @param accessRights
+	 * Executes the raw version of the Change File Settings command,
+	 * as defined in the Mifare DESFire API. This version of the command
+	 * will only succeed if the current access rights allow its
+	 * change freely.
+	 * @param fid a byte array representing the
+	 * file identifier
+	 * @param comSet a byte array representing
+	 * the new communication settings to be set
+	 * @param ar a byte array
+	 * representing the new access rights to be set
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
-	public byte[] ChangeFileSettings(byte[] fid, byte[] comSet, byte[] accessRights){
+	public byte[] ChangeFileSettings(byte[] fid, byte[] comSet, 
+			byte[] ar){
 		
-		if((fid == null) || (comSet == null) || (accessRights == null)) throw new NullPointerException();
+		if((fid == null) || (comSet == null) || 
+				(ar == null)) 
+			throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.CHANGE_FILE_SETTINGS.toBA(), fid, comSet, accessRights);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.CHANGE_FILE_SETTINGS.toBA(), 
+				fid, comSet, ar);
 		
 		return send(com);
 		
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param encFileSettings
+	 * Executes the raw version of the Change File Settings command,
+	 * as defined in the Mifare DESFire API. This version of the command
+	 * is needed if the current access rights require a previous
+	 * authentication to be changed.
+	 * @param fid an instance of class <code>FID</code> representing the
+	 * file identifier
+	 * @param encFileSettings a byte array containing the new file
+	 * settings, transformed for security as required 
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command	 */
 	public byte[] ChangeFileSettings(byte[] fid, byte[] encFileSettings){		
 		
-		if((fid == null) || (encFileSettings == null)) throw new NullPointerException();
+		if((fid == null) || (encFileSettings == null)) 
+			throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.CHANGE_FILE_SETTINGS.toBA(), fid, encFileSettings);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.CHANGE_FILE_SETTINGS.toBA(), 
+				fid, encFileSettings);
 
 		return send(com);
 		
@@ -1575,19 +1674,26 @@ public class DFCard {
 	//Create Standard Data File
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param isoFid
-	 * @param comSet
-	 * @param ar
-	 * @param fileSize
+	 * Executes the interpreted version of the Create Standard
+	 * Data File command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing the
+	 * file identifier of the new file
+	 * @param comSet an instance of class <code>ComSet</code> representing
+	 * the communication settings to be set in the new file
+	 * @param ar an instance of class <code>AccessRights</code> representing
+	 * the new access rights to be set in the new file
+	 * @param fileSize an instance of class <code>Size</code> representing
+	 * the size of the new file to be created
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
 	 */
-	public DFResponse createStdDataFile(FID fid, ComSet comSet, AccessRights ar, Size fileSize){
+	public DFResponse createStdDataFile(FID fid, ComSet comSet, 
+			AccessRights ar, Size fileSize){
 		
-		if((fid == null) || (comSet == null) || (ar == null) || (fileSize == null))
+		if((fid == null) || (comSet == null) || 
+				(ar == null) || (fileSize == null))
 			throw new NullPointerException();
 				
 		byte[] fidBA = fid.toBA();
@@ -1613,19 +1719,28 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param isoFid
-	 * @param comSet
-	 * @param ar
-	 * @param fileSize
+	 * Executes the interpreted version of the Create Standard
+	 * Data File command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing the
+	 * file identifier of the new file
+	 * @param isoFid an instance of class <code>ISOFileID</code> representing
+	 * the ISO file identifier of the new file
+	 * @param comSet an instance of class <code>ComSet</code> representing
+	 * the communication settings to be set in the new file
+	 * @param ar an instance of class <code>AccessRights</code> representing
+	 * the new access rights to be set in the new file
+	 * @param fileSize an instance of class <code>Size</code> representing
+	 * the size of the new file to be created
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
 	 */
-	public DFResponse createStdDataFile(FID fid, ISOFileID isoFid, ComSet comSet, AccessRights ar, Size fileSize){
+	public DFResponse createStdDataFile(FID fid, ISOFileID isoFid, 
+			ComSet comSet, AccessRights ar, Size fileSize){
 		
-		if((fid == null) || (isoFid == null) || (comSet == null) || (ar == null) || (fileSize == null))
+		if((fid == null) || (isoFid == null) || (comSet == null) || 
+				(ar == null) || (fileSize == null))
 			throw new NullPointerException();
 				
 		byte[] fidBA = fid.toBA();
@@ -1634,16 +1749,19 @@ public class DFCard {
 		byte[] arBA = ar.toBA();
 		byte[] sizeBA = fileSize.toBA();
 		
-		byte[] res = CreateStdDataFile(fidBA, isoFidBA, comSetBA, arBA, sizeBA);
+		byte[] res = CreateStdDataFile(fidBA, isoFidBA, 
+				comSetBA, arBA, sizeBA);
 		
 		if(!SC.isOk(res)){
 			session.resetAuth();
 			return new DFResponse(res);
 		}
 		
-		byte[] data = BAUtils.concatenateBAs(fidBA, isoFidBA, comSetBA, arBA, sizeBA);
+		byte[] data = BAUtils.concatenateBAs(fidBA, isoFidBA, 
+				comSetBA, arBA, sizeBA);
 		
-		DFCrypto.updateCmacIV(ComCode.CREATE_STD_DATA_FILE, data, getSession());
+		DFCrypto.updateCmacIV(ComCode.CREATE_STD_DATA_FILE, 
+				data, getSession());
 		
 		DFCrypto.checkCMAC(res, getSession());
 		
@@ -1652,41 +1770,62 @@ public class DFCard {
 	}	
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param comSet
-	 * @param accessRights
-	 * @param fileSize
+	 * Executes the raw version of the Create Standard
+	 * Data File command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param a byte array representing the
+	 * file identifier of the new file
+	 * @param comSet a byte array representing
+	 * the communication settings to be set in the new file
+	 * @param ar a byte array representing
+	 * the new access rights to be set in the new file
+	 * @param fileSize in instance of class <code>Size</code> representing
+	 * the size of the new file to be created
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
-	public byte[] CreateStdDataFile(byte[] fid, byte[] comSet, byte[] accessRights, byte[] fileSize){
+	public byte[] CreateStdDataFile(byte[] fid, byte[] comSet, 
+			byte[] ar, byte[] fileSize){
 		
-		if((fid == null) || (comSet == null) || (accessRights == null) || (fileSize == null))
+		if((fid == null) || (comSet == null) || 
+				(ar == null) || (fileSize == null))
 			throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.CREATE_STD_DATA_FILE.toBA(), fid, comSet, accessRights, fileSize);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.CREATE_STD_DATA_FILE.toBA(), 
+				fid, comSet, ar, fileSize);
 		
 		return send(com);
 		
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param ISOfid
-	 * @param comSet
-	 * @param accessRights
-	 * @param fileSize
+	 * Executes the raw version of the Create Standard
+	 * Data File command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid a byte array representing the
+	 * file identifier of the new file
+	 * @param isoFid a byte array representing the
+	 * ISO file identifier of the new file
+	 * @param comSet a byte array representing
+	 * the communication settings to be set in the new file
+	 * @param ar a byte array representing
+	 * the new access rights to be set in the new file
+	 * @param fileSize a byte array representing
+	 * the size of the new file to be created
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
-	public byte[] CreateStdDataFile(byte[] fid, byte[] ISOfid, byte[] comSet, byte[] accessRights, byte[] fileSize){
+	public byte[] CreateStdDataFile(byte[] fid, byte[] isoFid, 
+			byte[] comSet, byte[] ar, byte[] fileSize){
 		
-		if((fid == null) || (ISOfid == null) || (comSet == null) || (accessRights == null) || (fileSize == null))
+		if((fid == null) || (isoFid == null) || (comSet == null) ||
+				(ar == null) || (fileSize == null))
 			throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.CREATE_STD_DATA_FILE.toBA(), fid, ISOfid, comSet, accessRights, fileSize);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.CREATE_STD_DATA_FILE.toBA(),
+				fid, isoFid, comSet, ar, fileSize);
 		
 		return send(com);
 		
@@ -1695,19 +1834,26 @@ public class DFCard {
 	//Create Backup Data File
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param isoFid
-	 * @param comSet
-	 * @param ar
-	 * @param fileSize
+	 * Executes the interpreted version of the Create Backup
+	 * Data File command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the new file
+	 * @param comSet an instance of class <code>ComSet</code> representing
+	 * the communication settings to be set in the new file
+	 * @param ar an instance of class <code>AccessRights</code> representing
+	 * the new access rights to be set in the new file
+	 * @param fileSize an instance of class <code>Size</code> representing
+	 * the size of the new file to be created
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
 	 */
-	public DFResponse createBackupDataFile(FID fid, ComSet comSet, AccessRights ar, Size fileSize){
+	public DFResponse createBackupDataFile(FID fid, ComSet comSet,
+			AccessRights ar, Size fileSize){
 		
-		if((fid == null) || (comSet == null) || (ar == null) || (fileSize == null))
+		if((fid == null) || (comSet == null) || (ar == null) ||
+				(fileSize == null))
 			throw new NullPointerException();
 				
 		byte[] fidBA = fid.toBA();
@@ -1724,7 +1870,8 @@ public class DFCard {
 		
 		byte[] data = BAUtils.concatenateBAs(fidBA, comSetBA, arBA, sizeBA);
 		
-		DFCrypto.updateCmacIV(ComCode.CREATE_BACKUP_DATA_FILE, data, getSession());
+		DFCrypto.updateCmacIV(ComCode.CREATE_BACKUP_DATA_FILE, 
+				data, getSession());
 		
 		DFCrypto.checkCMAC(res, getSession());
 		
@@ -1733,19 +1880,28 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param isoFid
-	 * @param comSet
-	 * @param ar
-	 * @param fileSize
+	 * Executes the interpreted version of the Create Backup
+	 * Data File command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the new file
+	 * @param isoFid an instance of class <code>ISOFileID</code> representing 
+	 * the ISO file identifier of the new file
+	 * @param comSet an instance of class <code>ComSet</code> representing
+	 * the communication settings to be set in the new file
+	 * @param ar an instance of class <code>AccessRights</code> representing
+	 * the new access rights to be set in the new file
+	 * @param fileSize an instance of class <code>Size</code> representing
+	 * the size of the new file to be created
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
 	 */
-	public DFResponse createBackupDataFile(FID fid, ISOFileID isoFid, ComSet comSet, AccessRights ar, Size fileSize){
+	public DFResponse createBackupDataFile(FID fid, ISOFileID isoFid,
+			ComSet comSet, AccessRights ar, Size fileSize){
 		
-		if((fid == null) || (isoFid == null) || (comSet == null) || (ar == null) || (fileSize == null))
+		if((fid == null) || (isoFid == null) || (comSet == null) ||
+				(ar == null) || (fileSize == null))
 			throw new NullPointerException();
 				
 		byte[] fidBA = fid.toBA();
@@ -1754,16 +1910,19 @@ public class DFCard {
 		byte[] arBA = ar.toBA();
 		byte[] sizeBA = fileSize.toBA();
 		
-		byte[] res = CreateBackupDataFile(fidBA, isoFidBA, comSetBA, arBA, sizeBA);
+		byte[] res = CreateBackupDataFile(fidBA, isoFidBA, comSetBA,
+				arBA, sizeBA);
 		
 		if(!SC.isOk(res)){
 			session.resetAuth();
 			return new DFResponse(res);
 		}
 		
-		byte[] data = BAUtils.concatenateBAs(fidBA, isoFidBA, comSetBA, arBA, sizeBA);
+		byte[] data = BAUtils.concatenateBAs(fidBA, isoFidBA, comSetBA,
+				arBA, sizeBA);
 		
-		DFCrypto.updateCmacIV(ComCode.CREATE_BACKUP_DATA_FILE, data, getSession());
+		DFCrypto.updateCmacIV(ComCode.CREATE_BACKUP_DATA_FILE,
+				data, getSession());
 		
 		DFCrypto.checkCMAC(res, getSession());
 		
@@ -1772,41 +1931,60 @@ public class DFCard {
 	}
 		
 	/**
-	 * 
-	 * @param fid
-	 * @param comSet
-	 * @param accessRights
-	 * @param fileSize
+	 * Executes the raw version of the Create Backup
+	 * Data File command, as defined in the Mifare DESFire API. 
+	 * @param fid a byte array representing the
+	 * file identifier of the new file
+	 * @param comSet a byte array representing
+	 * the communication settings to be set in the new file
+	 * @param ar a byte array representing
+	 * the new access rights to be set in the new file
+	 * @param fileSize a byte array representing
+	 * the size of the new file to be created
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
-	public byte[] CreateBackupDataFile(byte[] fid, byte[] comSet, byte[] accessRights, byte[] fileSize){
+	public byte[] CreateBackupDataFile(byte[] fid, byte[] comSet,
+			byte[] ar, byte[] fileSize){
 		
-		if((fid == null) || (comSet == null) || (accessRights == null) || (fileSize == null))
+		if((fid == null) || (comSet == null) || (ar == null) ||
+				(fileSize == null))
 			throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.CREATE_BACKUP_DATA_FILE.toBA(), fid, comSet, accessRights, fileSize);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.CREATE_BACKUP_DATA_FILE.toBA(),
+				fid, comSet, ar, fileSize);
 		
 		return send(com);
 		
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param ISOfid
-	 * @param comSet
-	 * @param accessRights
-	 * @param fileSize
+	 * Executes the raw version of the Create Backup
+	 * Data File command, as defined in the Mifare DESFire API. 
+	 * @param fid a byte array representing the
+	 * file identifier of the new file
+	 * @param isoFid a byte array representing the
+	 * ISO file identifier of the new file
+	 * @param comSet a byte array representing
+	 * the communication settings to be set in the new file
+	 * @param ar a byte array representing
+	 * the new access rights to be set in the new file
+	 * @param fileSize a byte array representing
+	 * the size of the new file to be created
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
-	public byte[] CreateBackupDataFile(byte[] fid, byte[] ISOfid, byte[] comSet, byte[] accessRights, byte[] fileSize){
+	public byte[] CreateBackupDataFile(byte[] fid, byte[] isoFid,
+			byte[] comSet, byte[] ar, byte[] fileSize){
 		
-		if((fid == null) || (ISOfid == null) || (comSet == null) || (accessRights == null) || (fileSize == null))
+		if((fid == null) || (isoFid == null) || (comSet == null) ||
+				(ar == null) || (fileSize == null))
 			throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.CREATE_BACKUP_DATA_FILE.toBA(), fid, ISOfid, comSet, accessRights, fileSize);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.CREATE_BACKUP_DATA_FILE.toBA(),
+				fid, isoFid, comSet, ar, fileSize);
 		
 		return send(com);
 		
@@ -1815,21 +1993,36 @@ public class DFCard {
 	//Create Value File
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param comSet
-	 * @param ar
-	 * @param lowerLimit
-	 * @param upperLimit
-	 * @param value
-	 * @param limCredEn
+	 * Executes the interpreted version of the Create Value File
+	 * command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the new file
+	 * @param comSet an instance of class <code>ComSet</code> representing
+	 * the communication settings to be set in the new file
+	 * @param ar an instance of class <code>AccessRights</code> representing
+	 * the new access rights to be set in the new file
+	 * @param lowerLimit an instance of class <code>Value</code>
+	 * representing the boundary which must not be passed by a Debit calculation
+	 * on the current value. It may be negative, and is usually set to 0
+	 * @param upperLimit an instance of class <code>Value</code>
+	 * representing the boundary which must not be passed by a Credit calculation
+	 * on the current value. It has to be higher or equal to the lower limit
+	 * @param value an instance of class <code>Value</code>
+	 * representing the initial value to be set in the file
+	 * @param limCredEn a boolean indicating whether Limited Credit operations
+	 * are allowed in this file or not
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
 	 */
-	public DFResponse createValueFile(FID fid, ComSet comSet, AccessRights ar, Value lowerLimit, Value upperLimit, Value value, boolean limCredEn){
+	public DFResponse createValueFile(FID fid, ComSet comSet,
+			AccessRights ar, Value lowerLimit, Value upperLimit,
+			Value value, boolean limCredEn){
 		
-		if((fid == null) || (comSet == null) || (ar == null) || (lowerLimit == null) || (upperLimit == null) || (value == null)) 
+		if((fid == null) || (comSet == null) || (ar == null) ||
+				(lowerLimit == null) || (upperLimit == null) ||
+				(value == null)) 
 			throw new NullPointerException();
 			
 		byte[] fidBA = fid.toBA();
@@ -1840,16 +2033,19 @@ public class DFCard {
 		byte[] valueBA = value.toBA();
 		byte[] limBA = BAUtils.toBA(limCredEn);
 		
-		byte[] res = CreateValueFile(fidBA, comSetBA, arBA, lowBA, upBA, valueBA, limBA);
+		byte[] res = CreateValueFile(fidBA, comSetBA, arBA,
+				lowBA, upBA, valueBA, limBA);
 		
 		if(!SC.isOk(res)){
 			session.resetAuth();
 			return new DFResponse(res);
 		}
 		
-		byte[] data = BAUtils.concatenateBAs(fidBA, comSetBA, arBA, lowBA, upBA, valueBA, limBA);
+		byte[] data = BAUtils.concatenateBAs(fidBA, comSetBA, arBA,
+				lowBA, upBA, valueBA, limBA);
 		
-		DFCrypto.updateCmacIV(ComCode.CREATE_VALUE_FILE, data, getSession());
+		DFCrypto.updateCmacIV(ComCode.CREATE_VALUE_FILE,
+				data, getSession());
 		
 		DFCrypto.checkCMAC(res, getSession());
 		
@@ -1858,21 +2054,38 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param comSet
-	 * @param ar
-	 * @param lowerLimit
-	 * @param upperLimit
-	 * @param value
-	 * @param limCredEn
+	 * Executes the interpreted version of the Create Value File
+	 * command, as defined in the Mifare DESFire EV1 API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the new file
+	 * @param comSet an instance of class <code>ComSet</code> representing
+	 * the communication settings to be set in the new file
+	 * @param ar an instance of class <code>AccessRights</code> representing
+	 * the new access rights to be set in the new file
+	 * @param lowerLimit an instance of class <code>Value</code>
+	 * representing the boundary which must not be passed by a Debit calculation
+	 * on the current value. It may be negative, and is usually set to 0
+	 * @param upperLimit an instance of class <code>Value</code>
+	 * representing the boundary which must not be passed by a Credit calculation
+	 * on the current value. It has to be higher or equal to the lower limit
+	 * @param value an instance of class <code>Value</code>
+	 * representing the initial value to be set in the file
+	 * @param limCredEn a boolean indicating whether Limited Credit operations
+	 * are allowed in this file or not
+	 * @param freeGetValue a boolean indicating whether free read access to the
+	 * current value is permited or not
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
 	 */
-	public DFResponse createValueFile(FID fid, ComSet comSet, AccessRights ar, Value lowerLimit, Value upperLimit, Value value, boolean limCredEn, boolean freeGetVal){
+	public DFResponse createValueFile(FID fid, ComSet comSet,
+			AccessRights ar, Value lowerLimit, Value upperLimit,
+			Value value, boolean limCredEn, boolean freeGetVal){
 		
-		if((fid == null) || (comSet == null) || (ar == null) || (lowerLimit == null) || (upperLimit == null) || (value == null)) 
+		if((fid == null) || (comSet == null) || (ar == null) ||
+				(lowerLimit == null) || (upperLimit == null) ||
+				(value == null)) 
 			throw new NullPointerException();
 				
 		byte[] fidBA = fid.toBA();
@@ -1885,16 +2098,19 @@ public class DFCard {
 		
 		if(freeGetVal) limBA = BAUtils.xor(limBA, BAUtils.toBA("02"));
 		
-		byte[] res = CreateValueFile(fidBA, comSetBA, arBA, lowBA, upBA, valueBA, limBA);
+		byte[] res = CreateValueFile(fidBA, comSetBA, arBA,
+				lowBA, upBA, valueBA, limBA);
 		
 		if(!SC.isOk(res)){
 			session.resetAuth();
 			return new DFResponse(res);
 		}
 		
-		byte[] data = BAUtils.concatenateBAs(fidBA, comSetBA, arBA, lowBA, upBA, valueBA, limBA);
+		byte[] data = BAUtils.concatenateBAs(fidBA, comSetBA,
+				arBA, lowBA, upBA, valueBA, limBA);
 		
-		DFCrypto.updateCmacIV(ComCode.CREATE_VALUE_FILE, data, getSession());
+		DFCrypto.updateCmacIV(ComCode.CREATE_VALUE_FILE,
+				data, getSession());
 		
 		DFCrypto.checkCMAC(res, getSession());
 		
@@ -1903,26 +2119,41 @@ public class DFCard {
 	}
 		
 	/**
-	 * 
-	 * @param fid
-	 * @param comSet
-	 * @param accessRights
-	 * @param lowerLimit
-	 * @param upperLimit
-	 * @param value
-	 * @param limCredEnFreeGetVal
+	 * Executes the raw version of the Create Value File
+	 * command, as defined in the Mifare DESFire EV1 API.
+	 * @param fid a byte array representing
+	 * the file identifier of the new file
+	 * @param comSet a byte array representing
+	 * the communication settings to be set in the new file
+	 * @param ar a byte array representing
+	 * the new access rights to be set in the new file
+	 * @param lowerLimit a byte array 
+	 * representing the lower possible value in the file
+	 * @param upperLimit a byte array
+	 * representing the upper possible value in the file
+	 * @param value a byte array
+	 * representing the initial value in the file
+	 * @param limCredEnFreeGetVal a byte array
+	 * representing both whether Limited Credit operations are allowed
+	 * or not and whether free read access to the current value is
+	 * permited or not
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
-	public byte[] CreateValueFile(byte[] fid, byte[] comSet, byte[] accessRights, byte[] lowerLimit, byte[] upperLimit, byte[] value,
-			byte[] limCredEnFreeGetVal){
+	public byte[] CreateValueFile(byte[] fid, byte[] comSet,
+			byte[] ar, byte[] lowerLimit, byte[] upperLimit,
+			byte[] value, byte[] limCredEnFreeGetVal){
 		
-		
-		if((fid == null)|| (comSet == null) || (accessRights == null) || (lowerLimit == null) || (upperLimit == null) || (value == null)
+		if((fid == null)|| (comSet == null) || (ar == null) ||
+				(lowerLimit == null) || (upperLimit == null) ||
+				(value == null)
 				|| (limCredEnFreeGetVal == null))
 			throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.CREATE_VALUE_FILE.toBA(), fid, comSet, accessRights, lowerLimit, upperLimit, value,
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.CREATE_VALUE_FILE.toBA(),
+				fid, comSet, ar, lowerLimit,
+				upperLimit, value,
 				limCredEnFreeGetVal);
 		
 		return send(com);
@@ -1932,19 +2163,28 @@ public class DFCard {
 	//Create Linear Record File
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param comSet
-	 * @param ar
-	 * @param recSize
-	 * @param maxNumOfRecords
+	 * Executes the interpreted version of the Create Linear
+	 * Record File command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the new file
+	 * @param comSet an instance of class <code>ComSet</code> representing
+	 * the communication settings to be set in the new file
+	 * @param ar an instance of class <code>AccessRights</code> representing
+	 * the new access rights to be set in the new file
+	 * @param recSize an instance of class <code>Size</code> representing
+	 * the size of each record in the file
+	 * @param maxNumOfRecords an integer representing the maximum number
+	 * of records that can be created within the file
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
 	 */
-	public DFResponse createLinearRecordFile(FID fid, ComSet comSet, AccessRights ar, Size recSize, int maxNumOfRecords){
+	public DFResponse createLinearRecordFile(FID fid, ComSet comSet,
+			AccessRights ar, Size recSize, int maxNumOfRecords){
 				
-		if((fid == null) || (comSet == null) || (ar == null) || (recSize == null))
+		if((fid == null) || (comSet == null) || (ar == null) ||
+				(recSize == null))
 			throw new NullPointerException();
 		
 		byte[] fidBA = fid.toBA();
@@ -1953,16 +2193,19 @@ public class DFCard {
 		byte[] recSizeBA = recSize.toBA();
 		byte[] maxBA = BAUtils.toBA(maxNumOfRecords, 3);
 		
-		byte[] res = CreateLinearRecordFile(fidBA, comSetBA, arBA, recSizeBA, maxBA);
+		byte[] res = CreateLinearRecordFile(fidBA, comSetBA, arBA,
+				recSizeBA, maxBA);
 		
 		if(!SC.isOk(res)){
 			session.resetAuth();
 			return new DFResponse(res);
 		}
 		
-		byte[] data = BAUtils.concatenateBAs(fidBA, comSetBA, arBA, recSizeBA, maxBA);
+		byte[] data = BAUtils.concatenateBAs(fidBA, comSetBA, arBA,
+				recSizeBA, maxBA);
 		
-		DFCrypto.updateCmacIV(ComCode.CREATE_LINEAR_RECORD_FILE, data, getSession());
+		DFCrypto.updateCmacIV(ComCode.CREATE_LINEAR_RECORD_FILE,
+				data, getSession());
 		
 		DFCrypto.checkCMAC(res, getSession());
 		
@@ -1971,20 +2214,31 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param isoFid
-	 * @param comSet
-	 * @param ar
-	 * @param recSize
-	 * @param maxNumOfRecords
+	 * Executes the interpreted version of the Create Linear
+	 * Record File command, as defined in the Mifare DESFire EV1 API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the new file
+	 * @param isoFid an instance of class <code>ISOFileID</code> representing 
+	 * the ISO file identifier of the new file
+	 * @param comSet an instance of class <code>ComSet</code> representing
+	 * the communication settings to be set in the new file
+	 * @param ar an instance of class <code>AccessRights</code> representing
+	 * the new access rights to be set in the new file
+	 * @param recSize an instance of class <code>Size</code> representing
+	 * the size of each record in the file
+	 * @param maxNumOfRecords an integer representing the maximum number
+	 * of records that can be created within the file
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
 	 */
-	public DFResponse createLinearRecordFile(FID fid, ISOFileID isoFid, ComSet comSet, AccessRights ar, Size recSize, int maxNumOfRecords){
+	public DFResponse createLinearRecordFile(FID fid, ISOFileID isoFid,
+			ComSet comSet, AccessRights ar, Size recSize,
+			int maxNumOfRecords){
 				
-		if((fid == null) || (isoFid == null) || (comSet == null) || (ar == null) || (recSize == null))
+		if((fid == null) || (isoFid == null) || (comSet == null) ||
+				(ar == null) || (recSize == null))
 			throw new NullPointerException();
 		
 		byte[] fidBA = fid.toBA();
@@ -1994,16 +2248,19 @@ public class DFCard {
 		byte[] recSizeBA = recSize.toBA();
 		byte[] maxBA = BAUtils.toBA(maxNumOfRecords, 3);
 		
-		byte[] res = CreateLinearRecordFile(fidBA, isoFidBA, comSetBA, arBA, recSizeBA, maxBA);
+		byte[] res = CreateLinearRecordFile(fidBA, isoFidBA, comSetBA,
+				arBA, recSizeBA, maxBA);
 		
 		if(!SC.isOk(res)){
 			session.resetAuth();
 			return new DFResponse(res);
 		}
 		
-		byte[] data = BAUtils.concatenateBAs(fidBA, isoFidBA, comSetBA, arBA, recSizeBA, maxBA);
+		byte[] data = BAUtils.concatenateBAs(fidBA, isoFidBA, comSetBA,
+				arBA, recSizeBA, maxBA);
 		
-		DFCrypto.updateCmacIV(ComCode.CREATE_LINEAR_RECORD_FILE, data, getSession());
+		DFCrypto.updateCmacIV(ComCode.CREATE_LINEAR_RECORD_FILE,
+				data, getSession());
 		
 		DFCrypto.checkCMAC(res, getSession());
 		
@@ -2012,43 +2269,67 @@ public class DFCard {
 	}	
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param comSet
-	 * @param accessRights
-	 * @param recordSize
-	 * @param maxNumOfRecords
+	 * Executes the raw version of the Create Linear
+	 * Record File command, as defined in the Mifare DESFire API.
+	 * @param fid a byte array representing
+	 * the file identifier of the new file
+	 * @param comSet a byte array representing
+	 * the communication settings to be set in the new file
+	 * @param ar a byte array representing
+	 * the new access rights to be set in the new file
+	 * @param recSize a byte array representing
+	 * the size of each record in the file
+	 * @param maxNumOfRecords a byte array representing the maximum number
+	 * of records that can be created within the file
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
-	public byte[] CreateLinearRecordFile(byte[] fid, byte[] comSet, byte[] accessRights, byte[] recordSize, byte[] maxNumOfRecords){		
+	public byte[] CreateLinearRecordFile(byte[] fid, byte[] comSet,
+			byte[] ar, byte[] recSize, byte[] maxNumOfRecords){		
 		
-		if((fid == null)|| (comSet == null) || (accessRights == null) || (recordSize == null) || (maxNumOfRecords == null))
+		if((fid == null)|| (comSet == null) || (ar == null) ||
+				(recSize == null) || (maxNumOfRecords == null))
 			throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.CREATE_LINEAR_RECORD_FILE.toBA(), fid, comSet, accessRights, recordSize, maxNumOfRecords);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.CREATE_LINEAR_RECORD_FILE.toBA(),
+				fid, comSet, ar, recSize, maxNumOfRecords);
 		
 		return send(com);
 		
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param ISOFid
-	 * @param comSet
-	 * @param accessRights
-	 * @param recordSize
-	 * @param maxNumOfRecords
+	 * Executes the raw version of the Create Linear
+	 * Record File command, as defined in the Mifare DESFire EV1 API.
+	 * @param fid a byte array representing
+	 * the file identifier of the new file
+	 * @param isoFid a byte array representing 
+	 * the ISO file identifier of the new file
+	 * @param comSet an instance of class <code>ComSet</code> representing
+	 * the communication settings to be set in the new file
+	 * @param ar an instance of class <code>AccessRights</code> representing
+	 * the new access rights to be set in the new file
+	 * @param recSize an instance of class <code>Size</code> representing
+	 * the size of each record in the file
+	 * @param maxNumOfRecords an integer representing the maximum number
+	 * of records that can be created within the file
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
-	public byte[] CreateLinearRecordFile(byte[] fid, byte[] ISOFid, byte[] comSet, byte[] accessRights, byte[] recordSize, byte[] maxNumOfRecords){		
+	public byte[] CreateLinearRecordFile(byte[] fid, byte[] isoFid,
+			byte[] comSet, byte[] ar, byte[] recSize,
+			byte[] maxNumOfRecords){		
 		
-		if((fid == null)|| (ISOFid == null) || (comSet == null) || (accessRights == null) || (recordSize == null) || (maxNumOfRecords == null))
+		if((fid == null)|| (isoFid == null) || (comSet == null) ||
+				(ar == null) || (recSize == null) ||
+				(maxNumOfRecords == null))
 			throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.CREATE_LINEAR_RECORD_FILE.toBA(), fid, ISOFid, comSet, accessRights, recordSize, maxNumOfRecords);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.CREATE_LINEAR_RECORD_FILE.toBA(),
+				fid, isoFid, comSet, ar, recSize,
+				maxNumOfRecords);
 		
 		return send(com);
 		
@@ -2057,19 +2338,28 @@ public class DFCard {
 	//Create Cyclic Record File
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param comSet
-	 * @param ar
-	 * @param recSize
-	 * @param maxNumOfRecords
+	 * Executes the interpreted version of the Create Cyclic
+	 * Record File command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the new file
+	 * @param comSet an instance of class <code>ComSet</code> representing
+	 * the communication settings to be set in the new file
+	 * @param ar an instance of class <code>AccessRights</code> representing
+	 * the new access rights to be set in the new file
+	 * @param recSize an instance of class <code>Size</code> representing
+	 * the size of each record in the file
+	 * @param maxNumOfRecords an integer representing the maximum number
+	 * of records that can be kept within the file at one time
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
 	 */
-	public DFResponse createCyclicRecordFile(FID fid, ComSet comSet, AccessRights ar, Size recSize, int maxNumOfRecords){
+	public DFResponse createCyclicRecordFile(FID fid, ComSet comSet,
+			AccessRights ar, Size recSize, int maxNumOfRecords){
 				
-		if((fid == null) || (comSet == null) || (ar == null) || (recSize == null))
+		if((fid == null) || (comSet == null) || (ar == null) ||
+				(recSize == null))
 			throw new NullPointerException();
 		
 		byte[] fidBA = fid.toBA();
@@ -2078,16 +2368,20 @@ public class DFCard {
 		byte[] recSizeBA = recSize.toBA();
 		byte[] maxBA = BAUtils.toBA(maxNumOfRecords, 3);
 		
-		byte[] res = CreateCyclicRecordFile(fidBA, comSetBA, arBA, recSizeBA, maxBA);
+		byte[] res = CreateCyclicRecordFile(fidBA, comSetBA, arBA,
+				recSizeBA, maxBA);
 		
 		if(!SC.isOk(res)){
 			session.resetAuth();
 			return new DFResponse(res);
 		}
 		
-		byte[] data = BAUtils.concatenateBAs(fidBA, comSetBA, arBA, recSizeBA, maxBA);
+		byte[] data = BAUtils.concatenateBAs(fidBA, comSetBA, arBA,
+				recSizeBA, maxBA);
 		
-		DFCrypto.updateCmacIV(ComCode.CREATE_CYCLIC_RECORD_FILE, data, getSession());
+		DFCrypto.updateCmacIV(
+				ComCode.CREATE_CYCLIC_RECORD_FILE,
+				data, getSession());
 		
 		DFCrypto.checkCMAC(res, getSession());
 		
@@ -2096,19 +2390,29 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param isoFid
-	 * @param comSet
-	 * @param ar
-	 * @param recSize
-	 * @param maxNumOfRecords
+	 * Executes the interpreted version of the Create Cyclic
+	 * Record File command, as defined in the Mifare DESFire EV1 API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the new file
+	 * @param isoFid an instance of class <code>ISOFileID</code> representing 
+	 * the ISO file identifier of the new file
+	 * @param comSet an instance of class <code>ComSet</code> representing
+	 * the communication settings to be set in the new file
+	 * @param ar an instance of class <code>AccessRights</code> representing
+	 * the new access rights to be set in the new file
+	 * @param recSize an instance of class <code>Size</code> representing
+	 * the size of each record in the file
+	 * @param maxNumOfRecords an integer representing the maximum number
+	 * of records that can be kept within the file at one time
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
 	 */
-	public DFResponse createCyclicRecordFile(FID fid, ISOFileID isoFid, 
-			ComSet comSet, AccessRights ar, Size recSize, int maxNumOfRecords){
+	public DFResponse createCyclicRecordFile(
+			FID fid, ISOFileID isoFid, 
+			ComSet comSet, AccessRights ar, Size recSize, 
+			int maxNumOfRecords){
 				
 		if((fid == null) || (isoFid == null) || 
 				(comSet == null) || (ar == null) || 
@@ -2143,51 +2447,67 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param comSet
-	 * @param accessRights
-	 * @param recordSize
-	 * @param maxNumOfRecords
+	 * Executes the raw version of the Create Cyclic
+	 * Record File command, as defined in the Mifare DESFire API.
+	 * @param fid a byte array representing
+	 * the file identifier of the new file
+	 * @param comSet a byte array representing
+	 * the communication settings to be set in the new file
+	 * @param ar a byte array representing
+	 * the new access rights to be set in the new file
+	 * @param recSize a byte array representing
+	 * the size of each record in the file
+	 * @param maxNumOfRecords a byte array representing the maximum number
+	 * of records that can be kept within the file at one time
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
 	public byte[] CreateCyclicRecordFile(byte[] fid, byte[] comSet, 
-			byte[] accessRights, byte[] recordSize, byte[] maxNumOfRecords){
+			byte[] ar, byte[] recSize, byte[] maxNumOfRecords){
 				
 		if((fid == null)|| (comSet == null) || 
-				(accessRights == null) || (recordSize == null) || 
+				(ar == null) || (recSize == null) || 
 				(maxNumOfRecords == null))
 			throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.CREATE_CYCLIC_RECORD_FILE.toBA(), 
-				fid, comSet, accessRights, recordSize, maxNumOfRecords);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.CREATE_CYCLIC_RECORD_FILE.toBA(), 
+				fid, comSet, ar, recSize, maxNumOfRecords);
 		
 		return send(com);
 		
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param ISOFid
-	 * @param comSet
-	 * @param accessRights
-	 * @param recordSize
-	 * @param maxNumOfRecords
+	 * Executes the raw version of the Create Cyclic
+	 * Record File command, as defined in the Mifare DESFire API.
+	 * @param fid a byte array representing
+	 * the file identifier of the new file
+	 * @param isoFid a byte array representing 
+	 * the ISO file identifier of the new file
+	 * @param comSet a byte array representing
+	 * the communication settings to be set in the new file
+	 * @param ar a byte array representing
+	 * the new access rights to be set in the new file
+	 * @param recSize a byte array representing
+	 * the size of each record in the file
+	 * @param maxNumOfRecords a byte array representing the maximum number
+	 * of records that can be kept within the file at one time
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
-	public byte[] CreateCyclicRecordFile(byte[] fid, byte[] ISOFid, byte[] comSet, 
-			byte[] accessRights, byte[] recordSize, byte[] maxNumOfRecords){		
+	public byte[] CreateCyclicRecordFile(
+			byte[] fid, byte[] isoFid, byte[] comSet, 
+			byte[] ar, byte[] recSize, byte[] maxNumOfRecords){		
 		
-		if((fid == null)|| (ISOFid == null) || 
-				(comSet == null) || (accessRights == null) || 
-				(recordSize == null) || (maxNumOfRecords == null))
+		if((fid == null)|| (isoFid == null) || 
+				(comSet == null) || (ar == null) || 
+				(recSize == null) || (maxNumOfRecords == null))
 			throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.CREATE_CYCLIC_RECORD_FILE.toBA(), 
-				fid, ISOFid, comSet, accessRights, recordSize, maxNumOfRecords);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.CREATE_CYCLIC_RECORD_FILE.toBA(), 
+				fid, isoFid, comSet, ar, recSize, maxNumOfRecords);
 		
 		return send(com);
 		
@@ -2196,8 +2516,11 @@ public class DFCard {
 	//Delete File
 	
 	/**
-	 * 
-	 * @param fid
+	 * Executes the interpreted version of the Delete File
+	 * command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be deleted
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -2224,8 +2547,10 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param fid
+	 * Executes the raw version of the Delete File
+	 * command, as defined in the Mifare DESFire API.
+	 * @param fid a byte array representing
+	 * the file identifier of the file to be deleted
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -2233,7 +2558,8 @@ public class DFCard {
 		
 		if(fid == null) throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.DELETE_FILE.toBA(), fid);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.DELETE_FILE.toBA(), fid);
 		
 		return send(com);
 		
@@ -2244,11 +2570,18 @@ public class DFCard {
 	//Write Data
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param offset
-	 * @param data
-	 * @param fileSet
+	 * Executes the interpreted version of the Write Data
+	 * command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be written in
+	 * @param offset an instance of class <code>Size</code> representing
+	 * the initial position where the data should be written within the file
+	 * @param data an instance of class <code>Data</code> containing the data
+	 * bytes to be written
+	 * @param fileSet an instance of class <code>DataFileSettings</code>
+	 * representing the current File Settings of the file to be written in,
+	 * as obtained by the Get File Settings command
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -2266,12 +2599,19 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param offset
-	 * @param data
-	 * @param comSet
-	 * @param ar
+	 * Executes the interpreted version of the Write Data
+	 * command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be written in
+	 * @param offset an instance of class <code>Size</code> representing
+	 * the initial position where the data should be written within the file
+	 * @param data an instance of class <code>Data</code> containing the data
+	 * bytes to be written
+	 * @param comSet an instance of <code>ComSet</code>
+	 * representing the current Communication Settings of the file
+	 * @param ar an instance of <code>AccessRights</code>
+	 * representing the current Access Rights of the file
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -2305,11 +2645,16 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param offset
-	 * @param length
-	 * @param data
+	 * Executes the raw version of the Write Data
+	 * command, as defined in the Mifare DESFire API.
+	 * @param fid a byte array representing
+	 * the file identifier of the file to be written in
+	 * @param offset a byte array representing
+	 * the initial position where the data should be written within the file
+	 * @param length a byte array representing the number of data bytes to
+	 * be written 
+	 * @param data a byte array containing the data
+	 * bytes to be written, transformed for security as required
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -2348,11 +2693,19 @@ public class DFCard {
 	//Read Data
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param offset
-	 * @param length
-	 * @param fileSet
+	 * Executes the interpreted version of the Read Data
+	 * command, as defined in the Mifare DESFire API.
+	 * Response includes an object of class <code>DataRes</code>,
+	 * which can be retrieved with its method <code>getDataRes()</code>
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be read from
+	 * @param offset an instance of class <code>Size</code> representing
+	 * the initial position where the data should be read from the file
+	 * @param length an instance of class <code>Size</code> representing 
+	 * the number of data bytes to be read 
+	 * @param fileSet an instance of class <code>DataFileSettings</code>
+	 * representing the current File Settings of the file to be read from,
+	 * as obtained by the Get File Settings command
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -2370,12 +2723,20 @@ public class DFCard {
 	}	
 		
 	/**
-	 * 	
-	 * @param fid
-	 * @param offset
-	 * @param length
-	 * @param comSet
-	 * @param ar
+	 * Executes the interpreted version of the Read Data
+	 * command, as defined in the Mifare DESFire API.
+	 * Response includes an object of class <code>DataRes</code>,
+	 * which can be retrieved with its method <code>getDataRes()</code>.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be read from
+	 * @param offset an instance of class <code>Size</code> representing
+	 * the initial position where the data should be read from the file
+	 * @param length an instance of class <code>Size</code> representing 
+	 * the number of data bytes to be read
+	 * @param comSet an instance of <code>ComSet</code>
+	 * representing the current Communication Settings of the file
+	 * @param ar an instance of <code>AccessRights</code>
+	 * representing the current Access Rights of the file
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -2411,10 +2772,14 @@ public class DFCard {
 	}	
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param offset
-	 * @param length
+	 * Executes the raw version of the Read Data
+	 * command, as defined in the Mifare DESFire API.
+	 * @param fid a byte array representing
+	 * the file identifier of the file to be read from
+	 * @param offset a byte array representing
+	 * the initial position where the data should be read from the file
+	 * @param length a byte array representing 
+	 * the number of data bytes to be read
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -2451,9 +2816,15 @@ public class DFCard {
 	//Get Value
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param fileSet
+	 * Executes the interpreted version of the Get Value
+	 * command, as defined in the Mifare DESFire API.
+	 * Response includes an object of class <code>ValueRes</code>,
+	 * which can be retrieved with its method <code>getValueRes()</code>
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be read from
+	 * @param fileSet an instance of class <code>ValueFileSettings</code>
+	 * representing the current File Settings of the file to be read from,
+	 * as obtained by the Get File Settings command
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -2463,23 +2834,31 @@ public class DFCard {
 		if((fid == null) || (fileSet == null)) 
 			throw new NullPointerException();
 		
-		return getValue(fid, fileSet.getComSet(), fileSet.getAccessRights(), 
+		return getValue(fid, fileSet.getComSet(), 
+				fileSet.getAccessRights(), 
 				fileSet.getFreeValueEnabled());
 			
 	}	
 		
 	/**
-	 * 
-	 * @param fid
-	 * @param comSet
-	 * @param ar
-	 * @param getFreeValue
+	 * Executes the interpreted version of the Get Value
+	 * command, as defined in the Mifare DESFire EV1 API.
+	 * Response includes an object of class <code>ValueRes</code>,
+	 * which can be retrieved with its method <code>getValueRes()</code>
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be read from
+	 * @param comSet an instance of <code>ComSet</code>
+	 * representing the current Communication Settings of the file
+	 * @param ar an instance of <code>AccessRights</code>
+	 * representing the current Access Rights of the file
+	 * @param freeGetValue a boolean indicating whether free read access to the
+	 * current value is permited or not
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
 	 */
 	public DFResponse getValue(FID fid, ComSet comSet, AccessRights ar, 
-			boolean getFreeValue){
+			boolean freeGetValue){
 		
 		if((fid == null) || (comSet == null) || 
 				(ar == null)) 
@@ -2497,21 +2876,24 @@ public class DFCard {
 		DFCrypto.updateCmacIV(ComCode.GET_VALUE, fidBA, getSession());
 		
 		ValueRes valueRes = DFCrypto.getValueRes(res, comSet, ar, 
-				getFreeValue, getSession());
+				freeGetValue, getSession());
 		
 		return new DFResponse(SC.OPERATION_OK, valueRes);
 		
 	}	
 		
 	/**
-	 * 
-	 * @param fid
+	 * Executes the raw version of the Get Value
+	 * command, as defined in the Mifare DESFire API.
+	 * @param fid a byte array representing
+	 * the file identifier of the file to be read from
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
 	public byte[] GetValue(byte[] fid){
 		
-		if(fid == null) throw new NullPointerException();
+		if(fid == null) 
+			throw new NullPointerException();
 		
 		byte[] com = BAUtils.concatenateBAs(ComCode.GET_VALUE.toBA(), fid);
 		
@@ -2522,15 +2904,22 @@ public class DFCard {
 	//Credit
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param value
-	 * @param fileSet
+	 * Executes the interpreted version of the Credit
+	 * command, as defined in the Mifare DESFire API.
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be edited
+	 * @param value an instance of class <code>Value</code>
+	 * representing the amount to increase
+	 * @param fileSet an instance of class <code>ValueFileSettings</code>
+	 * representing the current File Settings of the file,
+	 * as obtained by the Get File Settings command
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
 	 */
-	public DFResponse credit(FID fid, Value value, ValueFileSettings fileSet){
+	public DFResponse credit(FID fid, Value value, 
+			ValueFileSettings fileSet){
 		
 		if((fid == null) || (value == null) || 
 				(fileSet == null)) 
@@ -2542,10 +2931,17 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param comSet
-	 * @param ar
+	 * Executes the interpreted version of the Credit
+	 * command, as defined in the Mifare DESFire API.
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be edited
+	 * @param value an instance of class <code>Value</code>
+	 * representing the amount to increase
+	 * @param comSet an instance of <code>ComSet</code>
+	 * representing the current Communication Settings of the file
+	 * @param ar an instance of <code>AccessRights</code>
+	 * representing the current Access Rights of the file
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -2577,9 +2973,12 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param data
+	 * Executes the raw version of the Credit
+	 * command, as defined in the Mifare DESFire API.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be edited
+	 * @param data a byte array representing the amount to increase,
+	 * transformed for security as required
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -2597,15 +2996,22 @@ public class DFCard {
 	//Debit
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param value
-	 * @param fileSet
+	 * Executes the interpreted version of the Debit
+	 * command, as defined in the Mifare DESFire API.
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be edited
+	 * @param value an instance of class <code>Value</code>
+	 * representing the amount to decrease
+	 * @param fileSet an instance of class <code>ValueFileSettings</code>
+	 * representing the current File Settings of the file,
+	 * as obtained by the Get File Settings command
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
 	 */
-	public DFResponse debit(FID fid, Value value, ValueFileSettings fileSet){
+	public DFResponse debit(FID fid, Value value, 
+			ValueFileSettings fileSet){
 		
 		if((fid == null) || (value == null) || 
 				(fileSet == null)) 
@@ -2617,10 +3023,17 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param comSet
-	 * @param ar
+	 * Executes the interpreted version of the Debit
+	 * command, as defined in the Mifare DESFire API.
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be edited
+	 * @param value an instance of class <code>Value</code>
+	 * representing the amount to decrease
+	 * @param comSet an instance of <code>ComSet</code>
+	 * representing the current Communication Settings of the file
+	 * @param ar an instance of <code>AccessRights</code>
+	 * representing the current Access Rights of the file
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -2651,9 +3064,12 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param data
+	 * Executes the raw version of the Debit
+	 * command, as defined in the Mifare DESFire API.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be edited
+	 * @param data a byte array representing the amount to decrease,
+	 * transformed for security as required
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -2671,10 +3087,16 @@ public class DFCard {
 	//Limited Credit
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param value
-	 * @param fileSet
+	 * Executes the interpreted version of the Limited Credit
+	 * command, as defined in the Mifare DESFire API.
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be edited
+	 * @param value an instance of class <code>Value</code>
+	 * representing the amount to increase
+	 * @param fileSet an instance of class <code>ValueFileSettings</code>
+	 * representing the current File Settings of the file,
+	 * as obtained by the Get File Settings command
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -2692,10 +3114,17 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param comSet
-	 * @param ar
+	 * Executes the interpreted version of the Limited Credit
+	 * command, as defined in the Mifare DESFire API.
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be edited
+	 * @param value an instance of class <code>Value</code>
+	 * representing the amount to increase
+	 * @param comSet an instance of <code>ComSet</code>
+	 * representing the current Communication Settings of the file
+	 * @param ar an instance of <code>AccessRights</code>
+	 * representing the current Access Rights of the file
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -2726,9 +3155,12 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param data
+	 * Executes the raw version of the Limited Credit
+	 * command, as defined in the Mifare DESFire API.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be edited
+	 * @param data a byte array representing the amount to increase,
+	 * transformed for security as required
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -2747,11 +3179,19 @@ public class DFCard {
 	//Write Record
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param offset
-	 * @param data
-	 * @param fileSet
+	 * Executes the interpreted version of the Write Record
+	 * command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be written in
+	 * @param offset an instance of class <code>Size</code> representing
+	 * the initial position where the data should be written 
+	 * within the new record
+	 * @param data an instance of class <code>Data</code> containing the data
+	 * bytes to be written
+	 * @param fileSet an instance of class <code>RecordFileSettings</code>
+	 * representing the current File Settings of the file to be written in,
+	 * as obtained by the Get File Settings command
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -2769,12 +3209,20 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param offset
-	 * @param data
-	 * @param comSet
-	 * @param ar
+	 * Executes the interpreted version of the Write Record
+	 * command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be written in
+	 * @param offset an instance of class <code>Size</code> representing
+	 * the initial position where the data should be written within 
+	 * the new record
+	 * @param data an instance of class <code>Data</code> containing 
+	 * the data bytes to be written
+	 * @param comSet an instance of <code>ComSet</code>
+	 * representing the current Communication Settings of the file
+	 * @param ar an instance of <code>AccessRights</code>
+	 * representing the current Access Rights of the file
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -2808,10 +3256,17 @@ public class DFCard {
 	
 	/**
 	 * 
-	 * @param fid
-	 * @param offset
-	 * @param length
-	 * @param data
+	 * Executes the raw version of the Write Record
+	 * command, as defined in the Mifare DESFire API.
+	 * @param fid a byte array representing
+	 * the file identifier of the file to be written in
+	 * @param offset a byte array representing
+	 * the initial position where the data should be written 
+	 * within the new record
+	 * @param length a byte array representing the number of 
+	 * data bytes to be written 
+	 * @param data a byte array containing the data
+	 * bytes to be written, transformed for security as required
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -2850,11 +3305,18 @@ public class DFCard {
 	//Read Records
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param offset
-	 * @param length
-	 * @param fileSet
+	 * Executes the interpreted version of the Read Records
+	 * command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be read from
+	 * @param offset an instance of class <code>Size</code> representing
+	 * the initial record where the data should be read
+	 * @param length an instance of class <code>Data</code> containing 
+	 * the number of records to be read
+	 * @param fileSet an instance of class <code>RecordFileSettings</code>
+	 * representing the current File Settings of the file to be read from,
+	 * as obtained by the Get File Settings command
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -2873,12 +3335,23 @@ public class DFCard {
 	}	
 		
 	/**
-	 * 	
-	 * @param fid
-	 * @param offset
-	 * @param length
-	 * @param comSet
-	 * @param ar
+	 * Executes the interpreted version of the Read Records
+	 * command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be read from
+	 * @param offset an instance of class <code>Size</code> representing
+	 * the initial record where the data should be read
+	 * @param length an instance of class <code>Data</code> containing 
+	 * the number of records to be read
+	 * @param recSize an instance of class <code>Size</code> representing
+	 * the size of the records stored in the file
+	 * @param currNumOfRecords an integer indicating the current number
+	 * of records stored in the file
+	 * @param comSet an instance of <code>ComSet</code>
+	 * representing the current Communication Settings of the file
+	 * @param ar an instance of <code>AccessRights</code>
+	 * representing the current Access Rights of the file
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -2907,18 +3380,22 @@ public class DFCard {
 				BAUtils.concatenateBAs(fidBA, offsetBA, lengthBA), 
 				getSession());
 		
-		RecordsRes recordsRes = DFCrypto.getRecordsRes(res, length, recSize,
-				comSet, ar, getSession());
+		RecordsRes recordsRes = DFCrypto.getRecordsRes(
+				res, length, recSize, comSet, ar, getSession());
 		
 		return new DFResponse(SC.OPERATION_OK, recordsRes);
 		
 	}	
 	
 	/**
-	 * 
-	 * @param fid
-	 * @param offset
-	 * @param length
+	 * Executes the raw version of the Read Records
+	 * command, as defined in the Mifare DESFire API.
+	 * @param fid a byte array representing
+	 * the file identifier of the file to be read from
+	 * @param offset a byte array representing
+	 * the initial record where the data should be read
+	 * @param length a byte array containing 
+	 * the number of records to be read
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -2955,8 +3432,11 @@ public class DFCard {
 	//Clear Record File
 	
 	/**
-	 * 
-	 * @param fid
+	 * Executes the interpreted version of the Clear Record File
+	 * command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
+	 * @param fid an instance of class <code>FID</code> representing
+	 * the file identifier of the file to be cleared
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -2983,8 +3463,10 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param fid
+	 * Executes the raw version of the Clear Record File
+	 * command, as defined in the Mifare DESFire API. 
+	 * @param fid a byte array representing
+	 * the file identifier of the file to be written in
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -2992,7 +3474,8 @@ public class DFCard {
 		
 		if(fid == null) throw new NullPointerException();
 		
-		byte[] com = BAUtils.concatenateBAs(ComCode.CLEAR_RECORD_FILE.toBA(), fid);
+		byte[] com = BAUtils.concatenateBAs(
+				ComCode.CLEAR_RECORD_FILE.toBA(), fid);
 		
 		return send(com);
 		
@@ -3001,7 +3484,9 @@ public class DFCard {
 	//Commit Transaction
 	
 	/**
-	 * 
+	 * Executes the interpreted version of the Commit Transaction
+	 * command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -3026,7 +3511,8 @@ public class DFCard {
 	}	
 	
 	/**
-	 * 
+	 * Executes the raw version of the Commit Transaction
+	 * command, as defined in the Mifare DESFire API.  
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -3041,7 +3527,9 @@ public class DFCard {
 	//Abort Transaction
 	
 	/**
-	 * 
+	 * Executes the interpreted version of the Abort Transaction
+	 * command, as defined in the Mifare DESFire API. 
+	 * Response only includes the Status Code returned by the card.
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -3066,7 +3554,8 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
+	 * Executes the raw version of the Abort Transaction
+	 * command, as defined in the Mifare DESFire API.
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -3078,8 +3567,11 @@ public class DFCard {
 		
 	}
 	
+	//**//
+	
 	/**
-	 * 
+	 * Performs a ISO Select command, needed for determining if Mifare
+	 * DESFire API commands should be sent in wrapped or native format
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
 	 * to the transmitted command
@@ -3097,7 +3589,8 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
+	 * Performs a ISO Select command, needed for determining if Mifare
+	 * DESFire API commands should be sent in wrapped or native format
 	 * @return a byte array representing the response obtained
 	 * from the Mifare DESFire card to the transmitted command
 	 */
@@ -3275,7 +3768,7 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
+	 * Re-starts the current communication session
 	 */
 	public void resetSession(){
 		
@@ -3284,11 +3777,15 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param auth
-	 * @param authKeyNum
-	 * @param sessionKey
-	 * @param PICCAuth
+	 * Configures the current communication session
+	 * @param auth an instance of <code>AuthType</code> indicating
+	 * the current type of authentication
+	 * @param authKeyNum an integer indicating the number of the key
+	 * currently authenticated
+	 * @param sessionKey a byte array containing the current session
+	 * key
+	 * @param PICCAuth a boolen indicating whether the card is
+	 * currently successfully authenticated or not
 	 */
 	public void setSession(AuthType auth, int authKeyNum, 
 			byte[] sessionKey, boolean PICCAuth){
@@ -3301,14 +3798,12 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the current session
 	 */
 	public DFSession getSession(){ return this.session; }
 	
 	/**
-	 * 
-	 * @param ct
+	 * @param ct the current card type
 	 */
 	public void setCardType(CardType ct){
 		
@@ -3319,8 +3814,7 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @param version
+	 * @param the version of the card
 	 */
 	public void setCardType(PICCVersion version){
 		
@@ -3332,8 +3826,7 @@ public class DFCard {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the current card type
 	 */
 	public CardType getCardType(){
 		

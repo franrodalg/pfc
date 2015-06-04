@@ -12,8 +12,10 @@ public class DFResponse {
 	 */
     public DFResponse(byte[] sc){
     	
-    	if(sc == null) throw new NullPointerException();
-    	if(sc.length != 1) throw new IllegalArgumentException();
+    	if(sc == null) 
+    		throw new NullPointerException();
+    	if(sc.length != 1) 
+    		throw new IllegalArgumentException();
     	
         this.sc = SC.toSC(sc);
 
@@ -44,7 +46,6 @@ public class DFResponse {
         this.field = field;
     
     }
-
     
     /**
      * 
@@ -85,8 +86,7 @@ public class DFResponse {
             return (KeyVersion)this.field;
 
 		throw new DFLException(ExType.WRONG_FIELD_CLASS);
-    	
-    	
+    	 	
     }
     
     /**
@@ -95,14 +95,14 @@ public class DFResponse {
      */
 	public KeySettings getKeySettings(){
 
-        if(this.field instanceof KeySettings) return (KeySettings)this.field;
+        if(this.field instanceof KeySettings) 
+        	return (KeySettings)this.field;
         else if(this.field instanceof KeySettingsRes)
             return ((KeySettings)((KeySettingsRes)this.field).getKeySettings());
         throw new DFLException(ExType.WRONG_FIELD_CLASS);
 
 	}
-	
-	   
+		   
     /**
      * 
      * @return
@@ -123,11 +123,11 @@ public class DFResponse {
 	 */
 	public AIDS getAIDs(){
 		
-		if(this.field instanceof AIDS) return (AIDS)this.field;
+		if(this.field instanceof AIDS) 
+			return (AIDS)this.field;
 
 		throw new DFLException(ExType.WRONG_FIELD_CLASS);
-		
-		
+			
 	}
 	
 	/**
@@ -136,7 +136,8 @@ public class DFResponse {
 	 */
 	public Size getFreeMemory(){
 		
-		if(this.field instanceof Size) return (Size)this.field;
+		if(this.field instanceof Size) 
+			return (Size)this.field;
 		
 		throw new DFLException(ExType.WRONG_FIELD_CLASS);
 		
@@ -148,7 +149,8 @@ public class DFResponse {
 	 */
 	public PICCVersion getPICCVersion(){
 		
-		if(this.field instanceof PICCVersion) return (PICCVersion)this.field;
+		if(this.field instanceof PICCVersion) 
+			return (PICCVersion)this.field;
 		
 		throw new DFLException(ExType.WRONG_FIELD_CLASS);
 	}
@@ -159,7 +161,8 @@ public class DFResponse {
 	 */
 	public UIDRes getUIDRes(){
 		
-		if(this.field instanceof UIDRes) return (UIDRes)this.field;
+		if(this.field instanceof UIDRes) 
+			return (UIDRes)this.field;
 		
 		throw new DFLException(ExType.WRONG_FIELD_CLASS);	
 		
@@ -171,8 +174,10 @@ public class DFResponse {
 	 */
 	public UID getUID(){
 		
-		if(this.field instanceof UIDRes) return ((UIDRes)this.field).getUID();
-		else if(this.field instanceof PICCVersion) return ((PICCVersion)this.field).getUID();
+		if(this.field instanceof UIDRes) 
+			return ((UIDRes)this.field).getUID();
+		else if(this.field instanceof PICCVersion) 
+			return ((PICCVersion)this.field).getUID();
 		
 		throw new DFLException(ExType.WRONG_FIELD_CLASS);
 		
@@ -184,7 +189,8 @@ public class DFResponse {
 	 */
 	public DFNamesRes getDFNames(){
 		
-		if(this.field instanceof DFNamesRes) return (DFNamesRes)this.field;
+		if(this.field instanceof DFNamesRes) 
+			return (DFNamesRes)this.field;
 		
 		throw new DFLException(ExType.WRONG_FIELD_CLASS);
 		
@@ -196,7 +202,8 @@ public class DFResponse {
 	 */
 	public FIDS getFIDs(){
 		
-	if(this.field instanceof FIDS) return (FIDS)this.field;
+	if(this.field instanceof FIDS) 
+		return (FIDS)this.field;
 		
 		throw new DFLException(ExType.WRONG_FIELD_CLASS);
 		
@@ -208,7 +215,8 @@ public class DFResponse {
 	 */
 	public ISOFileIDS getISOFileIDs(){
 		
-		if(this.field instanceof ISOFileIDS) return (ISOFileIDS)this.field;
+		if(this.field instanceof ISOFileIDS) 
+			return (ISOFileIDS)this.field;
 		
 		throw new DFLException(ExType.WRONG_FIELD_CLASS);
 		
@@ -220,7 +228,8 @@ public class DFResponse {
 	 */
 	public FileSettings getFileSettings(){
 		
-		if(this.field instanceof FileSettings) return (FileSettings)this.field;
+		if(this.field instanceof FileSettings) 
+			return (FileSettings)this.field;
 		
 		throw new DFLException(ExType.WRONG_FIELD_CLASS);
 	
@@ -232,7 +241,8 @@ public class DFResponse {
 	 */
 	public DataRes getDataRes(){
 		
-		if(this.field instanceof DataRes) return (DataRes)this.field;
+		if(this.field instanceof DataRes) 
+			return (DataRes)this.field;
 		
 		throw new DFLException(ExType.WRONG_FIELD_CLASS);
 		
@@ -244,7 +254,8 @@ public class DFResponse {
 	 */
 	public ValueRes getValueRes(){
 		
-		if(this.field instanceof ValueRes) return (ValueRes)this.field;
+		if(this.field instanceof ValueRes) 
+			return (ValueRes)this.field;
 		
 		throw new DFLException(ExType.WRONG_FIELD_CLASS);
 		
@@ -256,7 +267,8 @@ public class DFResponse {
 	 */
 	public RecordsRes getRecordsRes(){
 		
-		if(this.field instanceof RecordsRes) return (RecordsRes)this.field;
+		if(this.field instanceof RecordsRes) 
+			return (RecordsRes)this.field;
 		
 		throw new DFLException(ExType.WRONG_FIELD_CLASS);
 		
@@ -269,11 +281,11 @@ public class DFResponse {
     	
         if((this.field == null) || !this.isOk())
             return this.getSC().toString() + "\n";
-        else return this.getSC().toString() + "\n" + field.toString() + "\n";
+        else 
+        	return this.getSC().toString() + "\n" + field.toString() + "\n";
 
     }
 
-    
 	private SC sc;
     private Object field;
 	
