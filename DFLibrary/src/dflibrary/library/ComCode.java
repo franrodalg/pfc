@@ -445,4 +445,6 @@ public enum ComCode {
 	 */
 	public abstract byte[] toBA();
 	
+	@Override
+	public abstract String toString();
 }

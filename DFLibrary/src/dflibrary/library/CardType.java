@@ -83,6 +83,9 @@ public enum CardType {
 		
 	}
 	
+	@Override
+	public abstract String toString();
+	
 	public static final String DESFIRE_ATR = "3B8180018080";
 	public static final String MIFARE_CLASSIC_1K_ATR = "3B8F8001804F0CA000000306030001000000006A";
 	public static final String MIFARE_CLASSIC_4K_ATR = "3B8F8001804F0CA0000003060300020000000069";

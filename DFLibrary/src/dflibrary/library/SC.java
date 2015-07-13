@@ -333,4 +333,7 @@ public enum SC {
 			
 		}
 		
+		@Override
+		public abstract String toString();
+		
 	}
