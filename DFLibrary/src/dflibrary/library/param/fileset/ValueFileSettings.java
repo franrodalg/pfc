@@ -5,64 +5,81 @@ import dflibrary.utils.ba.DigitUtils.SignMode;
 import dflibrary.library.param.*;
 
 /**
- * 
+ * Provides an encapsulation for the file settings of value files
  * @author Francisco Rodríguez Algarra
- *
  */
 public class ValueFileSettings extends FileSettings{
 	
 	/**
-	 * 
+	 * Creates a default instance of class <code>ValueFileSettings</code>
 	 */
 	public ValueFileSettings(){		
 		
-		this(ComSet.PLAIN, new AccessRights(), new Value(), new Value(), new Value(), false, false);
+		this(ComSet.PLAIN, new AccessRights(), new Value(), new Value(), 
+				new Value(), false, false);
 		
 	}	
 	
 	/**
-	 * 
-	 * @param fileType
-	 * @param comSet
-	 * @param accessRights
+	 * Creates an instance of class <code>ValueFileSettings</code>
+	 * @param comSet an instance of class <code>ComSet</code> representing 
+	 * the file's communication settings
+	 * @param accessRights an instance of class <code>AccessRights</code> 
+	 * representing the file's access rights
 	 */
 	public ValueFileSettings(ComSet comSet, AccessRights accessRights){
 		
-		this(comSet, accessRights, new Value(), new Value(), new Value(), false, false);
+		this(comSet, accessRights, new Value(), new Value(), new Value(), 
+				false, false);
 		
 	}	
 	
 	/**
-	 * 
-	 * @param fileType
-	 * @param comSet
-	 * @param accessRights
-	 * @param lowerLimit
-	 * @param upperLimit
-	 * @param limitedCreditValue
-	 * @param LimitedCreditEnabled
+	 * Creates an instance of class <code>ValueFileSettings</code>
+	 * @param comSet an instance of class <code>ComSet</code> representing 
+	 * the file's communication settings
+	 * @param accessRights an instance of class <code>AccessRights</code> 
+	 * representing the file's access rights
+	 * @param lowerLimit an instance of class <code>Value</code> representing
+	 * the lower possible integer that can be stored in the file
+	 * @param upperLimit an instance of class <code>Value</code> representing
+	 * the higher possible integer that can be stored in the file
+	 * @param limitedCreditValue an instance of class <code>Value</code>
+	 * representing the maximum possible amount that can be increased via
+	 * a call to <code>limitedCredit</code>
+	 * @param limitedCreditEnabled a boolean indicating whether limited 
+	 * credit operations are allowed or not
 	 */
 	public ValueFileSettings(ComSet comSet, AccessRights accessRights,
-			Value lowerLimit, Value upperLimit, Value limitedCreditValue, boolean limitedCreditEnabled){
+			Value lowerLimit, Value upperLimit, Value limitedCreditValue, 
+			boolean limitedCreditEnabled){
 		
-		this(comSet, accessRights, lowerLimit, upperLimit, limitedCreditValue, limitedCreditEnabled, false);
+		this(comSet, accessRights, lowerLimit, upperLimit, limitedCreditValue, 
+				limitedCreditEnabled, false);
 		
 	}
 	
 	/**
-	 * 
-	 * @param fileType
-	 * @param comSet
-	 * @param accessRights
-	 * @param lowerLimit
-	 * @param upperLimit
-	 * @param limitedCreditValue
-	 * @param limitedCreditEnabled
-	 * @param getFreeValueEnabled
+	 * Creates an instance of class <code>ValueFileSettings</code>
+	 * @param comSet an instance of class <code>ComSet</code> representing 
+	 * the file's communication settings
+	 * @param accessRights an instance of class <code>AccessRights</code> 
+	 * representing the file's access rights
+	 * @param lowerLimit an instance of class <code>Value</code> representing
+	 * the lower possible integer that can be stored in the file
+	 * @param upperLimit an instance of class <code>Value</code> representing
+	 * the higher possible integer that can be stored in the file
+	 * @param limitedCreditValue an instance of class <code>Value</code>
+	 * representing the maximum possible amount that can be increased via
+	 * a call to <code>limitedCredit</code>
+	 * @param limitedCreditEnabled a boolean indicating whether limited 
+	 * credit operations are allowed or not
+	 * @param getFreeValueEnabled a boolean indicating whether get value
+	 * operations are allowed without previous authentication
 	 */
 	public ValueFileSettings(ComSet comSet, AccessRights accessRights,
-			Value lowerLimit, Value upperLimit, Value limitedCreditValue, boolean limitedCreditEnabled,
-			boolean getFreeValueEnabled){
+			Value lowerLimit, Value upperLimit, Value limitedCreditValue, 
+			boolean limitedCreditEnabled, boolean getFreeValueEnabled){
 		
 		super(FileType.VALUE, comSet, accessRights);
 		
@@ -72,10 +89,9 @@ public class ValueFileSettings extends FileSettings{
 		
 	}
 	
-	
 	/**
-	 * 
-	 * @param fileSet
+	 * Creates an instance of class <code>ValueFileSettings</code>
+	 * @param fileSet a byte array containing the file settings
 	 */
 	public ValueFileSettings(byte[] fileSet){
 		
@@ -95,8 +111,8 @@ public class ValueFileSettings extends FileSettings{
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return an instance of class <code>Value</code> representing
+	 * the lower possible integer that can be stored in the file
 	 */
 	public Value getLowerLimit(){
 		
@@ -105,8 +121,8 @@ public class ValueFileSettings extends FileSettings{
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return an instance of class <code>Value</code> representing
+	 * the higher possible integer that can be stored in the file
 	 */
 	public Value getUpperLimit(){
 		
@@ -114,9 +130,10 @@ public class ValueFileSettings extends FileSettings{
 		
 	}
 	
-	/**
-	 * 
-	 * @return
+	/** 
+	 * @return an instance of class <code>Value</code>
+	 * representing the maximum possible value that can be increased via
+	 * a call to <code>limitedCredit</code>
 	 */
 	public Value getLimitedCreditValue(){
 		
@@ -124,9 +141,9 @@ public class ValueFileSettings extends FileSettings{
 		
 	}
 	
-	/**
-	 * 
-	 * @return
+	/** 
+	 * @return <code>true</code> if limited credit operations are allowed;
+	 * <code>false</code> otherwise
 	 */
 	public boolean getLimitedCreditEnabled(){
 		
@@ -135,8 +152,9 @@ public class ValueFileSettings extends FileSettings{
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return <code>true</code> if get value
+	 * operations are allowed without previous authentication;
+	 * <code>false</code> otherwise
 	 */
 	public boolean getFreeValueEnabled(){
 		
@@ -145,8 +163,9 @@ public class ValueFileSettings extends FileSettings{
 	}
 	
 	/**
-	 * 
-	 * @param lowerLimit
+	 * @param lowerLimit a byte array 
+	 * representing the lower possible integer that can be 
+	 * stored in the file
 	 */
 	public void setLowerLimit(byte[] lowerLimit){
 		
@@ -158,21 +177,24 @@ public class ValueFileSettings extends FileSettings{
 	}
 	
 	/**
-	 * 
-	 * @param lowerLimit
+	 * @param lowerLimit an instance of class <code>Value</code> 
+	 * representing the lower possible integer that can be stored 
+	 * in the file
 	 */
 	public void setLowerLimit(Value lowerLimit){
 		
 		if(lowerLimit == null) throw new NullPointerException();
-		if(lowerLimit.getValue() > getUpperLimit().getValue()) throw new IllegalArgumentException();
+		if(lowerLimit.getValue() > getUpperLimit().getValue()) 
+			throw new IllegalArgumentException();
 		
 		this.lowerLimit = lowerLimit;
 		
 	}
 	
 	/**
-	 * 
-	 * @param upperLimit
+	 * @param upperLimit a byte array 
+	 * representing the higher possible integer that can be 
+	 * stored in the file
 	 */
 	public void setUpperLimit(byte[] upperLimit){
 		
@@ -184,40 +206,54 @@ public class ValueFileSettings extends FileSettings{
 	}
 	
 	/**
-	 * 
-	 * @param upperLimit
+	 * @param upperLimit an instance of class <code>Value</code> 
+	 * representing the higher possible integer that can be stored 
+	 * in the file
 	 */
 	public void setUpperLimit(Value upperLimit){
 		
 		if(upperLimit == null) throw new NullPointerException();
-		if(upperLimit.getValue() < getLowerLimit().getValue()) throw new IllegalArgumentException();
+		if(upperLimit.getValue() < getLowerLimit().getValue()) 
+			throw new IllegalArgumentException();
 		
 		this.upperLimit = upperLimit;
 		
 	}
 	
 	/**
-	 * 
-	 * @param lowerLimit
-	 * @param upperLimit
+	 * Sets both the lower and upper limits of the value file
+	 * @param lowerLimit a byte array 
+	 * representing the lower possible integer that can be 
+	 * stored in the file
+	 * @param upperLimit a byte array 
+	 * representing the higher possible integer that can be 
+	 * stored in the file
 	 */
 	public void setLimits(byte[] lowerLimit, byte[] upperLimit){
 		
-		if((lowerLimit == null) || (upperLimit == null)) throw new NullPointerException();
-		if((lowerLimit.length != 4) || (upperLimit.length != 4)) throw new IllegalArgumentException();
+		if((lowerLimit == null) || (upperLimit == null)) 
+			throw new NullPointerException();
+		if((lowerLimit.length != 4) || (upperLimit.length != 4)) 
+			throw new IllegalArgumentException();
 		
 		setLimits(new Value(lowerLimit), new Value(upperLimit));
 	}
 	
 	/**
-	 * 
-	 * @param lowerLimit
-	 * @param upperLimit
+	 * Sets both the lower and upper limits of the value file
+	 * @param lowerLimit an instance of class <code>Value</code> 
+	 * representing the lower possible integer that can be stored 
+	 * in the file
+	 * @param upperLimit an instance of class <code>Value</code> 
+	 * representing the higher possible integer that can be stored 
+	 * in the file
 	 */
 	public void setLimits(Value lowerLimit, Value upperLimit){
 		
-		if((upperLimit == null) || (lowerLimit == null)) throw new NullPointerException();
-		if(lowerLimit.getValue() > upperLimit.getValue()) throw new IllegalArgumentException();
+		if((upperLimit == null) || (lowerLimit == null)) 
+			throw new NullPointerException();
+		if(lowerLimit.getValue() > upperLimit.getValue()) 
+			throw new IllegalArgumentException();
 		
 		this.lowerLimit = lowerLimit;
 		this.upperLimit = upperLimit;
@@ -225,8 +261,9 @@ public class ValueFileSettings extends FileSettings{
 	}
 	
 	/**
-	 * 
-	 * @param value
+	 * @param value a byte array
+	 * representing the maximum possible amount that can be increased via
+	 * a call to <code>limitedCredit</code>
 	 */
 	public void setLimitedCreditValue(byte[] value){
 		
@@ -235,12 +272,12 @@ public class ValueFileSettings extends FileSettings{
 		
 		setLimitedCreditValue(new Value(value));
 		
-		
 	}
 	
-	/**
-	 * 
-	 * @param value
+	/** 
+	 * @param value an instance of class <code>Value</code>
+	 * representing the maximum possible amount that can be increased via
+	 * a call to <code>limitedCredit</code>
 	 */
 	public void setLimitedCreditValue(Value value){
 		
@@ -249,40 +286,47 @@ public class ValueFileSettings extends FileSettings{
 	}
 	
 	/**
-	 * 
-	 * @param enabled
+	 * @param enabled a byte array representing whether limited 
+	 * credit operations are allowed or not
 	 */
 	public void setLimitedCreditEnabled(byte[] enabled){
 		
 		if(enabled == null) throw new NullPointerException();
 		if(enabled.length != 1) throw new IllegalArgumentException();
 		
-		setLimitedCreditEnabled(BAUtils.toBoolean(BAUtils.and(enabled, BAUtils.toBA("01"))));
-		
-		
+		setLimitedCreditEnabled(BAUtils.toBoolean(
+				BAUtils.and(enabled, BAUtils.toBA("01"))));
+			
 	}
 	
 	/**
-	 * 
-	 * @param enabled
+	 * @param enabled a boolean indicating whether limited 
+	 * credit operations are allowed or not
 	 */
 	public void setLimitedCreditEnabled(boolean enabled){
 		
-		if((!enabled) && (getLimitedCreditValue().getValue() != 0)) throw new IllegalArgumentException();
+		if((!enabled) && (getLimitedCreditValue().getValue() != 0))
+			throw new IllegalArgumentException();
 		
 		this.limitedCreditEnabled = enabled;
 		
 	}
 	
 	/**
-	 * 
-	 * @param value
-	 * @param enabled
+	 * Sets both the amount and permission corresponding to
+	 * the limited credit operations
+	 * @param value a byte array
+	 * representing the maximum possible amount that can be increased via
+	 * a call to <code>limitedCredit</code>
+	 * @param enabled a byte array indicating whether get value
+	 * operations are allowed without previous authentication
 	 */
 	public void setLimitedCredit(byte[] value, byte[] enabled){
 		
-		if((value == null) || (enabled == null)) throw new NullPointerException();
-		if((value.length != 4) || (enabled.length != 1)) throw new IllegalArgumentException();
+		if((value == null) || (enabled == null))
+			throw new NullPointerException();
+		if((value.length != 4) || (enabled.length != 1))
+			throw new IllegalArgumentException();
 		
 		Value val = new Value(value);
 		boolean en = BAUtils.toBoolean(enabled);
@@ -292,9 +336,13 @@ public class ValueFileSettings extends FileSettings{
 	}
 	
 	/**
-	 * 
-	 * @param value
-	 * @param enabled
+	 * Sets both the amount and permission corresponding to
+	 * the limited credit operations
+	 * @param value an instance of class <code>Value</code>
+	 * representing the maximum possible amount that can be increased via
+	 * a call to <code>limitedCredit</code>
+	 * @param enabled a boolean indicating whether get value
+	 * operations are allowed without previous authentication
 	 */
 	public void setLimitedCredit(Value value, boolean enabled){
 		
@@ -306,8 +354,8 @@ public class ValueFileSettings extends FileSettings{
 	}
 
 	/**
-	 * 
-	 * @param limCredEnGetFreeValEn
+	 * @param limCredEnGetFreeValEn a byte array containing both
+	 * the limited credit and the free get value permissions
 	 */
 	public void setGetFreeValueEnabled(byte[] limCredEnGetFreeValEn){
 		
@@ -318,34 +366,34 @@ public class ValueFileSettings extends FileSettings{
 	}
 	
 	/**
-	 * 
-	 * @param enabled
+	 * @param enabled a boolean indicating whether get value
+	 * operations are allowed without previous authentication
 	 */
 	public void setGetFreeValueEnabled(boolean enabled){
 		
 		this.getFreeValueEnabled = enabled;
 	}
 	
-	/**
-	 * 
-	 */
+    @Override
 	public byte[] toBA(){
 		
 		byte[] lowerLimitBA = getLowerLimit().toBA();
 		byte[] upperLimitBA = getUpperLimit().toBA();
 		byte[] limitedCreditValueBA = getLimitedCreditValue().toBA();
 		
-		byte[] limitedCreditEnabledBA = BAUtils.toBA(getLimitedCreditEnabled());
+		byte[] limitedCreditEnabledBA = BAUtils.toBA(
+				getLimitedCreditEnabled());
 		
-		if(getFreeValueEnabled) limitedCreditEnabledBA = BAUtils.xor(limitedCreditEnabledBA, BAUtils.toBA("02"));
+		if(getFreeValueEnabled) 
+			limitedCreditEnabledBA = BAUtils.xor(
+					limitedCreditEnabledBA, BAUtils.toBA("02"));
 		
-		return BAUtils.concatenateBAs(super.toBA(), lowerLimitBA, upperLimitBA, limitedCreditValueBA, limitedCreditEnabledBA);
+		return BAUtils.concatenateBAs(super.toBA(), lowerLimitBA, 
+				upperLimitBA, limitedCreditValueBA, limitedCreditEnabledBA);
 		
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String toString(){
 		
 		String s = super.toString() + "\n";
@@ -365,5 +413,4 @@ public class ValueFileSettings extends FileSettings{
 	private boolean limitedCreditEnabled;
 	private boolean getFreeValueEnabled;
 	
-
 }

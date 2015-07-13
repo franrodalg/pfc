@@ -3,7 +3,7 @@ package dflibrary.library.param;
 import dflibrary.utils.ba.BAUtils;
 
 /**
- * Provides an encapsulation for the data to be write to or read from
+ * Provides an encapsulation for the data to be written in or read from
  * Standard Data and Backup Data files 
  * @author Francisco Rodriguez Algarra
  *

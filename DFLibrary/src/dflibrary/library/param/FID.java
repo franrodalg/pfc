@@ -20,7 +20,7 @@ public class FID {
 	
 	/**
 	 * Creates a file identifier 
-	 * @param aid an int representing the file identifier
+	 * @param fid an int representing the file identifier
 	 */
 	public FID(int fid){
 		
@@ -30,7 +30,7 @@ public class FID {
 	
 	/**
 	 * Creates a file identifier 
-	 * @param aid a byte array representing the file identifier
+	 * @param fid a byte array representing the file identifier
 	 */
 	public FID(byte[] fid){
 		

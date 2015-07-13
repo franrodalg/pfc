@@ -11,7 +11,7 @@ public class ISOFileIDS {
 
 	/**
 	 * Creates an instance of class <code>ISOFileIDS</code>
-	 * @param aids a byte array containing the list of file
+	 * @param fids a byte array containing the list of file
 	 * identifiers
 	 */
 	public ISOFileIDS(byte[] fids){

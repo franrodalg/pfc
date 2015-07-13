@@ -4,14 +4,13 @@ import dflibrary.utils.ba.BAUtils;
 
 
 /**
- * 
- * @author Francisco Rodríguez Algarra
- *
+ * Provides an encapsulation for the generic file settings
+ * @author Francisco Rodriguez Algarra
  */
 public class FileSettings {
 
 	/**
-	 * 
+	 * Creates a default instance of class <code>FileSettings</code>
 	 */
 	public FileSettings(){
 		
@@ -22,14 +21,19 @@ public class FileSettings {
 	}	
 	
 	/**
-	 * 
-	 * @param fileType
-	 * @param comSet
-	 * @param accessRights
+	 * Creates an instance of class <code>FileSettings</code>
+	 * @param fileType an instance of class <code>FileType</code> representing 
+	 * the type of the current file
+	 * @param comSet an instance of class <code>ComSet</code> representing 
+	 * the file's communication settings
+	 * @param accessRights an instance of class <code>AccessRights</code> 
+	 * representing the file's access rights
 	 */
-	public FileSettings(FileType fileType, ComSet comSet, AccessRights accessRights){
+	public FileSettings(FileType fileType, ComSet comSet, 
+			AccessRights accessRights){
 		
-		if((fileType == null) || (comSet == null) || (accessRights == null)) throw new NullPointerException();
+		if((fileType == null) || (comSet == null) || (accessRights == null)) 
+			throw new NullPointerException();
 		
 		this.fileType = fileType;
 		this.comSet = comSet;
@@ -38,8 +42,8 @@ public class FileSettings {
 	}
 	
 	/**
-	 * 
-	 * @param fileSet
+	 * Creates an instance of class <code>FileSettings</code>
+	 * @param fileSet a byte array containing the file settings
 	 */
 	public FileSettings(byte[] fileSet){
 		
@@ -53,10 +57,13 @@ public class FileSettings {
 	}
 	
 	/**
-	 * 
-	 * @param fileType
-	 * @param comSet
-	 * @param accessRights
+	 * Creates an instance of class <code>FileSettings</code>
+	 * @param fileType a byte array representing 
+	 * the type of the current file
+	 * @param comSet a byte array representing 
+	 * the file's communication settings
+	 * @param accessRights a byte array 
+	 * representing the file's access rights
 	 */
 	public FileSettings(byte[] fileType, byte[] comSet, byte[] accessRights){
 		
@@ -67,8 +74,8 @@ public class FileSettings {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return an instance of class <code>FileType</code> representing 
+	 * the type of the current file
 	 */
 	public FileType getFileType(){
 		
@@ -77,8 +84,8 @@ public class FileSettings {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return an instance of class <code>ComSet</code> representing 
+	 * the file's communication settings
 	 */
 	public ComSet getComSet(){
 		
@@ -87,8 +94,8 @@ public class FileSettings {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return an instance of class <code>AccessRights</code> 
+	 * representing the file's access rights
 	 */
 	public AccessRights getAccessRights(){
 		
@@ -97,8 +104,8 @@ public class FileSettings {
 	}
 	
 	/**
-	 * 
-	 * @param fileType
+	 * @param fileType an instance of class <code>FileType</code> representing 
+	 * the new type of the current file
 	 */
 	public void setFileType(FileType fileType){
 		
@@ -109,8 +116,8 @@ public class FileSettings {
 	}
 	
 	/**
-	 * 
-	 * @param fileType
+	 * @param fileType a int representing 
+	 * the new type of the current file
 	 */
 	public void setFileType(int fileType){
 		
@@ -119,8 +126,8 @@ public class FileSettings {
 	}
 
 	/**
-	 * 
-	 * @param fileType
+	 * @param fileType a byte array representing 
+	 * the new type of the current file
 	 */
 	public void setFileType(byte[] fileType){
 		
@@ -131,8 +138,8 @@ public class FileSettings {
 	}
 	
 	/**
-	 * 
-	 * @param comSet
+	 * @param comSet an instance of class <code>ComSet</code> representing 
+	 * the file's new communication settings
 	 */
 	public void setComSet(ComSet comSet){
 		
@@ -143,8 +150,8 @@ public class FileSettings {
 	}
 	
 	/**
-	 * 
-	 * @param comSet
+	 * @param comSet an int representing 
+	 * the file's new communication settings
 	 */
 	public void setComSet(int comSet){
 		
@@ -153,8 +160,8 @@ public class FileSettings {
 	}
 	
 	/**
-	 * 
-	 * @param comSet
+	 * @param comSet a byte array representing 
+	 * the file's new communication settings
 	 */
 	public void setComSet(byte[] comSet){
 		
@@ -165,8 +172,8 @@ public class FileSettings {
 	}
 	
 	/**
-	 * 
-	 * @param accessRights
+	 * @param accessRights an instance of class <code>AccessRights</code> 
+	 * representing the file's new access rights
 	 */
 	public void setAccessRights(AccessRights accessRights){
 		
@@ -177,21 +184,8 @@ public class FileSettings {
 	}
 	
 	/**
-	 * 
-	 * @param readAccess
-	 * @param writeAccess
-	 * @param readWriteAccess
-	 * @param changeAccessRights
-	 */
-	public void setAccessRights(int readAccess, int writeAccess, int readWriteAccess, int changeAccessRights){
-		
-		this.accessRights = new AccessRights(readAccess, writeAccess, readWriteAccess, changeAccessRights);
-		
-	}
-	
-	/**
-	 * 
-	 * @param accessRights
+	 * @param accessRights a byte array
+	 * representing the file's new access rights
 	 */
 	public void setAccessRights(byte[] accessRights){
 		
@@ -202,8 +196,7 @@ public class FileSettings {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the byte array representation of the current file settings
 	 */
 	public byte[] toBA(){
 		
@@ -215,9 +208,7 @@ public class FileSettings {
 		
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String toString(){
 		
 		String s = "";

@@ -11,7 +11,7 @@ public class FIDS {
 
 	/**
 	 * Creates an instance of class <code>FIDS</code>
-	 * @param aids a byte array containing the list of file
+	 * @param fids a byte array containing the list of file
 	 * identifiers
 	 */
 	public FIDS(byte[] fids){

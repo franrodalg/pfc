@@ -2,10 +2,15 @@ package dflibrary.library.param.fileset;
 
 import dflibrary.utils.ba.*;
 
+/**
+ * Provides singleton objects representing the different communication
+ * settings available in Mifare DESFire cards
+ * @author Francisco Rodriguez Algarra
+ */
 public enum ComSet {
 	
 	/**
-	 * 
+	 * Plain communication
 	 */
 	PLAIN{
 		public int toInt(){
@@ -16,7 +21,7 @@ public enum ComSet {
 		}
 	},
 	/**
-	 * 
+	 * Plain communication with authentication code
 	 */
 	MAC{
 		public int toInt(){
@@ -27,7 +32,7 @@ public enum ComSet {
 		}
 	},
 	/**
-	 * 
+	 * Enciphered communication
 	 */
 	ENC{
 		public int toInt(){
@@ -39,25 +44,25 @@ public enum ComSet {
 	};
 	
 	/**
-	 * 
-	 * @return
+	 * @return the byte array representation of the current communication setting
 	 */
 	public byte[] toBA(){
 		return BAUtils.toBA(this.toInt(), 1);
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the int representation of the current communication setting
 	 */
 	public int toInt(){
 		return this.toInt();
 	}
 	
 	/**
-	 * 
-	 * @param comSet
-	 * @return
+	 * Obtains the <code>ComSet</code> object corresponding to a given 
+	 * byte array representation
+	 * @param comSet a byte array representing a communication setting
+	 * @return the <code>ComSet</code> object corresponding to 
+	 * <code>comSet</code>
 	 */
 	public static ComSet toComSet(byte[] comSet){
 		
@@ -68,9 +73,11 @@ public enum ComSet {
 	}
 	
 	/**
-	 * 
-	 * @param comSet
-	 * @return
+	 * Obtains the <code>ComSet</code> object corresponding to a given 
+	 * integer representation
+	 * @param comSet an int representing a communication setting
+	 * @return the <code>ComSet</code> object corresponding to 
+	 * <code>comSet</code>
 	 */
 	public static ComSet toComSet(int comSet){
 		
@@ -83,5 +90,8 @@ public enum ComSet {
 		}
 		
 	}
+	
+	@Override
+	public abstract String toString();
 	
 }

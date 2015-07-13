@@ -4,23 +4,25 @@ import dflibrary.library.param.Size;
 import dflibrary.utils.ba.*;
 
 /**
- * 
+ * Provides an encapsulation for the file settings of record files
  * @author Francisco Rodríguez Algarra
- *
  */
 public class RecordFileSettings extends FileSettings{
 	
 	/**
-	 * 
+	 * Creates a default instance of class <code>RecordFileSettings</code>
 	 */
 	public RecordFileSettings(){
 		
-		this(FileType.LINEAR_RECORD, ComSet.PLAIN, new AccessRights(), new Size(0), 0, 0);
+		this(FileType.LINEAR_RECORD, ComSet.PLAIN, new AccessRights(), 
+				new Size(0), 0, 0);
 		
 	}
 	
-	/**
-	 * 
+	/** 
+	 * Creates an instance of class <code>RecordFileSettings</code>
+	 * @param fileType an instance of class <code>FileType</code>
+	 * representing the type of the file
 	 */
 	public RecordFileSettings(FileType fileType){
 		
@@ -29,28 +31,34 @@ public class RecordFileSettings extends FileSettings{
 	}
 	
 	/**
-	 * 
-	 * @param size
-	 * @param max
-	 * @param current
+	 * Creates an instance of class <code>RecordFileSettings</code>
+	 * @param size an instance of class <code>Size</code>
+	 * representing the size of the file
+	 * @param max an int representing the maximum number of records
+	 * @param current an int representing the current number of records
 	 */
 	public RecordFileSettings(Size size, int max, int current){
 		
-		this(FileType.LINEAR_RECORD, ComSet.PLAIN, new AccessRights(), size, 0, 0);
+		this(FileType.LINEAR_RECORD, ComSet.PLAIN, new AccessRights(), 
+				size, 0, 0);
 		
 	}
-
 	
 	/**
-	 * 
-	 * @param fileType
-	 * @param comSet
-	 * @param accessRights
-	 * @param size
-	 * @param max
-	 * @param current
+	 * Creates an instance of class <code>RecordFileSettings</code>
+	 * @param fileType an instance of class <code>FileType</code>
+	 * representing the type of the file
+	 * @param comSet an instance of class <code>ComSet</code> representing 
+	 * the file's communication settings
+	 * @param accessRights an instance of class <code>AccessRights</code> 
+	 * representing the file's access rights
+	 * @param size fileSize an instance of class <code>Size</code>
+	 * representing the size of the file
+	 * @param max an int representing the maximum number of records
+	 * @param current an int representing the current number of records
 	 */
-	public RecordFileSettings(FileType fileType, ComSet comSet, AccessRights accessRights, Size size, int max, int current){
+	public RecordFileSettings(FileType fileType, ComSet comSet, 
+			AccessRights accessRights, Size size, int max, int current){
 		
 		super(fileType, comSet, accessRights);
 		
@@ -62,10 +70,9 @@ public class RecordFileSettings extends FileSettings{
 		
 	}
 	
-
 	/**
-	 * 
-	 * @param fileSet
+	 * Creates an instance of class <code>RecordFileSettings</code>
+	 * @param fileSet a byte array containing the file settings
 	 */
 	public RecordFileSettings(byte[] fileSet){
 		
@@ -84,26 +91,35 @@ public class RecordFileSettings extends FileSettings{
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return an instance of class <code>Size</code> representing the
+	 * size of the records
 	 */
-	public Size getRecordSize(){ return this.recordSize; }
+	public Size getRecordSize(){
+		
+		return this.recordSize; 
+		
+    }
 	
 	/**
-	 * 
-	 * @return
+	 * @return an int representing the maximum number of records
 	 */
-	public int getMaxNumberOfRecords(){ return this.maxNumberOfRecords; }
+	public int getMaxNumberOfRecords(){ 
+		
+		return this.maxNumberOfRecords; 
+		
+	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return an int representing the current number of records
 	 */
-	public int getCurrentNumberOfRecords(){ return this.currentNumberOfRecords; }
+	public int getCurrentNumberOfRecords(){
+		
+		return this.currentNumberOfRecords;
+		
+	}
 	
 	/**
-	 * 
-	 * @param size
+	 * @param size a byte array representing the new size of the records
 	 */
 	public void setRecordSize(byte[] size){
 		
@@ -115,20 +131,21 @@ public class RecordFileSettings extends FileSettings{
 	}
 	
 	/**
-	 * 
-	 * @param size
+	 * @param size an instance of class <code>Size</code> representing 
+	 * the new size of the records
 	 */
 	public void setRecordSize(Size size){
 		
-		if((size.getSize() < 0) || (size.getSize() > DigitUtils.toInt("FFFFFF"))) throw new IllegalArgumentException();
+		if((size.getSize() < 0) || 
+				(size.getSize() > DigitUtils.toInt("FFFFFF"))) 
+			throw new IllegalArgumentException();
 		
 		this.recordSize = size;
 		
 	}
 	
 	/**
-	 * 
-	 * @param max
+	 * @param max a byte array representing the maximum number of records
 	 */
 	public void setMaxNumberOfRecords(byte[] max){
 		
@@ -140,47 +157,48 @@ public class RecordFileSettings extends FileSettings{
 	}
 	
 	/**
-	 * 
-	 * @param max
+	 * @param max an int representing the maximum number of records
 	 */
 	public void setMaxNumberOfRecords(int max){
 		
-		if((max < 0) || (max > DigitUtils.toInt("FFFFFF"))) throw new IllegalArgumentException();
-		if(max < this.getCurrentNumberOfRecords()) throw new IllegalArgumentException();
+		if((max < 0) || (max > DigitUtils.toInt("FFFFFF"))) 
+			throw new IllegalArgumentException();
+		if(max < this.getCurrentNumberOfRecords()) 
+			throw new IllegalArgumentException();
 		
 		this.maxNumberOfRecords = max;
 	
 	}
 	
 	/**
-	 * 
-	 * @param current
+	 * @param current an byte array representing the current number of records
 	 */
 	public void setCurrentNumberOfRecords(byte[] current){
 		
-		if(current == null) throw new NullPointerException();
-		if(current.length != 3) throw new IllegalArgumentException();
+		if(current == null) 
+			throw new NullPointerException();
+		if(current.length != 3) 
+			throw new IllegalArgumentException();
 		
 		setCurrentNumberOfRecords(BAUtils.toInt(current));
 		
 	}
 	
 	/**
-	 * 
-	 * @param current
+	 * @param current an int representing the current number of records
 	 */
 	public void setCurrentNumberOfRecords(int current){
 		
-		if((current < 0) || (current > DigitUtils.toInt("FFFFFF"))) throw new IllegalArgumentException();
-		if(current > this.getMaxNumberOfRecords()) throw new IllegalArgumentException();
+		if((current < 0) || (current > DigitUtils.toInt("FFFFFF"))) 
+			throw new IllegalArgumentException();
+		if(current > this.getMaxNumberOfRecords()) 
+			throw new IllegalArgumentException();
 		
 		this.currentNumberOfRecords = current;
 		
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public byte[] toBA(){
 		
 		byte[] sizeBA = getRecordSize().toBA();
@@ -191,9 +209,7 @@ public class RecordFileSettings extends FileSettings{
 		
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String toString(){
 		
 		String s = super.toString() + "\n";

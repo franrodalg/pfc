@@ -438,7 +438,7 @@ public class DFCard {
 	 * Executes the interpreted version of the Set Configuration command,
 	 * as defined in the Mifare DESFire EV1 API. Response only includes
 	 * the Status Code returned by the card.
-	 * @param opt an instance of class <code>ConfigOption</opt>
+	 * @param opt an instance of class <code>ConfigOption</code>
 	 * including the configuration option to be set in the card and
 	 * the corresponding data
 	 * @return an instance of class <code>DFResponse</code> containing 
@@ -697,7 +697,7 @@ public class DFCard {
 	 * @param numOfKeys the number of keys of the new application to be created
 	 * @param ISOFidAllow a boolean indicating whether ISO file identifiers
 	 * are allowed or not in the new application
-	 * @param alg an instance of class <code>CipAlg</alg> representing the
+	 * @param alg an instance of class <code>CipAlg</code> representing the
 	 * criptographic algorithm to be used in the security of the new application
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
@@ -745,7 +745,7 @@ public class DFCard {
 	 * @param numOfKeys the number of keys of the new application to be created
 	 * @param ISOFidAllow a boolean indicating whether ISO file identifiers
 	 * are allowed or not in the new application
-	 * @param alg an instance of class <code>CipAlg</alg> representing the
+	 * @param alg an instance of class <code>CipAlg</code> representing the
 	 * criptographic algorithm to be used in the security of the new application
 	 * @param isoFid an instance of class <code>ISOFileID</code> representing the
 	 * ISO file identifier of the new application to be created in the card
@@ -1773,7 +1773,7 @@ public class DFCard {
 	 * Executes the raw version of the Create Standard
 	 * Data File command, as defined in the Mifare DESFire API. 
 	 * Response only includes the Status Code returned by the card.
-	 * @param a byte array representing the
+	 * @param fid a byte array representing the
 	 * file identifier of the new file
 	 * @param comSet a byte array representing
 	 * the communication settings to be set in the new file
@@ -2073,7 +2073,7 @@ public class DFCard {
 	 * representing the initial value to be set in the file
 	 * @param limCredEn a boolean indicating whether Limited Credit operations
 	 * are allowed in this file or not
-	 * @param freeGetValue a boolean indicating whether free read access to the
+	 * @param freeGetVal a boolean indicating whether free read access to the
 	 * current value is permited or not
 	 * @return an instance of class <code>DFResponse</code> containing 
 	 * the response obtained from the Mifare DESFire card 
@@ -3604,11 +3604,6 @@ public class DFCard {
 	
 	//Auxiliary methods
 	
-	/**
-	 * 
-	 * @param data
-	 * @return
-	 */
 	private byte[][] getDataFrames(byte[] data){
 		
 		if(data == null) throw new NullPointerException();
@@ -3639,11 +3634,6 @@ public class DFCard {
 				
 	}
 	
-	/**
-	 * 
-	 * @param data
-	 * @return
-	 */
 	private int getNumOfFrames(byte[] data){
 		
 		if(data == null) throw new NullPointerException();
@@ -3667,11 +3657,6 @@ public class DFCard {
 		
 	}
 	
-	/**
-	 * 
-	 * @param command
-	 * @return
-	 */	
 	private byte[] send(byte[] command){
 		
 		if(command == null) 
@@ -3682,11 +3667,6 @@ public class DFCard {
 		return this.cm.send(command);
 	}
 	
-	/**
-	 * 
-	 * @param bas
-	 * @return
-	 */
 	private byte[] send(byte[]...bas){
 		
 		if(bas == null) 
@@ -3698,11 +3678,6 @@ public class DFCard {
 		
 	}
 	
-	/**
-	 * 
-	 * @param command
-	 * @return
-	 */
 	private byte[] sendWrap(byte[] command){
 	
 		if(command == null) throw new NullPointerException();
@@ -3716,11 +3691,6 @@ public class DFCard {
 		
 	}
 	
-	/**
-	 * 
-	 * @param command
-	 * @return
-	 */
 	private byte[] wrapCom(byte[] command){
 		
 		byte[] comCode = BAUtils.extractSubBA(command, 0, 1);
@@ -3746,12 +3716,7 @@ public class DFCard {
 		return com;	
 		
 	}
-	
-	/**
-	 * 
-	 * @param res
-	 * @return
-	 */
+
 	private byte[] unwrapRes(byte[] res){
 		
 		byte[] sc = BAUtils.extractSubBA(res, res.length - 1, 1);
@@ -3814,7 +3779,7 @@ public class DFCard {
 	}
 	
 	/**
-	 * @param the version of the card
+	 * @param version the version of the card
 	 */
 	public void setCardType(PICCVersion version){
 		

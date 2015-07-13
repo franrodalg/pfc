@@ -74,7 +74,7 @@ public class KeySettingsRes {
     }
     
     /**
-     * @param a byte array representing the new key settings
+     * @param ks a byte array representing the new key settings
      */
     public void setKeySettings(byte[] ks){
     	

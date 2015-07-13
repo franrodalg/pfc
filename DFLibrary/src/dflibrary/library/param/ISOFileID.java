@@ -19,7 +19,7 @@ public class ISOFileID {
 	
 	/**
 	 * Creates a file identifier 
-	 * @param aid an int representing the ISO file identifier
+	 * @param fid an int representing the ISO file identifier
 	 */
 	public ISOFileID(int fid){
 	
@@ -29,7 +29,7 @@ public class ISOFileID {
 	
 	/**
 	 * Creates an ISO file identifier 
-	 * @param aid a byte array representing the ISO file identifier
+	 * @param fid a byte array representing the ISO file identifier
 	 */
 	public ISOFileID(byte[] fid){
 		

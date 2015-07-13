@@ -3,14 +3,15 @@ package dflibrary.library.param.fileset;
 import dflibrary.utils.ba.*;
 
 /**
- * 
- * @author Francisco Rodríguez Algarra
+ * Provides singleton objects representing the different file types available
+ * in the Mifare DESFire cards
+ * @author Francisco Rodriguez Algarra
  *
  */
 public enum FileType {
 	
 	/**
-	 * 
+	 * Standard Data File
 	 */
 	STANDARD_DATA{
 		public int toInt(){
@@ -21,7 +22,7 @@ public enum FileType {
 		}
 	},
 	/**
-	 * 
+	 * Backup Data File
 	 */
 	BACKUP_DATA{
 		public int toInt(){
@@ -32,7 +33,7 @@ public enum FileType {
 		}	
 	},
 	/**
-	 * 
+	 * Value File
 	 */
 	VALUE{
 		public int toInt(){
@@ -43,7 +44,7 @@ public enum FileType {
 		}
 	},
 	/**
-	 * 
+	 * Linear Record File
 	 */
 	LINEAR_RECORD{
 		public int toInt(){
@@ -54,7 +55,7 @@ public enum FileType {
 		}
 	},
 	/**
-	 * 
+	 * Cyclic Record File
 	 */
 	CYCLIC_RECORD{
 		public int toInt(){
@@ -66,8 +67,7 @@ public enum FileType {
 	};
 	
 	/**
-	 * 
-	 * @return
+	 * @return the byte array representation of the current file type
 	 */
 	public byte[] toBA(){
 		
@@ -76,8 +76,7 @@ public enum FileType {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the int representation of the current file type
 	 */
 	public int toInt(){
 		
@@ -86,9 +85,11 @@ public enum FileType {
 	}
 	
 	/**
-	 * 
-	 * @param fileType
-	 * @return
+	 * Obtains the <code>FileType</code> object corresponding to the given
+	 * byte array representation of a file type
+	 * @param fileType a byte array representing a file type
+	 * @return the <code>FileType</code> object corresponding to
+	 * <code>fileType</code>
 	 */
 	public static FileType toFileType(byte[] fileType){
 		
@@ -100,9 +101,11 @@ public enum FileType {
 	}
 	
 	/**
-	 * 
-	 * @param fileType
-	 * @return
+	 * Obtains the <code>FileType</code> object corresponding to the given
+	 * integer representation of a file type
+	 * @param fileType an int representing a file type
+	 * @return the <code>FileType</code> object corresponding to
+	 * <code>fileType</code>
 	 */
 	public static FileType toFileType(int fileType){
 		
@@ -116,4 +119,7 @@ public enum FileType {
 		}		
 	}
 
+	@Override
+	public abstract String toString();
+	
 }

@@ -98,7 +98,7 @@ public class DFResponse {
      * if and only if the stored <code>field</code> can be casted to
      * an object of class <code>KeyVersion</code>
      * @return an object of class <code>KeyVersion</code> representing
-     * the response field of an execution of the <code>getKeyVersion<code>
+     * the response field of an execution of the <code>getKeyVersion</code>
      * command
      */
     public KeyVersion getKeyVersion(){
@@ -117,7 +117,7 @@ public class DFResponse {
      * an object of class <code>KeySettings</code> 
      * or <code>KeySettingsRes</code>
      * @return an object of class <code>KeySettings</code> representing
-     * the response field of an execution of the <code>getKeySettings<code>
+     * the response field of an execution of the <code>getKeySettings</code>
      * command
      */
 	public KeySettings getKeySettings(){
@@ -136,7 +136,7 @@ public class DFResponse {
      * if and only if the stored <code>field</code> can be casted to
      * an object of class <code>KeySettingsRes</code> 
      * @return an int representing the response field of an execution
-     * of the <code>getKeySettings<code> command
+     * of the <code>getKeySettings</code> command
      */
 	public int getNumOfKeys(){
 
@@ -154,7 +154,7 @@ public class DFResponse {
      * if and only if the stored <code>field</code> can be casted to
      * an object of class <code>AIDS</code> 
      * @return an object of class <code>AIDS</code> representing
-     * the response field of an execution of the <code>getApplicationIDs<code>
+     * the response field of an execution of the <code>getApplicationIDs</code>
      * command
 	 */
 	public AIDS getAIDs(){
@@ -172,7 +172,7 @@ public class DFResponse {
      * if and only if the stored <code>field</code> can be casted to
      * an object of class <code>Size</code> 
      * @return an object of class <code>Size</code> representing
-     * the response field of an execution of the <code>getFreeMemory<code>
+     * the response field of an execution of the <code>getFreeMemory</code>
      * command
 	 */
 	public Size getFreeMemory(){
@@ -189,10 +189,9 @@ public class DFResponse {
      * from a call to <code>getVersion</code>
      * if and only if the stored <code>field</code> can be casted to
      * an object of class <code>PICCVersion</code> 
-     * @return an object of class <code>PICCVersion</code> representing
-     * the response field of an execution of the <code>getVersion<code>
+     * @return an instance of class <code>PICCVersion</code> representing
+     * the response field of an execution of the <code>getVersion</code>
      * command
-	 * @return
 	 */
 	public PICCVersion getPICCVersion(){
 		
@@ -207,8 +206,8 @@ public class DFResponse {
      * from a call to <code>getFreeMemory</code>
      * if and only if the stored <code>field</code> can be casted to
      * an object of class <code>Size</code> 
-     * @return an object of class <code>Size</code> representing
-     * the response field of an execution of the <code>getFreeMemory<code>
+     * @return an instance of class <code>Size</code> representing
+     * the response field of an execution of the <code>getFreeMemory</code>
      * command
 	 */
 	public UIDRes getUIDRes(){
@@ -224,8 +223,8 @@ public class DFResponse {
      * Retrieves the obtained card unique identifier
      * from a call to <code>getPICCVersion</code> or <code>getUID</code>
      * if and only if the stored <code>field</code> can be casted to
-     * an object of class <code>PICCVersion</code> or <code>UIDRes</code> 
-     * @return an object of class <code>UID</code> representing
+     * an instance of class <code>PICCVersion</code> or <code>UIDRes</code> 
+     * @return an instance of class <code>UID</code> representing
      * the unique identifier of the connected card
      */
 	public UID getUID(){
@@ -243,9 +242,9 @@ public class DFResponse {
      * Retrieves the obtained DF-Names
      * from a call to <code>getDFNames</code>
      * if and only if the stored <code>field</code> can be casted to
-     * an object of class <code>DFNamesRes</code> 
-     * @return an object of class <code>DFNamesRes</code> representing
-     * the response field of an execution of the <code>getDFNames<code>
+     * an instance of class <code>DFNamesRes</code> 
+     * @return an instance of class <code>DFNamesRes</code> representing
+     * the response field of an execution of the <code>getDFNames</code>
      * command
 	 */
 	public DFNamesRes getDFNames(){
@@ -261,9 +260,9 @@ public class DFResponse {
      * Retrieves the obtained file identifiers
      * from a call to <code>getFileIDs</code>
      * if and only if the stored <code>field</code> can be casted to
-     * an object of class <code>FIDS</code> 
-     * @return an object of class <code>FIDS</code> representing
-     * the response field of an execution of the <code>getFileIDs<code>
+     * an instance of class <code>FIDS</code> 
+     * @return an instance of class <code>FIDS</code> representing
+     * the response field of an execution of the <code>getFileIDs</code>
      * command
 	 */
 	public FIDS getFIDs(){
@@ -279,9 +278,9 @@ public class DFResponse {
      * Retrieves the obtained ISO file identifiers
      * from a call to <code>getISOFileIDs</code>
      * if and only if the stored <code>field</code> can be casted to
-     * an object of class <code>ISOFileIDS</code> 
-     * @return an object of class <code>ISOFileIDS</code> representing
-     * the response field of an execution of the <code>getISOFileIDs<code>
+     * an instance of class <code>ISOFileIDS</code> 
+     * @return an instance of class <code>ISOFileIDS</code> representing
+     * the response field of an execution of the <code>getISOFileIDs</code>
      * command
 	 */
 	public ISOFileIDS getISOFileIDs(){
@@ -297,11 +296,11 @@ public class DFResponse {
      * Retrieves the obtained file settings
      * from a call to <code>getFileSettings</code>
      * if and only if the stored <code>field</code> can be casted to
-     * an object of class <code>FileSettings</code>.
+     * an instance of class <code>FileSettings</code>.
      * The particular settings for each type of file can be 
      * obtained via casting of the returned object
-     * @return an object of class <code>FileSettings</code> representing
-     * the response field of an execution of the <code>getFileSettings<code>
+     * @return an instance of class <code>FileSettings</code> representing
+     * the response field of an execution of the <code>getFileSettings</code>
      * command
 	 */
 	public FileSettings getFileSettings(){
@@ -317,9 +316,9 @@ public class DFResponse {
      * Retrieves the obtained data
      * from a call to <code>readData</code>
      * if and only if the stored <code>field</code> can be casted to
-     * an object of class <code>Data</code> 
-     * @return an object of class <code>Data</code> representing
-     * the response field of an execution of the <code>readData<code>
+     * an instance of class <code>Data</code> 
+     * @return an instance of class <code>Data</code> representing
+     * the response field of an execution of the <code>readData</code>
      * command
 	 */
 	public DataRes getDataRes(){
@@ -335,9 +334,9 @@ public class DFResponse {
      * Retrieves the obtained response field
      * from a call to <code>getValue</code>
      * if and only if the stored <code>field</code> can be casted to
-     * an object of class <code>ValueRes</code> 
-     * @return an object of class <code>ValueRes</code> representing
-     * the response field of an execution of the <code>getValue<code>
+     * an instance of class <code>ValueRes</code> 
+     * @return an instance of class <code>ValueRes</code> representing
+     * the response field of an execution of the <code>getValue</code>
      * command
 	 */
 	public ValueRes getValueRes(){
@@ -353,9 +352,9 @@ public class DFResponse {
      * Retrieves the obtained response field
      * from a call to <code>readRecords</code>
      * if and only if the stored <code>field</code> can be casted to
-     * an object of class <code>RecordRes</code> 
-     * @return an object of class <code>RecordRes</code> representing
-     * the response field of an execution of the <code>readRecords<code>
+     * an instance of class <code>RecordRes</code> 
+     * @return an instance of class <code>RecordRes</code> representing
+     * the response field of an execution of the <code>readRecords</code>
      * command
 	 */
 	public RecordsRes getRecordsRes(){

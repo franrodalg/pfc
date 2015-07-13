@@ -4,65 +4,69 @@ import dflibrary.library.param.Size;
 import dflibrary.utils.ba.*;
 
 /**
- * 
+ * Provides an encapsulation for the file settings of data files
  * @author Francisco Rodríguez Algarra
- *
  */
 public class DataFileSettings extends FileSettings{
 
-	
 	/**
-	 * 
-	 * @param fileSize
+	 * Creates a default instance of class <code>DataFileSettings</code>
 	 */
 	public DataFileSettings(){
 		
-		this(FileType.STANDARD_DATA, ComSet.PLAIN, new AccessRights(), new Size(0));
+		this(FileType.STANDARD_DATA, ComSet.PLAIN, 
+				new AccessRights(), new Size(0));
 		
 	}
 	
 	/**
-	 * 
-	 * @param fileSize
+	 * Creates an instance of class <code>DataFileSettings</code>
+	 * @param fileType an instance of class <code>FileType</code>
+	 * representing the type of the file
 	 */
 	public DataFileSettings(FileType fileType){
 		
-		this(fileType, ComSet.PLAIN, new AccessRights(), new Size(0));
+		this(fileType, ComSet.PLAIN, 
+				new AccessRights(), new Size(0));
 		
 	}
 	
-	
 	/**
-	 * 
-	 * @param fileSize
+	 * Creates an instance of class <code>DataFileSettings</code>
+	 * @param size an instance of class <code>Size</code>
+	 * representing the size of the file
 	 */
-	public DataFileSettings(Size fileSize){
+	public DataFileSettings(Size size){
 		
-		this(FileType.STANDARD_DATA, ComSet.PLAIN, new AccessRights(), fileSize);
+		this(FileType.STANDARD_DATA, ComSet.PLAIN, 
+				new AccessRights(), size);
 		
 	}
 		
-	
 	/**
-	 * 
-	 * @param fileType
-	 * @param comSet
-	 * @param accessRights
-	 * @param fileSize
+	 * Creates an instance of class <code>DataFileSettings</code>
+	 * @param fileType an instance of class <code>FileType</code>
+	 * representing the type of the file
+	 * @param comSet an instance of class <code>ComSet</code> representing 
+	 * the file's communication settings
+	 * @param accessRights an instance of class <code>AccessRights</code> 
+	 * representing the file's access rights
+	 * @param size fileSize an instance of class <code>Size</code>
+	 * representing the size of the file
 	 */
-	public DataFileSettings(FileType fileType, ComSet comSet, AccessRights accessRights, Size fileSize){
+	public DataFileSettings(FileType fileType, ComSet comSet, 
+			AccessRights accessRights, Size size){
 		
 		super(fileType, comSet, accessRights);
 		
-		if(fileSize == null) throw new NullPointerException();
-		setFileSize(fileSize);
+		if(size == null) throw new NullPointerException();
+		setFileSize(size);
 		
 	}
 	
-	
 	/**
-	 * 
-	 * @param fileSet
+	 * Creates an instance of class <code>DataFileSettings</code>
+	 * @param fileSet a byte array containing the file settings
 	 */
 	public DataFileSettings(byte[] fileSet){
 		
@@ -72,45 +76,42 @@ public class DataFileSettings extends FileSettings{
 		
 	}
 
-	
 	/**
-	 * 
-	 * @return
+	 * @return an instance of class <code>Size</code> representing the current
+	 * size of the file
 	 */
 	public Size getFileSize(){
 		
-		return this.fileSize;
+		return this.size;
 		
 	}
 	
 	/**
-	 * 
-	 * @param fileSize
+	 * @param size a byte array representing the current
+	 * size of the file
 	 */
-	public void setFileSize(byte[] fileSize){
+	public void setFileSize(byte[] size){
 		
-		if(fileSize == null) throw new NullPointerException();
-		if(fileSize.length != 3) throw new IllegalArgumentException();
+		if(size == null) throw new NullPointerException();
+		if(size.length != 3) throw new IllegalArgumentException();
 		
-		setFileSize(new Size(fileSize));
+		setFileSize(new Size(size));
 		
 	}
 	
 	/**
-	 * 
-	 * @param fileSize
+	 * @param size an instance of class <code>Size</code> representing the new
+	 * size of the file
 	 */
-	public void setFileSize(Size fileSize){
+	public void setFileSize(Size size){
 		
-		if(fileSize == null) throw new NullPointerException();
+		if(size == null) throw new NullPointerException();
 		
-		this.fileSize = fileSize;
+		this.size = size;
 		
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public byte[] toBA(){
 		
 		byte[] fileSizeBA = getFileSize().toBA();
@@ -119,9 +120,7 @@ public class DataFileSettings extends FileSettings{
 		
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String toString(){
 		
 		String s = super.toString() + "\n";
@@ -132,6 +131,6 @@ public class DataFileSettings extends FileSettings{
 		
 	}
 	
-	private Size fileSize;
+	private Size size;
 	
 }
