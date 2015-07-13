@@ -23,7 +23,8 @@ public enum AuthType {
 		TDEA_NATIVE{
 			
 			public String toString(){
-				return "Triple DES Crypto DESFire Native Mode Authentication";
+				return "Triple DES Crypto DESFire " +
+						"Native Mode Authentication";
 			}
 			
 		},
@@ -33,7 +34,8 @@ public enum AuthType {
 		TDEA_STANDARD{
 			
 			public String toString(){
-				return "Triple DES Crypto Standard Mode Authentication";
+				return "Triple DES Crypto Standard " +
+						"Mode Authentication";
 			}
 			
 		},

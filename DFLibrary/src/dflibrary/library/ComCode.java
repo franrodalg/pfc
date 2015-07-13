@@ -3,8 +3,9 @@ package dflibrary.library;
 import dflibrary.utils.ba.BAUtils;
 
 /**
- * 
- * @author Francisco Rodríguez Algarra
+ * Provides singleton objects for the different command codes of the
+ * native Mifare DESFire command set
+ * @author Francisco Rodriguez Algarra
  *
  */
 public enum ComCode {
@@ -439,6 +440,9 @@ public enum ComCode {
 		
 	};
 	
+	/**
+	 * @return the byte array representation of the command code
+	 */
 	public abstract byte[] toBA();
 	
 }

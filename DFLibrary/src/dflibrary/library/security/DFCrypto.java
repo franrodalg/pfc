@@ -9,8 +9,6 @@ import dflibrary.utils.security.*;
 
 public class DFCrypto {
 	
-	
-
 	/**
 	 * 
 	 * @param alg

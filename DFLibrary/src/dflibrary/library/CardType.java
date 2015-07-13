@@ -3,8 +3,10 @@ package dflibrary.library;
 import dflibrary.library.DFLException.ExType;
 
 /**
- * 
- * @author Francisco Rodríguez Algarra
+ * Provides singleton objects representing some of the 
+ * contactless card models of the Mifare family, and 
+ * allows its identification according to the obtained ATR
+ * @author Francisco Rodriguez Algarra
  *
  */
 public enum CardType {
@@ -59,9 +61,10 @@ public enum CardType {
 	};
 	
 	/**
-	 * 
-	 * @param atr
-	 * @return
+	 * Identifies a Mifare model according to the obtained ATR
+	 * @param atr the obtained ATR of the detected contactless card
+	 * @return a singleton <code>CardType</code> object representing the 
+	 * model of the detected contactless card
 	 */
 	public static CardType getCardType(String atr){
 		

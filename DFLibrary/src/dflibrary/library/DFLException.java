@@ -1,8 +1,16 @@
 package dflibrary.library;
 
+/**
+ * Provides an encapsulation of the most common communication errors
+ * @author Francisco Rodriguez Algarra
+ *
+ */
 public class DFLException extends RuntimeException {
 
-	
+	/**
+	 * @param type an object of class <code>ExType</code>
+	 * representing the type of error that has occurred
+	 */
 	public DFLException(ExType type){
 		
 		if(type == null) throw new NullPointerException();
@@ -11,12 +19,21 @@ public class DFLException extends RuntimeException {
 		
 	}
 	
+	/**
+	 * @return an object of class <code>ExType</code>
+	 */
 	public ExType getType(){
 		return this.type;
 	}
 	
 	private ExType type;
 	
+	/**
+	 * Provides singleton objects for representing the most common
+	 * communication errors
+	 * @author Francisco Rodriguez Algarra
+	 *
+	 */
 	public enum ExType{
 		
 		CANCELLED{},
