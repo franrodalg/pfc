@@ -4,7 +4,7 @@ import dflibrary.utils.ba.*;
 
 /**
  * Provides singleton objects representing the different file types available
- * in the Mifare DESFire cards
+ * in Mifare DESFire cards
  * @author Francisco Rodriguez Algarra
  *
  */
