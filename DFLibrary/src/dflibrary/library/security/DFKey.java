@@ -6,43 +6,47 @@ import dflibrary.utils.ba.BAUtils;
 import dflibrary.utils.security.CipAlg;
 
 /**
- * 
- * @author Francisco Rodríguez Algarra
- *
+ * Provides an encapsulation for keys to be used with Mifare DESFire cards
+ * @author Francisco Rodriguez Algarra
  */
 public class DFKey {
 
 	/**
-	 * 
-	 * @param keyBytes
-	 * @param alg
+	 * Creates an instance of class <code>DFKey</code>
+	 * @param keyData the data bytes that form the key
+	 * @param alg an instance of class <code>CipAlg</code> representing
+	 * the current cryptographic algorithm to use
 	 */
-	public DFKey(byte[] keyBytes, CipAlg alg){
+	public DFKey(byte[] keyData, CipAlg alg){
 		
-		if((keyBytes == null) || (alg == null)) throw new NullPointerException();
-		if(alg == CipAlg.AES) throw new IllegalArgumentException();
+		if((keyData == null) || (alg == null)) 
+			throw new NullPointerException();
+		if(alg == CipAlg.AES) 
+			throw new IllegalArgumentException();
 		
-		this.keyBytes = keyBytes;
-		this.keyVersion = DFCrypto.getKeyVersion(keyBytes);
+		this.keyData = keyData;
+		this.keyVersion = DFCrypto.getKeyVersion(keyData);
 
 		this.alg = alg;
 	}
 	
 	/**
-	 * 
-	 * @param keyBytes
-	 * @param alg
-	 * @param keyVersion
+	 * Creates an instance of class <code>DFKey</code>
+	 * @param keyData the data bytes that form the key
+	 * @param alg an instance of class <code>CipAlg</code> representing
+	 * the current cryptographic algorithm to use
+	 * @param keyVersion an int representing the current key version
 	 */
-	public DFKey(byte[] keyBytes, CipAlg alg, int keyVersion){
+	public DFKey(byte[] keyData, CipAlg alg, int keyVersion){
 		
-		if((keyBytes == null) || (alg == null)) throw new NullPointerException();
+		if((keyData == null) || (alg == null)) 
+			throw new NullPointerException();
 		
 		if(alg != CipAlg.AES){
-			setKeyVersion(keyBytes, keyVersion);
+			setKeyVersion(keyData, keyVersion);
 		}
 		else{
-			this.keyBytes = keyBytes;
+			this.keyData = keyData;
 			this.keyVersion = keyVersion;
 		}
 		
@@ -50,17 +54,20 @@ public class DFKey {
 	}
 	
 	/**
-	 * 
-	 * @param keyBytes
+	 * Edits the bytes of a key to introduce its version
+	 * @param keyData
 	 * @param keyVersion
 	 */
-	private void setKeyVersion(byte[] keyBytes, int keyVersion){
+	private void setKeyVersion(byte[] keyData, int keyVersion){
 		
-		if(keyBytes == null) throw new NullPointerException();
-		if(keyBytes.length % 8 != 0) throw new DFLException(ExType.SECURITY_EXCEPTION);
-		if((keyVersion < 0) && (keyVersion > 255)) throw new DFLException(ExType.SECURITY_EXCEPTION);
+		if(keyData == null) 
+			throw new NullPointerException();
+		if(keyData.length % 8 != 0) 
+			throw new DFLException(ExType.SECURITY_EXCEPTION);
+		if((keyVersion < 0) && (keyVersion > 255)) 
+			throw new DFLException(ExType.SECURITY_EXCEPTION);
 		
-		int count = keyBytes.length / 8;
+		int count = keyData.length / 8;
 		
         byte[] ver = new byte[0];
         byte[] aux = new byte[1];
@@ -80,52 +87,48 @@ public class DFKey {
         
         for(int i = 0; i<count; i++){
         	
-        	aux = BAUtils.extractSubBA(keyBytes, 8*i, 8);
+        	aux = BAUtils.extractSubBA(keyData, 8*i, 8);
         	aux = BAUtils.and(aux, mask2);
         	aux = BAUtils.xor(aux, ver);
         	verKey = BAUtils.concatenateBAs(verKey, aux);
         }
 
-        this.keyBytes = new byte[verKey.length];
+        this.keyData = new byte[verKey.length];
         
-        System.arraycopy(verKey, 0,  this.keyBytes, 0, verKey.length);
+        System.arraycopy(verKey, 0,  this.keyData, 0, verKey.length);
 		this.keyVersion = keyVersion;
 		
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return a byte array containing the current key data
 	 */
-	public byte[] getKeyBytes(){ return this.keyBytes; }
+	public byte[] getKeyData(){ return this.keyData; }
+	
 	/**
-	 * 
-	 * @return
+	 * @return an int corresponding to the current version of the key
 	 */
 	public int getKeyVersion(){ return this.keyVersion; }
+	
 	/**
-	 * 
 	 * @return
 	 */
 	public CipAlg getAlg(){ return this.alg; }
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String toString(){
 		
 		String s = "";
 		
-		s = s + "Key Data: 0x" + BAUtils.toString(this.keyBytes) + "\n";
+		s = s + "Key Data: 0x" + BAUtils.toString(this.keyData) + "\n";
 		s = s + "Key Version number " + this.keyVersion + "\n";
 		s = s + "Key crypto algorithm: " + this.alg.toString();
-		
 		
 		return s;		
 				
 	}
 	
-	private byte[] keyBytes;
+	private byte[] keyData;
 	private CipAlg alg;
 	private int keyVersion;
 	

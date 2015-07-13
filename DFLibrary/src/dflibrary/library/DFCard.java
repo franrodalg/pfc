@@ -53,7 +53,7 @@ public class DFCard {
 		if((alg != CipAlg.DES) && (alg != CipAlg.TDEA2))
 			throw new IllegalArgumentException();
 		
-		return authenticate(keyNum, key.getKeyBytes());
+		return authenticate(keyNum, key.getKeyData());
 		
 	}
 	
@@ -164,7 +164,7 @@ public class DFCard {
 		if(alg == CipAlg.AES) 
 			throw new IllegalArgumentException();
 		
-		return authenticateISO(keyNum, key.getKeyBytes());
+		return authenticateISO(keyNum, key.getKeyData());
 		
 	}
 	
@@ -282,7 +282,7 @@ public class DFCard {
 		if(alg != CipAlg.AES)
 			throw new IllegalArgumentException();
 		
-		return authenticateAES(keyNum, key.getKeyBytes());
+		return authenticateAES(keyNum, key.getKeyData());
 		
 	}
 	
@@ -527,10 +527,10 @@ public class DFCard {
 		int authKeyNum = session.getAuthKeyNum();
 		
 		if(authKeyNum != keyNum) 
-			data = BAUtils.xor(newKey.getKeyBytes(), oldKey.getKeyBytes());
+			data = BAUtils.xor(newKey.getKeyData(), oldKey.getKeyData());
 		else 
 			data = BAUtils.extractSubBA(
-					newKey.getKeyBytes(), 0, newKey.getKeyBytes().length);
+					newKey.getKeyData(), 0, newKey.getKeyData().length);
 		
 		if(newKey.getAlg() == CipAlg.AES) 
 			data = BAUtils.concatenateBAs(
@@ -541,7 +541,7 @@ public class DFCard {
 		
 		if(authKeyNum != keyNum) 
 			data = BAUtils.concatenateBAs(
-					data, DFCrypto.CRC(newKey.getKeyBytes(), auth));
+					data, DFCrypto.CRC(newKey.getKeyData(), auth));
 		
 		data = DFCrypto.padding(data, auth);
 		

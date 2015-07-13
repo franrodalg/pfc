@@ -1,14 +1,14 @@
 package dflibrary.library.security;
 
 /**
- * 
- * @author Francisco Rodríguez Algarra
+ * Provides singleton objects to represent the current authentication status
+ * @author Francisco Rodriguez Algarra
  *
  */
 public enum AuthType {
 
 		/**
-		 * 
+		 * Card not currently authenticated
 		 */
 		NO_AUTH{
 			
@@ -18,7 +18,7 @@ public enum AuthType {
 			
 		},
 		/**
-		 * 
+		 * Card authenticated with Triple DES Crypto DESFire Native Mode
 		 */
 		TDEA_NATIVE{
 			
@@ -29,7 +29,7 @@ public enum AuthType {
 			
 		},
 		/**
-		 * 
+		 * Card authenticated with Triple DES Crypto DESFire Standard Mode
 		 */
 		TDEA_STANDARD{
 			
@@ -40,7 +40,7 @@ public enum AuthType {
 			
 		},
 		/**
-		 * 
+		 * Card authenticated with 3 Key Triple DES Crypto
 		 */
 		TDEA3{
 			
@@ -50,7 +50,7 @@ public enum AuthType {
 			
 		},
 		/**
-		 * 
+		 * Card authenticated with AES Crypto
 		 */
 		AES{
 			

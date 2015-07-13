@@ -87,7 +87,7 @@ public class ConfigOption {
 			
 		}
 		else if(opt == ConfigOptionType.KEY)			
-			data = BAUtils.concatenateBAs(this.key.getKeyBytes(), 
+			data = BAUtils.concatenateBAs(this.key.getKeyData(), 
 					BAUtils.toBA(this.key.getKeyVersion(), 1));
 			
 		else data = this.ATS;
