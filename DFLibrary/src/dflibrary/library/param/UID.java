@@ -3,14 +3,13 @@ package dflibrary.library.param;
 import dflibrary.utils.ba.*;
 
 /**
- * 
- * @author Francisco Rodríguez Algarra
- *
+ * Provides an encapsulation of a card's unique identifier
+ * @author Francisco Rodriguez Algarra
  */
 public class UID {
 
 	/**
-	 * 
+	 * Creates a default instance of class <code>UID</code>
 	 */
 	public UID(){
 		
@@ -19,8 +18,8 @@ public class UID {
 	}
 	
 	/**
-	 * 
-	 * @param uid
+	 * Creates an instance of class <code>UID</code>
+	 * @param uid a byte array containing the card's unique identifier
 	 */
 	public UID(byte[] uid){
 		
@@ -30,20 +29,9 @@ public class UID {
 		this.uid = uid;
 		
 	}
-	
-	/**
-	 * 
-	 * @param uid
-	 */
-	public UID(String uid) {
-		
-		this(BAUtils.toBA(uid));
-		
-	}
 
 	/**
-	 * 
-	 * @return
+	 * @return the byte array representation of the card's unique identifier
 	 */
 	public byte[] toBA(){
 		
@@ -51,9 +39,7 @@ public class UID {
 		
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String toString(){
 		
 		return BAUtils.toString(this.toBA());

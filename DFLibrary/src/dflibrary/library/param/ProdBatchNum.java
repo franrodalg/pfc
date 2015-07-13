@@ -3,15 +3,16 @@ package dflibrary.library.param;
 import dflibrary.utils.ba.*;
 
 /**
- * 
- * @author frankie
- *
+ * Provides an encapsulation of the production batch number retrieved
+ * with the PICC version information
+ * @author Francisco Rodriguez Algarra
  */
 public class ProdBatchNum {
 
 	/**
-	 * 
-	 * @param number
+	 * Creates an instance of class <code>ProdBatchNum</code>
+	 * @param number a byte array representing the card's production 
+	 * batch number
 	 */
 	public ProdBatchNum(byte[] number){
 		
@@ -23,8 +24,8 @@ public class ProdBatchNum {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the byte array representation of the card's production
+	 * batch number
 	 */
 	public byte[] toBA(){
 		
@@ -32,9 +33,7 @@ public class ProdBatchNum {
 		
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String toString(){
 		
 		return BAUtils.toString(this.toBA());

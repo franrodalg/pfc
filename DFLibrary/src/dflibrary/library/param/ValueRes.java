@@ -1,16 +1,18 @@
 package dflibrary.library.param;
 
 /**
- * 
- * @author Francisco Rodríguez Algarra
- *
+ * Provides an encapsulation of the structure retrieved from
+ * an execution of the <code>getValue</code> command
+ * @author Francisco Rodriguez Algarra
  */
 public class ValueRes {
 	
 	/**
-	 * 
-	 * @param value
-	 * @param checked
+	 * Creates an instance of class <code>ValueRes</code>
+	 * @param value a byte array representing the number stored in
+	 * the file
+	 * @param checked a boolean indicating whether the retrieved
+	 * number has successfully passed an integrity check or not
 	 */
 	public ValueRes(byte[] value, boolean checked){
 		
@@ -23,20 +25,20 @@ public class ValueRes {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return an instance of class <code>Value</code> representing 
+	 * the number currently stored
 	 */
 	public Value getValue(){ return this.value; }
 	
 	/**
 	 * 
-	 * @return
+	 * @return <code>true</code> if the number currently stored has
+	 * successfully passed an integrity check;
+	 * <code>false</code> otherwise
 	 */
 	public boolean isChecked(){ return this.isChecked; }
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String toString(){
 		
 		String s =  "Value: " + this.value;
@@ -44,8 +46,7 @@ public class ValueRes {
 		return s;
 		
 	}
-	
-	
+		
 	private boolean isChecked;
 	private Value value;
 	

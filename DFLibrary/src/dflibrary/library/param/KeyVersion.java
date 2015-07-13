@@ -3,15 +3,17 @@ package dflibrary.library.param;
 import dflibrary.utils.ba.*;
 
 /**
- * 
- * @author Francisco Rodríguez Algarra
+ * Provides an encapsulation for the key version number retrieved
+ * from the card via an execution of the <code>getKeyVersion</code>
+ * command
+ * @author Francisco Rodriguez Algarra
  *
  */
 public class KeyVersion {
 
 	/**
-	 * 
-	 * @param keyVersion
+	 * Creates an instance of class <code>KeyVersion</code>
+	 * @param keyVersion an int indicating the current key version number
 	 */
 	public KeyVersion(int keyVersion){
 		
@@ -20,8 +22,9 @@ public class KeyVersion {
 	}
 	
 	/**
-	 * 
-	 * @param keyVersion
+	 * Creates an instance of class <code>KeyVersion</code>
+	 * @param keyVersion an byte array representing the current key version 
+	 * number
 	 */
 	public KeyVersion(byte[] keyVersion){
 		
@@ -35,20 +38,19 @@ public class KeyVersion {
 	}
 
 	/**
-	 * 
-	 * @param keyVersion
+	 * @param keyVersion an int indicating the new key version number
 	 */
 	public void setKV(int keyVersion){
 		
-		if((keyVersion < 0) || (keyVersion > 255)) throw new IllegalArgumentException();
+		if((keyVersion < 0) || (keyVersion > 255)) 
+			throw new IllegalArgumentException();
 		
 		this.keyVersion = keyVersion;
 		
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the int representation of the current key version
 	 */
 	public int toInt(){
 		
@@ -57,8 +59,7 @@ public class KeyVersion {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the byte array representation of the current key version
 	 */
 	public byte[] toBA(){
 		
@@ -66,9 +67,7 @@ public class KeyVersion {
 		
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String toString(){
 		
 		return "Key Version: " + keyVersion;

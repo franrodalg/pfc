@@ -3,17 +3,19 @@ package dflibrary.library.param;
 import dflibrary.utils.ba.BAUtils;
 
 /**
- * 
- * @author Francisco Rodríguez Algarra
- *
+ * Provides an encapsulation of the structure retrieved from
+ * an execution of the <code>readRecords</code> command
+ * @author Francisco Rodriguez Algarra
  */
 public class RecordsRes {
 	
 	/**
-	 * 
-	 * @param records
-	 * @param recSize
-	 * @param checked
+	 * Creates an instance of class RecordsRes
+	 * @param records a byte array containing the records to be stored
+	 * @param recSize an instance of class <code>Size</code> representing
+	 * the length of each record
+	 * @param checked a boolean indicating whether the records have
+	 * successfully passed an integrity check or not
 	 */
 	public RecordsRes(byte[] records, Size recSize, boolean checked){
 	
@@ -30,7 +32,8 @@ public class RecordsRes {
 		
 		for(int i = 0; i < numOfRecords; i ++){
 			
-			this.records[i] = new Data(BAUtils.extractSubBA(records, i*recSize.getSize(), recSize.getSize()));
+			this.records[i] = new Data(BAUtils.extractSubBA(
+					records, i*recSize.getSize(), recSize.getSize()));
 			
 		}
 		
@@ -39,20 +42,18 @@ public class RecordsRes {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return an array of instances of class <code>Data</code>
+	 * representing the list of retrieved records
 	 */
 	public Data[] getRecords(){ return this.records; }
 	
 	/**
-	 * 
-	 * @return
+	 * @return <code>true</code> if the current record list has
+	 * successfully passed an integrity check
 	 */
 	public boolean isChecked(){ return this.isChecked; }
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String toString(){
 		
 		String s =  "Records: \n"; 
@@ -63,8 +64,7 @@ public class RecordsRes {
 		return s;
 		
 	}
-	
-	
+
 	private boolean isChecked;
 	private Data[] records;
 	

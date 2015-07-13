@@ -228,9 +228,7 @@ public class AccessRights {
 		
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String toString(){
 		
 		return 	"Read Access: " + toString(this.getReadAccess()) + "\n" +
@@ -257,11 +255,11 @@ public class AccessRights {
 
 	
 	/**
-	 * 
+	 * Grants the particular permission freely
 	 */
 	public static final int FREE = 0xE;
 	/**
-	 * 
+	 * Forbids the granting of a particular permission
 	 */
 	public static final int DENY = 0xF;
 	

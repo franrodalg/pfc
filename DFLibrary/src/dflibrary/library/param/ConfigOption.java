@@ -4,16 +4,19 @@ import dflibrary.library.security.DFKey;
 import dflibrary.utils.ba.BAUtils;
 
 /**
- * 
- * @author frankie
- *
+ * Provides an encapsulation for the sending parameters of the 
+ * <code>setConfiguration</code> command
+ * @author Francisco Rodriguez Algarra
  */
 public class ConfigOption {
 
 	/**
-	 * 
-	 * @param formatEnabled
-	 * @param randIDEnabled
+	 * Creates an instance of class <code>ConfigOption</code> 
+	 * for options of type <code>FC_RandID</code>
+	 * @param formatEnabled a boolean indicating whether 
+	 * card formatting is allowed or not
+	 * @param randIDEnabled a boolean indicating whether 
+	 * card formatting is allowed or not
 	 */
 	public ConfigOption(boolean formatEnabled, boolean randIDEnabled){
 		
@@ -24,8 +27,10 @@ public class ConfigOption {
 	}
 	
 	/**
-	 * 
-	 * @param key
+	 * Creates an instance of class <code>ConfigOption</code> 
+	 * for options of type <code>KEY</code>
+	 * @param key an instance of class <code>DFKey</code>
+	 * representing the data of the key to be set
 	 */
 	public ConfigOption(DFKey key){
 		
@@ -37,8 +42,10 @@ public class ConfigOption {
 	}
 	
 	/**
-	 * 
-	 * @param ATS
+	 * Creates an instance of class <code>ConfigOption</code> 
+	 * for options of type <code>ATS</code>
+	 * @param ATS a byte array containing the new <code>ATS</code>
+	 * string to be set
 	 */
 	public ConfigOption(byte[] ATS){
 		
@@ -50,8 +57,8 @@ public class ConfigOption {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return an instance of class <code>ConfigOptionType</code>
+	 * representing the current configuration option type
 	 */
 	public ConfigOptionType getOpt(){
 		
@@ -60,8 +67,8 @@ public class ConfigOption {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return the byte array representation of the current configuration
+	 * options
 	 */
 	public byte[] getDataBA(){
 		
@@ -80,7 +87,8 @@ public class ConfigOption {
 			
 		}
 		else if(opt == ConfigOptionType.KEY)			
-			data = BAUtils.concatenateBAs(this.key.getKeyBytes(), BAUtils.toBA(this.key.getKeyVersion(), 1));
+			data = BAUtils.concatenateBAs(this.key.getKeyBytes(), 
+					BAUtils.toBA(this.key.getKeyVersion(), 1));
 			
 		else data = this.ATS;
 		
@@ -88,9 +96,7 @@ public class ConfigOption {
 		
 	}
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String toString(){
 		
 		String s = opt.toString();

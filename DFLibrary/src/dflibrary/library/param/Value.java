@@ -4,14 +4,15 @@ import dflibrary.utils.ba.*;
 import dflibrary.utils.ba.DigitUtils.SignMode;
 
 /**
- * 
- * @author Francisco Rodríguez Algarra
+ * Provides an encapsulation of a number to write in or read from a
+ * <code>Value</code> file
+ * @author Francisco Rodriguez Algarra
  *
  */
 public class Value {
 
 	/**
-	 * 
+	 * Creates a default instance of class <code>Value</code>
 	 */
 	public Value(){
 		
@@ -20,8 +21,8 @@ public class Value {
 	}
 	
 	/**
-	 * 
-	 * @param value
+	 * Creates an instance of class <code>Value</code>
+	 * @param value an int indicating the number to store
 	 */
 	public Value(int value){
 		
@@ -30,8 +31,8 @@ public class Value {
 	}
 	
 	/**
-	 * 
-	 * @param value
+	 * Creates an instance of class <code>Value</code>
+	 * @param value an byte array indicating the number to store
 	 */
 	public Value(byte[] value){
 		
@@ -43,18 +44,17 @@ public class Value {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return an int indicating the stored number
 	 */
 	public int getValue(){ return this.value; }
 	
 	/**
-	 * 
-	 * @return
+	 * @return an byte array representing the stored number
 	 */
-	public byte[] toBA(){ return BAUtils.toBA(this.value, 4, SignMode.SIGNED); }
+	public byte[] toBA(){ return BAUtils.toBA(
+			this.value, 4, SignMode.SIGNED); }
 	
-	
+	@Override
 	public String toString(){
 		
 		String s = "" + this.value;

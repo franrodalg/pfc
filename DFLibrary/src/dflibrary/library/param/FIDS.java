@@ -2,17 +2,17 @@ package dflibrary.library.param;
 
 import dflibrary.utils.ba.BAUtils;
 
-
 /**
- * 
- * @author Francisco Rodríguez Algarra
- *
+ * Provides an encapsulation of the structure retrieved from
+ * an execution of the <code>getFileIDs</code> command
+ * @author Francisco Rodriguez Algarra
  */
 public class FIDS {
 
 	/**
-	 * 
-	 * @param fids
+	 * Creates an instance of class <code>FIDS</code>
+	 * @param aids a byte array containing the list of file
+	 * identifiers
 	 */
 	public FIDS(byte[] fids){
 		
@@ -27,21 +27,21 @@ public class FIDS {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return an array of instances of class <code>FID</code>
+	 * containing the list of file identifiers present
+	 * on an application of the card
 	 */
 	public FID[] getFids(){ return this.fids; }
 	
 	/**
-	 * 
-	 * @param i
-	 * @return
+	 * @param i an index
+	 * @return an instance of class <code>FID</code>
+	 * representing the file identifier at position
+	 * <code>i</code> in the retrieved list
 	 */
 	public FID getFid(int i){ return this.fids[i]; }
 	
-	/**
-     * 
-     */
+	@Override
     public String toString(){
     
         String s = "File Identifiers present in the Application:\n";

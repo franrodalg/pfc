@@ -2,16 +2,14 @@ package dflibrary.library.param;
 
 import dflibrary.utils.ba.BAUtils;
 
-
 /**
- * 
- * @author Francisco Rodríguez Algarra
- *
+ * Provides an encapsulation of an application identifier
+ * @author Francisco Rodriguez Algarra
  */
 public class AID {
 
 	/**
-	 * 
+	 * Creates a default application identifier
 	 */
 	public AID(){
 		
@@ -20,8 +18,8 @@ public class AID {
 	}
 	
 	/**
-	 * 
-	 * @param aid
+	 * Creates an application identifier 
+	 * @param aid an int representing the application identifier
 	 */
 	public AID(int aid){
 		
@@ -30,8 +28,8 @@ public class AID {
 	}
 	
 	/**
-	 * 
-	 * @param aid
+	 * Creates an application identifier 
+	 * @param aid a byte array representing the application identifier
 	 */
 	public AID(byte[] aid){
 		
@@ -43,18 +41,10 @@ public class AID {
 	}
 	
 	/**
-	 * 
-	 * @param aid
-	 */
-	public AID(String aid){
-		
-		this(BAUtils.toBA(aid));
-		
-	}
-	
-	/**
-	 * 
-	 * @return
+	 * Determines whether the application identifier represents
+	 * the PICC Master Application or not
+	 * @return <code>true</code> if the application identifier represents
+	 * the PICC Master Application; <code>false</code> otherwise
 	 */
 	public boolean isMaster(){
 		
@@ -62,30 +52,24 @@ public class AID {
 		
 	}
 	
-	
 	/**
-	 * 
-	 * @return
+	 * @return the int representation of the application identifier
 	 */
 	public int toInt(){ return BAUtils.toInt(this.aid); }
 	
 	/**
-	 * 
-	 * @return
+	 * @return the byte array representation of the application identifier
 	 */
 	public byte[] toBA(){ return this.aid; }
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String toString(){
 		
 		if (isMaster()) return "PICC Master Application";
 		
 		return "0x" + BAUtils.toString(toBA());		
 	}
-	
-	
+		
 	private byte[] aid;
 	
 }

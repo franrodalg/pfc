@@ -2,17 +2,17 @@ package dflibrary.library.param;
 
 import dflibrary.utils.ba.BAUtils;
 
-
 /**
- * 
- * @author Francisco Rodríguez Algarra
- *
+ * Provides an encapsulation of the structure retrieved from
+ * an execution of the <code>getApplicationIDs</code> command
+ * @author Francisco Rodriguez Algarra
  */
 public class AIDS {
 
 	/**
-	 * 
-	 * @param aids
+	 * Creates an instance of class <code>AIDS</code>
+	 * @param aids a byte array containing the list of application
+	 * identifiers
 	 */
 	public AIDS(byte[] aids){
 		
@@ -30,21 +30,21 @@ public class AIDS {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @return an array of instances of class <code>AID</code>
+	 * containing the list of application identifiers present
+	 * on the card
 	 */
 	public AID[] getAids(){ return this.aids; }
 	
 	/**
-	 * 
-	 * @param i
-	 * @return
+	 * @param i an index
+	 * @return an instance of class <code>AID</code>
+	 * representing the application identifier at position
+	 * <code>i</code> in the retrieved list
 	 */
 	public AID getAid(int i){ return this.aids[i]; }
 	
-	/**
-     * 
-     */
+	@Override
     public String toString(){
     
         String s = "Application Identifiers present in the Card:\n";

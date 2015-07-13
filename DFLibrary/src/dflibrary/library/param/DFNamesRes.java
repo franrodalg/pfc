@@ -1,15 +1,17 @@
 package dflibrary.library.param;
 
 /**
- * 
- * @author Francisco Rodríguez Algarra
+ * Provides an encapsulation of the structure retrieved from the execution of
+ * the <code>getDFNames</code> command
+ * @author Francisco Rodriguez Algarra
  *
  */
 public class DFNamesRes {
 
 	/**
-	 * 
-	 * @param dfNames
+	 * Creates an instance of class <code>DFNamesRes</code>
+	 * @param dfNames A bi-dimensional byte array containing the list of 
+	 * retrieved DF-Name strings
 	 */
 	public DFNamesRes(byte[][] dfNames){
 		
@@ -24,8 +26,8 @@ public class DFNamesRes {
 	}
 	
 	/**
-	 * 
-	 * @param dfName
+	 * Adds a new DF-Name to the current <code>DFNamesRes</code> instance
+	 * @param dfName a byte array representing a DF-Name string
 	 */
 	public void addDFName(byte[] dfName){
 		
@@ -41,21 +43,18 @@ public class DFNamesRes {
 		
 	}
 	
-	
 	/**
-	 * 
-	 * @return
+	 * @return an array of instances of class <code>DFNameInfo</code>
 	 */
 	public DFNameInfo[] getDFNames(){ return this.dfnames; }
 	
-	/**
-	 * 
-	 */
+	@Override
 	public String toString(){
 			
 		String s = "DF-Names of all active applications on the PICC: \n";
 		
-		if(this.dfnames.length == 0) s = s + "No applications with DF-Name present on the PICC";
+		if(this.dfnames.length == 0) 
+			s = s + "No applications with DF-Name present on the PICC";
 		else{
 			for(int i = 0; i < this.dfnames.length; i++){
 				s = s + this.dfnames[i].toString() + "\n";

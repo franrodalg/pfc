@@ -5,16 +5,18 @@ import dflibrary.utils.ba.*;
 import dflibrary.utils.security.CipAlg;
 
 /**
- * 
- * @author Francisco Rodríguez Algarra
- *
+ * Provides an encapsulation of the structure retrieved from the execution of
+ * the <code>getKeySettings</code> command
+ * @author Francisco Rodriguez Algarra
  */
 public class KeySettingsRes {
 
 	/**
-	 * 
-	 * @param keySettings
-	 * @param maxNumOfKeys
+	 * Creates an instance of class <code>KeySettingsRes</code>
+	 * @param keySettings an instance of class <code>KeySettings</code>
+	 * representing the current key settings
+	 * @param maxNumOfKeys an int indicating the maximum number of keys
+	 * allowed in the application
 	 */
     public KeySettingsRes(KeySettings keySettings, CipAlg alg, int maxNumOfKeys){
 
@@ -27,8 +29,9 @@ public class KeySettingsRes {
     }
 
     /**
-     * 
-     * @param field
+     * Creates an instance of class <code>KeySettingsRes</code>
+     * @param field a byte array containing the card response to a
+     * <code>GetKeySettings</code> command
      */
     public KeySettingsRes(byte[] field){
     	
@@ -41,8 +44,8 @@ public class KeySettingsRes {
     }
     
     /**
-     * 
-     * @return
+     * @return an instance of class <code>KeySettings</code>
+	 * representing the current key settings
      */
     public KeySettings getKeySettings(){
 
@@ -51,8 +54,8 @@ public class KeySettingsRes {
     }
 
     /**
-     * 
-     * @return
+     * @return an int indicating the maximum number of keys
+	 * allowed in the application
      */
     public int getMaxNumOfKeys(){
 
@@ -61,17 +64,17 @@ public class KeySettingsRes {
     }
     
     /**
-     * 
-     * @return
+     * @return an instance of class <code>CipAlg</code> representing the
+     * currently set criptographic algorithm for the application
      */
     public CipAlg getAlg(){
     	
     	return this.alg;
     	
     }
+    
     /**
-     * 
-     * @param ks
+     * @param a byte array representing the new key settings
      */
     public void setKeySettings(byte[] ks){
     	
@@ -83,8 +86,8 @@ public class KeySettingsRes {
     }
     
     /**
-     * 
-     * @param ks
+	 * @param ks an instance of class <code>KeySettings</code>
+	 * representing the new key settings
      */
     public void setKeySettings(KeySettings ks){
     	
@@ -95,13 +98,15 @@ public class KeySettingsRes {
     }
     
     /**
-     * 
-     * @param maxNumOfKeysAlg
+     * @param maxNumOfKeysAlg an byte array containing the maximum number 
+     * of keys allowed in the application
      */
     public void setMaxNumOfKeysAlg(byte[] maxNumOfKeysAlg){
     	
-    	if(maxNumOfKeysAlg == null) throw new NullPointerException();
-    	if(maxNumOfKeysAlg.length != 1) throw new IllegalArgumentException();
+    	if(maxNumOfKeysAlg == null) 
+    		throw new NullPointerException();
+    	if(maxNumOfKeysAlg.length != 1) 
+    		throw new IllegalArgumentException();
     	
     	byte[] maxNumOfKeys = BAUtils.and(maxNumOfKeysAlg, BAUtils.toBA("0F"));
     	
@@ -114,29 +119,30 @@ public class KeySettingsRes {
     }
     
     /**
-     * 
-     * @param maxNumOfKeys
+     * @param maxNumOfKeys an int indicating the maximum number of keys
+	 * allowed in the application
      */
     public void setMaxNumOfKeys(int maxNumOfKeys){
     	
-    	if((maxNumOfKeys < 1) || (maxNumOfKeys > 14)) throw new IllegalArgumentException();
+    	if((maxNumOfKeys < 1) || (maxNumOfKeys > 14)) 
+    		throw new IllegalArgumentException();
     	
     	this.maxNumOfKeys = maxNumOfKeys;
     	
     }
 
-    /**
-     * 
-     */
+    @Override
     public String toString(){
 
     	String s = "";
     	
-    	s = s + "Key Settings:\n " + this.getKeySettings().toString() + "\n";
+    	s = s + "Key Settings:\n " + 
+    	        this.getKeySettings().toString() + "\n";
     	
-        s = s + "Application Crypto Algorithm: " + this.getAlg().toString() + "\n" +
-        
-        		"Maximum number of keys: " + this.getMaxNumOfKeys();
+        s = s + "Application Crypto Algorithm: " + 
+                this.getAlg().toString() + "\n" +
+        		"Maximum number of keys: " + 
+                this.getMaxNumOfKeys();
 
         return s;
         
