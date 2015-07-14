@@ -79,8 +79,7 @@ public class Ticket {
 		this(id, event, user, state);
 		this.ubication = new Ubication(area, zone, row, seat);
 		this.price = price;
-		
-		
+			
 	}
 	
 	/**
@@ -287,8 +286,7 @@ public class Ticket {
 			s = s + ", Seat: " + getSeat();
 			
 			return s;
-			
-			
+					
 		}
 		
 		private int area;

@@ -454,6 +454,4 @@ public class TickDBManager {
 		
 		public static final String PORT = "3306";
 		
-	
-	
 }

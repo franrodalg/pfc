@@ -298,4 +298,5 @@ class BankHandler implements Runnable{
 	private Socket s;
 	private int bankID;
 	private int count;
+	
 }

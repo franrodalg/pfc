@@ -439,7 +439,7 @@ public class WTModel {
         getView().log("");
         
         if(!res.isOk())
-            throw new RuntimeException("Card format not successfully" +
+            throw new RuntimeException("Card format not successfully " +
                                         "finished");
             
     }

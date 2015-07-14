@@ -177,18 +177,12 @@ public class BankDBManager {
 	public static final int ACCOUNTS_ACCOUNT_ID = 1;
 	public static final int ACCOUNTS_BANK_ID = 2;
 	public static final int ACCOUNTS_CLIENT_ID = 3;
-		public static final int ACCOUNTS_BALANCE = 4;
+	public static final int ACCOUNTS_BALANCE = 4;
 		
-		public static final String LOCALHOST = "127.0.0.1";
+	public static final String LOCALHOST = "127.0.0.1";	
+	public static final String PORT = "3306";
+	public static final String DB_NAME = "bank_db";
+	public static final String DB_USER_NAME = "bankusr";
+	public static final String DB_USER_PWD = "bankpwd";
 		
-		public static final String PORT = "3306";
-		
-		public static final String DB_NAME = "bank_db";
-		
-		public static final String DB_USER_NAME = "bankusr";
-		
-		public static final String DB_USER_PWD = "bankpwd";
-		
-	
-	
 }

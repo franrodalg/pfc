@@ -101,7 +101,7 @@ public class BankKeyProvider {
 		
 		byte[] divInput = BAUtils.concatenateBAs(CT, new byte[5], bankIDBA);
 		
-		byte[] keyData = key.getKeyBytes();
+		byte[] keyData = key.getKeyData();
 		
 		try{
 			byte[] divKey = Crypto.encode(keyData, keyData, divInput, 
@@ -113,8 +113,7 @@ public class BankKeyProvider {
 		}
 		
 	}
-	
-	
+		
 	private static final String ONE = "00112233445566778899AABBCCDDEEFFFFEEDDCCBBAA9988";
 	private static final String TWO = "0022446688AACCEE1133557799BBDDFFFFDDBB9977553311";
 	private static final String THREE = "000102030405060708090A0B0C0D0E0FF0E0D0C0B0A09080";

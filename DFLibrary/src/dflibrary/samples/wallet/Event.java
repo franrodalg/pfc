@@ -73,6 +73,5 @@ public class Event {
 	private int event_id;
 	private String description;
 	private Timestamp date;
-	
-	
+		
 }
