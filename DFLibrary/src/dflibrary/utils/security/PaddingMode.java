@@ -7,7 +7,13 @@ package dflibrary.utils.security;
  */
 public enum PaddingMode {
 
+	/**
+	 * 
+	 */
 	ZEROPadding{},
+	/**
+	 * 
+	 */
 	EIGHTPadding{};
 	
 }

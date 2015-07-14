@@ -79,39 +79,8 @@ public class CRC {
 		
 	}
 	
-	/*
-
-	
-	private static byte[] rShift(byte[] ba){
-		
-		boolean lsb = false;
-    	byte[] aux;
-    	byte[] res = BAUtils.extractSubBA(ba, 0, ba.length);
-   
-    	
-    	for(int i = 0; i < ba.length; i++){
-    		
-    		res[i] = (byte) ((int) res[i] >> 1);
-    		
-    		if(lsb) res[i] = (byte) ((int)res[i] | (byte)0x80);
-    		
-    		aux = BAUtils.and(BAUtils.extractSubBA(ba, i, 1), BAUtils.toBA("01"));
-    		if(BAUtils.compareBAs(aux, new byte[1])) lsb = false;
-    		else lsb = true;
-    		
-    	}
-    	
-    	return res;
-    	
-		
-		
-	}
-
-	*/
-	
 	public static final byte[] CRC32_PRESET = {(byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF};
 	public static final byte[] CRC32_POLY = {(byte)0xED, (byte)0xB8,  (byte)0x83, (byte)0x20};
-	
 	
 	public static void main(String[] args){
 		
@@ -119,7 +88,6 @@ public class CRC {
 		
 		System.out.println(BAUtils.toString(CRC16(ba)));
 		
-
 	}
 	
 }

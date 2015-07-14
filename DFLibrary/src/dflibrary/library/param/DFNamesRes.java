@@ -62,8 +62,7 @@ public class DFNamesRes {
 		}
 		
 		return s;
-			
-			
+						
 	}
 	
 	private DFNameInfo[] dfnames;

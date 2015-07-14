@@ -2,7 +2,7 @@ package dflibrary.utils.security;
 
 /**
  * 
- * @author 
+ * @author Francisco Rodriguez Algarra
  *
  */
 public enum CipAlg {
@@ -54,4 +54,5 @@ public enum CipAlg {
 
 	public abstract int getBlockLength();
 	public abstract int getKeyLength();
+	
 }

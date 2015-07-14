@@ -111,7 +111,8 @@ public class DFKey {
 	public int getKeyVersion(){ return this.keyVersion; }
 	
 	/**
-	 * @return
+	 * @return an instance of class <code>CipAlg</code> representing
+	 * the current criptographic algorithm used in the key
 	 */
 	public CipAlg getAlg(){ return this.alg; }
 	

@@ -6,28 +6,12 @@ import java.util.Arrays;
 
 import dflibrary.utils.ba.DigitUtils.*;
 
-
 /**
- *
  * A collection of methods designed for providing help in Byte Array treatment.
- * 
- * @author Francisco Rodríguez Algarra
- * @version 29.8.2012
- *
+ * @author Francisco Rodriguez Algarra
  */
-
 public class BAUtils {
-	
-	//TODO 2 Revisar excepciones lanzadas y documentarlas
-  
-    /**
-     * Sole constructor. (For invocation by subclass constructors, typically implicit)
-     */
     
-    protected BAUtils(){}
-    
-    //TODO 3 Documentar
-
     /**
      * 
      * @param s
@@ -39,8 +23,6 @@ public class BAUtils {
     	return toBA(s, olen, DigitFormat.HEX, SignMode.UNSIGNED, ByteOrder.LSB_MSB);
     	
     }
-    
-    //TODO 3 Documentar
     
     /**
      * 
@@ -54,8 +36,6 @@ public class BAUtils {
     	return toBA(s, olen, df, SignMode.UNSIGNED, ByteOrder.LSB_MSB);
     	
     }
-    
-   //TODO 3 Documentar
     
    /**
     * 
@@ -790,8 +770,7 @@ public class BAUtils {
     	   ba = concatenateBAs(auxba, ba);
        }
        return ba;
-    	
-    	
+    		
     }
     
     //TODO 4 Documentación: mejora y ejemplos
@@ -824,8 +803,7 @@ public class BAUtils {
         return auxba;
 
     }
-
-    
+ 
     /**
      * 
      * @param ba
@@ -843,34 +821,6 @@ public class BAUtils {
     	
     	return aux;
     }
-    
-    /*
-    public static byte[] lShift(byte[] ba, int bcount){
-    	
-    	boolean msb = false;
-    	byte[] aux;
-    	byte[] res = extractSubBA(ba, 0, ba.length);
-    	
-    	for(int i = 0; i < ba.length; i++){
-    		
-    		res[i] = (byte) ((int) res[i] << bcount);
-    		
-    		if(msb) res[i] = (byte) ((int)res[i] | (byte)1);
-    		
-    		
-    		aux = and(ba, toBA("80"));
-    		if(compareBAs(aux, new byte[1])) msb = false;
-    		else msb = true;
-    		
-    		
-    	}
-    	
-    	return res;
-    	
-    }
-    
-    */
-    
     
     /**
      * Returns a new Byte Array that is a subarray of the <code>ba</code> parameter. 
@@ -1110,18 +1060,17 @@ public class BAUtils {
      * Returns a randomized Byte Array of the specified length. 
      * As the resulting array is generated using the SecureRandom class,
      * it is suitable for cryptographic purposes.
-     * 
-     * @param length the length (in bytes) of the Byte Array to be generated
-     * @param alg String containing the algorithm that will be used for generating
+     * @param length an int representing the length (in bytes) of the Byte Array 
+     * to be generated
+     * @param alg a String containing the algorithm that will be used for generating
      * the randomized Byte Array.  
      * @return the random Byte Array 
      * @throws NoSuchAlgorithmException  
      * @see java.security.SecureRandom#getInstance(String)
-     *    
      */
-    
-    public static byte[] getRandomBA(int length, String alg) throws NoSuchAlgorithmException{
-
+   
+    public static byte[] getRandomBA(int length, String alg) 
+    		throws NoSuchAlgorithmException{
 
         byte[] randomBytes = new byte[length];
 
@@ -1192,7 +1141,6 @@ public class BAUtils {
 		};
     }
 	
-	
 	public static void main(String[] args){
 		
 		String s = "A7";
@@ -1200,10 +1148,7 @@ public class BAUtils {
 		byte[] ba = toBA(s);
 		
 		System.out.println(toString(ba));
-		
-		
+			
 	}
 	
-    
 }
-

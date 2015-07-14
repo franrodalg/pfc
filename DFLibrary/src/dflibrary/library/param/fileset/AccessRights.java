@@ -262,7 +262,6 @@ public class AccessRights {
         }
     }
 
-	
 	/**
 	 * Grants the particular permission freely
 	 */

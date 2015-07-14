@@ -208,7 +208,5 @@ public class DFSession {
 	private boolean PICCAuth;
 	private byte[] cmacIV;
 	private boolean cmacOK;
+	
 }
-
-
-

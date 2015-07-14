@@ -279,6 +279,5 @@ public class Crypto {
 		
 		return BAUtils.concatenateBAs(data, pad);
 	}
-	
-	
+
 }

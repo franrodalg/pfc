@@ -1255,7 +1255,6 @@ public class DigitUtils {
     	return true;
     }
     
-    
     /**
      * Returns <code>true</code> if <code>c</code> is a valid Decimal digit
      * 
@@ -1268,7 +1267,5 @@ public class DigitUtils {
     	if((c>='0') && (c<='7')) return true;
     	return false;
     }
-
- 
     
 }

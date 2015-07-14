@@ -2,7 +2,7 @@ package dflibrary.utils.security;
 
 /**
  * 
- * @author Francisco Rodríguez Algarra
+ * @author Francisco Rodriguez Algarra
  *
  */
 public enum CipMode {

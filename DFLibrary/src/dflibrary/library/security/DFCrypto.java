@@ -568,7 +568,6 @@ public class DFCrypto {
 	 * the current communication settings
 	 * @param ar an instance of class <code>AccessRights</code> representing
 	 * the current access rights
-	 * @param getFreeValue
 	 * @param session an instance of class <code>DFSession</code> representing
 	 * the current communication session
 	 * @return an instance of class <code>ComSet</code> representing the
@@ -1124,8 +1123,6 @@ public class DFCrypto {
 	 * @param res a byte array received from a card, without the status code
 	 * @param session an instance of class <code>DFSession</code> representing
 	 * the current communication session
-	 * @return <code>true</code> if the CMAC check is successful;
-	 * <code>false</code> otherwise
 	 */
 	public static void checkCMAC(byte[] res, DFSession session){
 		
@@ -1215,9 +1212,8 @@ public class DFCrypto {
 	 * Performs an encoding operation
 	 * @param data a byte array containing the data to be sent or that
 	 * has been received
-	 * @param keyData a byte array containing the key to be used
-	 * @param auth an instance of class <code>AuthType</code> representing
-	 * the current authentication type
+	 * @param session an instance of class <code>DFSession</code> representing
+	 * the current communication session
 	 * @return a byte array corresponding to the encoded data
 	 */
 	public static byte[] encode(byte[] data, DFSession session){

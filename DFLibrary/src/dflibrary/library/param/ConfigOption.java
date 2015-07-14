@@ -121,5 +121,4 @@ public class ConfigOption {
 	private DFKey key;
 	private byte[] ATS;
 	
-	
 }

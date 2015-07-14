@@ -2,7 +2,6 @@ package dflibrary.library.param.fileset;
 
 import dflibrary.utils.ba.BAUtils;
 
-
 /**
  * Provides an encapsulation for the generic file settings
  * @author Francisco Rodriguez Algarra
