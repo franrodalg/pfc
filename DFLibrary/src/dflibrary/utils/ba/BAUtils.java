@@ -7,29 +7,87 @@ import java.util.Arrays;
 import dflibrary.utils.ba.DigitUtils.*;
 
 /**
- * A collection of methods designed for providing help in Byte Array treatment.
+ * A collection of methods designed for providing help in byte array treatment.
  * @author Francisco Rodriguez Algarra
  */
 public class BAUtils {
     
+    // Type Conversion Methods
+
     /**
-     * 
-     * @param s
-     * @param olen
-     * @return
+     * Generates a byte array corresponding to the one represented in
+     * the hexadecimal string <code>s</code>
+     * @param s the string to be converted
+     * @return a byte array representing the string <code>s</code>
+     */
+    public static byte[] toBA(String s){
+    	
+    	return toBA(s, DigitFormat.HEX);
+   	
+    }
+    
+    /**
+     * Generates a byte array corresponding to the one represented in
+     * the string <code>s</code>
+     * @param s the string to be converted
+     * @param df an instance of class <code>DigitFormat</code> indicating
+     * the digit format in which <code>s</code> is represented
+     * @return a byte array representing the string <code>s</code>
+     */
+    public static byte[] toBA(String s, DigitFormat df){
+    	
+    	byte[] ba = new byte[DigitUtils.numOfBytes(s, df)];
+    	
+    	if(df == DigitFormat.HEX){
+    		
+    		for(int i = 0; i < ba.length; i++){
+    			String ss = new String(s.substring(2*i, 2*i+2));
+    			ba[i] = DigitUtils.toByte(ss, df);
+    		}
+    		
+    	}
+    	else if(df == DigitFormat.BIN){
+    		
+    		for(int i = 0; i < ba.length; i++){
+    			String ss = new String(s.substring(2*i, 2*i+8));
+    			ba[i] = DigitUtils.toByte(ss, df);
+    		}    		
+    	}
+    	
+    	else throw new IllegalArgumentException(df + 
+                " Digit Format Not Supported in " +
+    		"toBA(String s, DigitFormat df):byte[]");
+    	
+    	return ba;
+    	
+    }
+
+    /**
+     * Generates a byte array corresponding to the one represented in
+     * the unsigned hexadecimal string <code>s</code>, from less significant 
+     * byte to most significant byte
+     * @param s the string to be converted
+     * @param olen the desired length of the output byte array
+     * @return a byte array of length <code>olen</code> representing
+     * the hexadecimal string <code>s</code>
      */
     public static byte[] toBA(String s, int olen){
     	
-    	return toBA(s, olen, DigitFormat.HEX, SignMode.UNSIGNED, ByteOrder.LSB_MSB);
+    	return toBA(s, olen, DigitFormat.HEX, 
+                SignMode.UNSIGNED, ByteOrder.LSB_MSB);
     	
     }
     
     /**
-     * 
-     * @param s
-     * @param len
-     * @param df
-     * @return
+     * Generates a byte array corresponding to the one represented in
+     * the unsigned string <code>s</code>, from less significant 
+     * byte to most significant byte
+     * @param s the string to be converted
+     * @param olen the desired length of the output byte array
+     * @param df an instance of class <code>DigitFormat</code> indicating
+     * the digit format in which <code>s</code> is represented
+     * @return a byte array of length <code>olen</code> representing
+     * the string <code>s</code>
      */
     public static byte[] toBA(String s, int olen, DigitFormat df){
     	
@@ -38,11 +96,16 @@ public class BAUtils {
     }
     
    /**
-    * 
-    * @param s
-    * @param olen
-    * @param sm
-    * @return
+     * Generates a byte array corresponding to the one represented in
+     * the hexadecimal string <code>s</code>, from less significant byte
+     * to most significant byte
+     * @param s the string to be converted
+     * @param olen the desired length of the output byte array
+     * @param sm an instance of class <code>SignMode</code> indicating
+     * whether the represented number should be interpreted as
+     * signed or unsigned
+     * @return a byte array of length <code>olen</code> representing
+     * the string <code>s</code>
     */
     public static byte[] toBA(String s, int olen, SignMode sm){
     	
@@ -50,14 +113,15 @@ public class BAUtils {
     	
     }
     
-    //TODO 3 Documentar
-    
     /**
-     * 
-     * @param s
-     * @param olen
-     * @param bo
-     * @return
+     * Generates a byte array corresponding to the one represented in
+     * the unisgned hexadecimal string <code>s</code>
+     * @param s the string to be converted
+     * @param olen the desired length of the output byte array
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes are presented
+     * @return a byte array of length <code>olen</code> representing
+     * the string <code>s</code>
      */
     public static byte[] toBA(String s, int olen, ByteOrder bo){
     	
@@ -65,69 +129,90 @@ public class BAUtils {
     	
     }
     
-    //TODO 3 Documentar
-    
     /**
-     * 
-     * @param s
-     * @param olen
-     * @param df
-     * @param sm
-     * @return
+     * Generates a byte array corresponding to the one represented in
+     * the unsigned string <code>s</code>, from less significant 
+     * byte to most significant byte
+     * @param s the string to be converted
+     * @param olen the desired length of the output byte array
+     * @param df an instance of class <code>DigitFormat</code> indicating
+     * the digit format in which <code>s</code> is represented
+     * @param sm an instance of class <code>SignMode</code> indicating
+     * whether the represented number should be interpreted as
+     * signed or unsigned
+     * @return a byte array of length <code>olen</code> representing
+     * the string <code>s</code>
      */
-    public static byte[] toBA(String s, int olen, DigitFormat df, SignMode sm){
+    public static byte[] toBA(String s, int olen, DigitFormat df, 
+            SignMode sm){
     	
     	return toBA(s, olen, df, sm, ByteOrder.LSB_MSB);
     	
     }
     
-    //TODO 3 Documentar
-    
     /**
-     * 
-     * @param s
-     * @param olen
-     * @param sm
-     * @param bo
-     * @return
+     * Generates a byte array corresponding to the one represented in
+     * the hexadecimal string <code>s</code>
+     * @param s the string to be converted
+     * @param olen the desired length of the output byte array
+     * @param sm an instance of class <code>SignMode</code> indicating
+     * whether the represented number should be interpreted as
+     * signed or unsigned
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes are presented
+     * @return a byte array of length <code>olen</code> representing
+     * the string <code>s</code>
      */
-    public static byte[] toBA(String s, int olen, SignMode sm, ByteOrder bo){
+    public static byte[] toBA(String s, int olen, SignMode sm, 
+            ByteOrder bo){
     	
     	return toBA(s, olen, DigitFormat.HEX, sm, bo);
     	
     }
 
-    //TODO 3 Documentar
-    
     /**
-     * 
-     * @param s
-     * @param olen
-     * @param df
-     * @param bo
-     * @return
+     * Generates a byte array corresponding to the one represented in
+     * the unisgned string <code>s</code>
+     * @param s the string to be converted
+     * @param olen the desired length of the output byte array
+     * @param df an instance of class <code>DigitFormat</code> indicating
+     * the digit format in which <code>s</code> is represented
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes are presented
+     * @return a byte array of length <code>olen</code> representing
+     * the string <code>s</code>
      */
-    public static byte[] toBA(String s, int olen, DigitFormat df, ByteOrder bo){
+    public static byte[] toBA(String s, int olen, DigitFormat df, 
+            ByteOrder bo){
     	
     	return toBA(s, olen, df, SignMode.UNSIGNED, bo);
     	
     }
     
-    //TODO 3 Documentar    
-    
     /**
-     * 
-     * @param s
-     * @param len
-     * @param df
-     * @param bo
-     * @return
+     * Generates a byte array corresponding to the one represented in
+     * the string <code>s</code>
+     * @param s the string to be converted
+     * @param olen the desired length of the output byte array
+     * @param df an instance of class <code>DigitFormat</code> indicating
+     * the digit format in which <code>s</code> is represented
+     * @param sm an instance of class <code>SignMode</code> indicating
+     * whether the represented number should be interpreted as
+     * signed or unsigned
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes are presented
+     * @return a byte array of length <code>olen</code> representing
+     * the string <code>s</code>
      */
-    public static byte[] toBA(String s, int olen, DigitFormat df, SignMode sm, ByteOrder bo){
+    public static byte[] toBA(String s, int olen, DigitFormat df, 
+            SignMode sm, ByteOrder bo){
     	
     	int len = DigitUtils.numOfBytes(s, df);
 
-        if(olen < len) throw new IllegalArgumentException("Invalid Byte Array Length: " + olen);
+        if(olen < len) 
+            throw new IllegalArgumentException(
+                    "Invalid Byte Array Length: " + olen
+                    );
                 
         byte[] auxba = toBA(s, df);
         byte[] ba = new byte[olen];
@@ -159,121 +244,132 @@ public class BAUtils {
     }
     
     /**
-     * Returns a new ByteArray representing the value stored in the String <code>s</code>.
-     * 
-     * @param s the String containing a value in hexadecimal format 
-     * @return a Byte Array representing <code>s</code>
-     * @throws IllegalArgumentException
-     */
-    public static byte[] toBA(String s){
-    	
-    	return toBA(s, DigitFormat.HEX);
-   	
-    }
-    
-    
-    /**
-     * Returns a new ByteArray representing the value stored in the String <code>s</code>
-     * with digit format <code>df</code>.
-     * 
-     * @param s the String containing a value in <code>df</code> format 
-     * @return a Byte Array representing <code>s</code>
-     * @throws IllegalArgumentException
-     */
-    public static byte[] toBA(String s, DigitFormat df){
-    	
-    	byte[] ba = new byte[DigitUtils.numOfBytes(s, df)];
-    	
-    	if(df == DigitFormat.HEX){
-    		
-    		for(int i = 0; i < ba.length; i++){
-    			String ss = new String(s.substring(2*i, 2*i+2));
-    			ba[i] = DigitUtils.toByte(ss, df);
-    		}
-    		
-    	}
-    	else if(df == DigitFormat.BIN){
-    		
-    		for(int i = 0; i < ba.length; i++){
-    			String ss = new String(s.substring(2*i, 2*i+8));
-    			ba[i] = DigitUtils.toByte(ss, df);
-    		}    		
-    	}
-    	
-    	else throw new IllegalArgumentException(df + " Digit Format Not Supported in " +
-    			"toBA(String s, DigitFormat df):byte[]");
-    	
-    	return ba;
-    	
-    }
-    
-    
-    /**
-     * Returns a Byte Array in Less Significant Byte to Most Significant Byte DigitUtils.ByteOrder
-     * representing the specified Unsigned int value
-     * 
+     * Generates a byte array corresponding to the value represented in
+     * the unsigned int <code>num</code>, from less significant 
+     * byte to most significant byte 
      * @param num the integer to be converted 
-     * @param len the length of the resulting Byte Array
-     * @return a Byte Array representing <code>num</code>
-     * @throws IllegalArgumentException
+     * @return a byte array representing the value <code>num</code>
      */
-       
+    public static byte[] toBA(int num){
+
+        return toBA(DigitUtils.toString(num, DigitFormat.HEX, 
+                    SignMode.UNSIGNED, ByteOrder.LSB_MSB));
+
+    }
+    
+    /**
+     * Generates a byte array corresponding to the value represented in
+     * the unsigned int <code>num</code>, from less significant 
+     * byte to most significant byte 
+     * @param num the integer to be converted 
+     * @param olen the desired length of the output byte array
+     * @return a byte array representing the value <code>num</code>
+     */
     public static byte[] toBA(int num,  int olen){
 
         return toBA(num, olen, SignMode.UNSIGNED, ByteOrder.LSB_MSB);
     }
 
-    //TODO 3 Documentar
+    /**
+     * Generates a byte array corresponding to the value represented in
+     * the unsigned int <code>num</code>
+     * @param num the integer to be converted 
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes are presented
+     * @return a byte array representing the value <code>num</code>
+     */
+    public static byte[] toBA(int num, ByteOrder bo){
+
+        return toBA(DigitUtils.toString(num, DigitFormat.HEX,
+                    SignMode.UNSIGNED, bo));
+
+    }
     
     /**
-     * Returns a Byte Array representing the specified int value
-     * 
-     * @param num
-     * @param len
-     * @param bo
-     * @return a Byte Array representing <code>num</code>
+     * Generates a byte array corresponding to the value represented in
+     * the int <code>num</code>, from less significant 
+     * byte to most significant byte 
+     * @param num the integer to be converted 
+     * @param sm an instance of class <code>SignMode</code> indicating
+     * whether the represented number should be interpreted as
+     * signed or unsigned
+     * @return a byte array representing the value <code>num</code>
      */
+    public static byte[] toBA(int num, SignMode sm){
+
+        return toBA(DigitUtils.toString(num, DigitFormat.HEX, sm, 
+                    ByteOrder.LSB_MSB));
+        
+    }
     
-    
+    /**
+     * Generates a byte array corresponding to the value represented in
+     * the int <code>num</code> 
+     * @param num the integer to be converted 
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes are presented
+     * @param sm an instance of class <code>SignMode</code> indicating
+     * whether the represented number should be interpreted as
+     * signed or unsigned
+     * @return a byte array representing the value <code>num</code>
+     */
+    public static byte[] toBA(int num, SignMode sm, ByteOrder bo){
+
+        return toBA(DigitUtils.toString(num, DigitFormat.HEX, sm, bo));
+
+    }
+
+    /**
+     * Generates a byte array corresponding to the value represented in
+     * the unsigned int <code>num</code>, from less significant 
+     * byte to most significant byte 
+     * @param num the integer to be converted 
+     * @param olen the desired length of the output byte array     
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes should be presented
+     * @return a byte array representing the value <code>num</code>
+     */
     public static byte[] toBA(int num, int olen, ByteOrder bo){
 
         return toBA(num, olen, SignMode.UNSIGNED, bo);
     }
-
-    //TODO 3 Documentar
     
     /**
-     * Returns a Byte Array representing the specified int value
-     * 
-     * @param num
-     * @param len
-     * @param sm
-     * @return a Byte Array representing <code>num</code>
+     * Generates a byte array corresponding to the value represented in
+     * the unsigned int <code>num</code>, from less significant 
+     * byte to most significant byte 
+     * @param num the integer to be converted 
+     * @param olen the desired length of the output byte array     
+     * @param sm an instance of class <code>SignMode</code> indicating
+     * whether the represented number should be interpreted as
+     * signed or unsigned
+     * @return a byte array representing the value <code>num</code>
      */
-    
     public static byte[] toBA(int num, int olen, SignMode sm){
 
         return toBA(num, olen, sm, ByteOrder.LSB_MSB);
     }
-
-    //TODO 3 Documentar
     
     /**
-     * Returns a Byte Array representing the specified int value
-     * 
-     * @param num
-     * @param len
-     * @param bo
-     * @param sm
-     * 
-     * @return a Byte Array representing <code>num</code>
+     * Generates a byte array corresponding to the value represented in
+     * the unsigned int <code>num</code>, from less significant 
+     * byte to most significant byte 
+     * @param num the integer to be converted 
+     * @param olen the desired length of the output byte array     
+     * @param sm an instance of class <code>SignMode</code> indicating
+     * whether the represented number should be interpreted as
+     * signed or unsigned
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes should be presented
+     * @return a byte array representing the value <code>num</code>
      */
-    
     public static byte[] toBA(int num, int olen, SignMode sm, ByteOrder bo){
         
         int len = DigitUtils.numOfBytes(num, sm);
 
-        if(olen < len) throw new IllegalArgumentException("Invalid Byte Array Length: " + olen);
+        if(olen < len)
+            throw new IllegalArgumentException(
+                    "Invalid Byte Array Length: " + olen);
         
         String s = DigitUtils.toString(num, DigitFormat.HEX, sm, bo);
         
@@ -305,82 +401,13 @@ public class BAUtils {
         return ba;
 
     }
-    
-    /**
-     * Returns a Byte Array in Less Significant Byte to Most Significant Byte DigitUtils.ByteOrder
-     * representing the specified Unsigned int value
-     * 
-     * @param num the integer to be converted
-     * 
-     * @return a Byte Array representing <code>num</code>
-     * @throws IllegalArgumentException
-     */
-       
-    public static byte[] toBA(int num){
-
-        return toBA(DigitUtils.toString(num, DigitFormat.HEX, SignMode.UNSIGNED, ByteOrder.LSB_MSB));
-
-    }
-
-    //TODO 3 Documentar
-    
-    /**
-     * Returns a Byte Array representing the specified int value
-     * 
-     * @param num
-     * @param bo
-     * @return a Byte Array representing <code>num</code>
-     */
-    
-    public static byte[] toBA(int num, ByteOrder bo){
-
-        return toBA(DigitUtils.toString(num, DigitFormat.HEX, SignMode.UNSIGNED, bo));
-
-    }
-    
-    //TODO 3 Documentar
-    
-    /**
-     * Returns a Byte Array representing the specified int value
-     * 
-     * @param num
-     * @param sm
-     * @return a Byte Array representing <code>num</code>
-     */
-    
-    public static byte[] toBA(int num, SignMode sm){
-
-        return toBA(DigitUtils.toString(num, DigitFormat.HEX, sm, ByteOrder.LSB_MSB));
-        
-        
-    }
-    
-    //TODO 3 Documentar
-    
-    /**
-     * Returns a Byte Array representing the specified int value
-     * 
-     * @param num
-     * @param bo
-     * @param sm
-     * 
-     * @return a Byte Array representing <code>num</code>
-     */
-    
-    public static byte[] toBA(int num, SignMode sm, ByteOrder bo){
-
-        return toBA(DigitUtils.toString(num, DigitFormat.HEX, sm, bo));
-
-    }
 
     /**
-     * Returns a Byte Array representing the specified boolean value
-     * 
-     * @param b a boolean value
-     * @return a Byte Array representing <code>b</code>
-     * @throws IllegalArgumentException
+     * Generates a byte array corresponding to the logical value represented in
+     * the boolean <code>bool</code>
+     * @param bool the boolean to be converted 
+     * @return a byte array representing the value <code>bool</code>
      */
-    
     public static byte[] toBA(boolean bool){
 
         if(bool) return BAUtils.toBA(1);
@@ -389,13 +416,12 @@ public class BAUtils {
     }
     
     /**
-     * Returns a Byte Array of <code>olen</code> bytes representing the boolean value <code>b</code>
-     * 
-     * @param b a boolean value
-     * @param olen number of bytes of the returned Byte Array
-     * @return a Byte Array representing <code>b</code>
+     * Generates a byte array corresponding to the logical value represented in
+     * the boolean <code>bool</code>
+     * @param bool the boolean to be converted 
+     * @param olen the desired length of the output byte array
+     * @return a byte array representing the value <code>bool</code>
      */
-    
     public static byte[] toBA(boolean bool, int olen){
 
         if(bool) return BAUtils.toBA(1, olen);
@@ -403,14 +429,14 @@ public class BAUtils {
 
     }
 
-    //TODO 3 Documentar
-    
     /**
-     * 
-     * @param b
-     * @param olen
-     * @param bo
-     * @return
+     * Generates a byte array corresponding to the logical value represented in
+     * the boolean <code>bool</code>
+     * @param bool the boolean to be converted 
+     * @param olen the desired length of the output byte array
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes should be presented
+     * @return a byte array representing the value <code>bool</code>
      */
     public static byte[] toBA(boolean bool, int olen, ByteOrder bo){
 
@@ -418,30 +444,28 @@ public class BAUtils {
         else return BAUtils.toBA(0, olen, bo);
 
     }
-    
-    //TODO 3 Documentar
 
     /**
-     * Returns a hexadecimal String representing the Byte Array <code>ba</code>
-     * 
-     * @param ba 
-     * @return a String representing the Byte Array <code>ba</code>
+     * Generates an hexadecimal string corresponding to
+     * the byte array <code>ba</code>
+     * @param ba the byte array to be converted
+     * @return a string representing the value of the 
+     * byte array <code>ba</code>
      */
-    
     public static String toString(byte[] ba){
     	
     	return toString(ba, DigitFormat.HEX);
     	
     }
-   
-    //TODO 3 Documentar
     
     /**
-     * 
-     * 
-     * @param ba
-     * @param df
-     * @return
+     * Generates a string corresponding to
+     * the byte array <code>ba</code> in <code>df</code> digit format
+     * @param ba the byte array to be converted
+     * @param df an instance of class <code>DigitFormat</code> indicating
+     * the digit format in which the output should be represented
+     * @return a string representing the value of the 
+     * byte array <code>ba</code>
      */
     public static String toString(byte[] ba, DigitFormat df){
     	
@@ -457,9 +481,11 @@ public class BAUtils {
     }
     
     /**
-     * 
-     * @param ba2d
-     * @return
+     * Generates a string corresponding to
+     * the two-dimensional byte array <code>ba2d</code>
+     * @param ba2d the byte array to be converted
+     * @return a string representing the value of the 
+     * two-dimensional byte array <code>ba</code>
      */
     public static String toString(byte[][] ba2d){
     	
@@ -477,93 +503,96 @@ public class BAUtils {
     	return s;
     	
     }
-    
-    //TODO 3 Documentar
-    
+
     /**
-     * 
-     * 
-     * @param ba
-     * @return a int number representing <code>ba</code>
+     * Generates an int number corresponding to
+     * the unsigned byte array <code>ba</code>, from less significant 
+     * byte to most significant byte
+     * @param ba the byte array to be converted
+     * @return an int representing the value of the 
+     * byte array <code>ba</code>
      */
-   
     public static int toInt(byte[] ba){
 
         return toInt(ba, SignMode.UNSIGNED, ByteOrder.LSB_MSB);
 
     }
-
-    //TODO 3 Documentar
     
     /**
-     * 
-     * 
-     * @param ba
-     * @param bo
-     * @return a int number representing <code>ba</code>
+     * Generates an int number corresponding to
+     * the unsigned byte array <code>ba</code>
+     * @param ba the byte array to be converted
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes of <code>ba</code>
+     * should be interpreted
+     * @return an int representing the value of the 
+     * byte array <code>ba</code>
      */
-    
     public static int toInt(byte[] ba, ByteOrder bo){
 
         return toInt(ba, SignMode.UNSIGNED, bo);
 
     }
-
-    //TODO 3 Documentar
     
     /**
-     * 
-     * 
-     * @param ba
-     * @param sm
-     * @return a int number representing <code>ba</code>
+     * Generates an int number corresponding to
+     * the byte array <code>ba</code>, from less significant 
+     * byte to most significant byte
+     * @param ba the byte array to be converted
+     * @param sm an instance of class <code>SignMode</code> indicating
+     * whether the represented number should be interpreted as
+     * signed or unsigned
+     * @return an int representing the value of the 
+     * byte array <code>ba</code>
      */
-    
     public static int toInt(byte[] ba, SignMode sm){
 
         return toInt(ba, sm, ByteOrder.LSB_MSB);
 
     }
-
-    //TODO 3 Documentar
     
     /**
-     * 
-     * 
-     * @param ba
-     * @param bo
-     * @param sm
-     * @return a int number representing <code>ba</code>
+     * Generates an int number corresponding to
+     * the byte array <code>ba</code>, from less significant 
+     * byte to most significant byte
+     * @param ba the byte array to be converted
+     * @param sm an instance of class <code>SignMode</code> indicating
+     * whether the represented number should be interpreted as
+     * signed or unsigned
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes of <code>ba</code>
+     * should be interpreted
+     * @return an int representing the value of the 
+     * byte array <code>ba</code>
      */
-    
     public static int toInt(byte[] ba, SignMode sm, ByteOrder bo){
 
     	return DigitUtils.toInt(toString(ba), DigitFormat.HEX, sm, bo);
     	
     }
     
-    //TODO 3 Documentar
-    
     /**
-     * 
-     * 
-     * @param ba
-     * @return a boolean representing <code>ba</code>
+     * Generates a boolean value corresponding to the byte array
+     * <code>ba</code>, from less significant byte to most significant byte
+     * @param ba the byte array to be converted
+     * @return a boolean representing the value of the
+     * byte array <code>ba</code>
      */
-    
     public static boolean toBoolean(byte[] ba){
 
         return toBoolean(ba, ByteOrder.LSB_MSB);
 
     }
     
-    //TODO 3 Documentar
-    
     /**
-     * 
-     * @param ba
-     * @param bo
-     * @return
+     * Generates a boolean value corresponding to the byte array
+     * <code>ba</code>, from less significant byte to most significant byte
+     * @param ba the byte array to be converted
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes of <code>ba</code>
+     * should be interpreted
+     * @return a boolean representing the value of the
+     * byte array <code>ba</code>
      */
     public static boolean toBoolean(byte[] ba, ByteOrder bo){
     	
@@ -572,33 +601,37 @@ public class BAUtils {
     	if(bo == ByteOrder.LSB_MSB) lsb = 0;
     	else lsb = ba.length - 1;
     	
-    	return !compareBAs(and(extractSubBA(ba, lsb, 1), toBA("01")), new byte[1]);
-    	
+    	return !compareBAs(and(extractSubBA(ba, lsb, 1), 
+                    toBA("01")),
+                new byte[1]);
     	
     }
-   
-    //TODO 3 Documentar
-    
+  
+    // Binary Computation Methods
+  
     /**
-     * 
-     * 
-     * @param ba
-     * @return a Byte Array representing the two's complement of <code>ba</code>
+     * Computes the two's complement of the value stored in the
+     * byte array <code>ba</code>, from less significant byte
+     * to most significant byte
+     * @param ba a byte array
+     * @return a byte array representing the two's complement 
+     * of <code>ba</code>
      */
-    
     public static byte[] twosComp(byte[] ba){
 
         return twosComp(ba, ByteOrder.LSB_MSB);
     }
     
-    //TODO 3 Documentar
-    
     /**
-     * 
-     * 
-     * @param bo
-     * @param ba
-     * @return a Byte Array representing the two's complement of <code>ba</code>
+     * Computes the two's complement of the value stored in the
+     * byte array <code>ba</code>, from less significant byte
+     * to most significant byte
+     * @param ba a byte array
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes of <code>ba</code>
+     * should be interpreted
+     * @return a byte array representing the two's complement 
+     * of <code>ba</code>    
      */        
     
     public static byte[] twosComp(byte[] ba, ByteOrder bo){
@@ -611,32 +644,29 @@ public class BAUtils {
         return toBA(tc, len, df, bo);
 
     }
-   
-    //TODO 3 Documentar
-    
+  
     /**
-     * 
-     * 
-     * @param bas
-     * @return a Byte Array representing the XOR operation of <code>bas</code> Byte Arrays
+     * Computes the exclusive OR operation (XOR) between multiple byte arrays 
+     * @param bas an undetermined number of byte arrays, represented in
+     * less significant byte to most significant byte order
+     * @return a byte array representing the XOR operation 
+     * of <code>bas</code> byte arrays
      */
-    
     public static byte[] xor(byte[]...bas){
 
         return xor(ByteOrder.LSB_MSB, bas);
 
     }
-    
-    //TODO 3 Documentar
-    
+     
     /**
-     * 
-     * 
-     * @param bo
-     * @param bas
-     * @return a Byte Array representing the XOR operation of <code>bas</code> Byte Arrays
+     * Computes the exclusive OR operation (XOR) between multiple byte arrays 
+     * @param bas an undetermined number of byte arrays
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes of <code>bas</code>
+     * should be interpreted
+     * @return a byte array representing the XOR operation 
+     * of <code>bas</code> byte arrays
      */
-    
     public static byte[] xor(ByteOrder bo, byte[]...bas){
 
         byte[][] baMatrix = alignBAs(bo, bas);
@@ -657,14 +687,13 @@ public class BAUtils {
     }
     
     /**
-     * Returns the logical conjunction of all the Byte Arrays included in <code>bas</code>
-     * considering all of them being stored in Less Significant Byte to Most Significant Byte
-     * Order.
-     * 
-     * @param bas the Byte Arrays from which to calculate the logical conjunction
-     * @return the conjuncted Byte Array
+     * Computes the logical conjunction operation (AND)
+     * between multiple byte arrays 
+     * @param bas an undetermined number of byte arrays, represented in
+     * less significant byte to most significant byte order
+     * @return a byte array representing the AND operation 
+     * of <code>bas</code> byte arrays
      */
-    
     public static byte[] and(byte[]...bas){
 
         return and(ByteOrder.LSB_MSB, bas);
@@ -672,12 +701,14 @@ public class BAUtils {
     }
     
     /**
-     * Returns the logical conjunction of all the Byte Arrays included in <code>bas</code>
-     * taking into account the Byte Order specified in <code>bo</code>.
-     * 
-     * @param bo the Byte Order of the Byte Arrays in <code>bas</code>
-     * @param bas the Byte Arrays from which to calculate the logical conjunction
-     * @return the conjuncted Byte Array
+     * Computes the logical conjunction operation (AND)
+     * between multiple byte arrays 
+     * @param bas an undetermined number of byte arrays
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes of <code>bas</code>
+     * should be interpreted
+     * @return a byte array representing the AND operation 
+     * of <code>bas</code> byte arrays
      */
     
     public static byte[] and(ByteOrder bo, byte[]...bas){
@@ -710,9 +741,9 @@ public class BAUtils {
     /**
      * Returns the logical negation of <code>ba</code>.
      * 
-     * @param ba Byte Array to be inverted
+     * @param ba byte array to be inverted
      * 
-     * @return the inverted Byte Array
+     * @return the inverted byte array
      */
     
     public static byte[] not(byte[] ba){
@@ -729,16 +760,16 @@ public class BAUtils {
 
     }
     
-    //TODO 4 Ampliación Documentación: Ejemplo
+    // Array Transformation Methods
     
     /**
-     * Returns a new Byte Array of <code>len</code> bytes that is the result of
+     * Returns a new byte array of <code>len</code> bytes that is the result of
      * expanding <code>ba</code> with zero-filled bytes.
      * 
-     * @param ba the original Byte Array
-     * @param len number of bytes of the expanded Byte Array
+     * @param ba the original byte array
+     * @param len number of bytes of the expanded byte array
      * 
-     * @return the expanded Byte Array
+     * @return the expanded byte array
      */
      
     public static byte[] padding(byte[] ba, int olen){
@@ -776,14 +807,14 @@ public class BAUtils {
     //TODO 4 Documentación: mejora y ejemplos
        
     /**
-     * Returns a new Byte Array that is the result of a circular movement of the
+     * Returns a new byte array that is the result of a circular movement of the
      * parameter <code>ba</ba>. 
      * 
-     * @param ba Byte Array whose bytes are moved
+     * @param ba byte array whose bytes are moved
      * @param count number of positions to move each byte
      * @param dir Direction in which the bytes move
      * 
-     * @return the rotated Byte Array
+     * @return the rotated byte array
      * 
      * @see  Direction
      */
@@ -823,15 +854,15 @@ public class BAUtils {
     }
     
     /**
-     * Returns a new Byte Array that is a subarray of the <code>ba</code> parameter. 
+     * Returns a new byte array that is a subarray of the <code>ba</code> parameter. 
      * The subarray begins at the position specified by <code>beginIndex</code> 
      * and it has <code>length</length> bytes.
      * 
-     * @param ba the Byte Array 
+     * @param ba the byte array 
      * @param beginIndex position where the subarray begins inside <code>ba</code>
-     * @param length the number of bytes of the returned Byte Array
+     * @param length the number of bytes of the returned byte array
      * 
-     * @return the extracted Byte Array
+     * @return the extracted byte array
      */
 
     
@@ -846,18 +877,16 @@ public class BAUtils {
         return auxba;
     }
  
-    //TODO 4 Documentación: mejora y ejemplos
-    
+    // Array Combination Methods
+
     /**
-     * Returns a new Byte Array that is the result of joining the Byte Arrays
+     * Returns a new byte array that is the result of joining the byte arrays
      * received in <code>bas</code>. 
      * 
-     * @param bas the Byte Arrays to join
+     * @param bas the byte arrays to join
      * 
-     * @return the concatenated Byte Array
+     * @return the concatenated byte array
      */
-    
-    
     public static byte[] concatenateBAs(byte[]...bas){
 
         int len = 0;
@@ -877,22 +906,20 @@ public class BAUtils {
         return ba;
     }   
     
-    
     /**
-     * Generates a matrix where each row contains one of the Byte Arrays received as
+     * Generates a matrix where each row contains one of the byte arrays received as
      * parameters, all of them aligned considering a Less Significant Byte to
      * Most Significant Byte Order.
      * Therefore, bytes with the same relevance will end located at the same column
      * regardless of the size of its array.
      *  
-     * @param bas Byte Arrays to be aligned
+     * @param bas byte arrays to be aligned
      * 
-     * @return a matrix containing aligned Byte Arrays
+     * @return a matrix containing aligned byte arrays
      * 
      * @see #alignBAs(ByteOrder, byte[])
      * 
      */
-    
     public static byte[][] alignBAs(byte[]...bas){
 
         return alignBAs(ByteOrder.LSB_MSB, bas);
@@ -902,18 +929,17 @@ public class BAUtils {
     //TODO 4 Documentación: ejemplo
     
     /**
-     * Returns a matrix where each row contains one of the Byte Arrays received as
+     * Returns a matrix where each row contains one of the byte arrays received as
      * parameters, all of them aligned taking into account the Byte Order specified.
      * Therefore, bytes with the same relevance will end located at the same column
      * regardless of the size of its array.
      *  
-     * @param bo the order of the bytes in the Byte Arrays
-     * @param bas Byte Arrays to be aligned
+     * @param bo the order of the bytes in the byte arrays
+     * @param bas byte arrays to be aligned
      * 
-     * @return a matrix containing aligned Byte Arrays
+     * @return a matrix containing aligned byte arrays
      * 
      */
-    
     public static byte[][] alignBAs(ByteOrder bo, byte[]...bas){
 
 
@@ -942,25 +968,6 @@ public class BAUtils {
 
     }
 
-    //TODO 4 Documentación: revisar @see
-    
-    /**
-     * Returns <code>true</code> if two Byte Arrays are equal to each other
-     * 
-     * @param ba1 the first byte[] to be compared
-     * @param ba2 the byte[] to be compared with ba2
-     * 
-     * @return <code>true</code> if ba1 and ba2 are identical; <code>false</code> otherwise
-     * 
-     * @see java.util.Arrays#equals(byte[], byte[])
-     */
-
-    public static boolean compareBAs(byte[] ba1, byte[] ba2){
-
-        return Arrays.equals(ba1, ba2);
-
-    }
-  
     /**
      * 
      * @param bas
@@ -1023,69 +1030,25 @@ public class BAUtils {
     	
     }
     
-    
-    //TODO 4 Documentación: revisar @see
-    
+    // Array Check Methods
+
     /**
-     * Returns a randomized Byte Array of the specified length generating
-     * with SHA1PRNG algorithm. 
-     * As the resulting array is generated using the SecureRandom class,
-     * it is suitable for cryptographic purposes.
+     * Returns <code>true</code> if two byte arrays are equal to each other
      * 
-     * @param length the length (in bytes) of the Byte Array to be generated
-     *  
-     * @return the random Byte Array
-     *  
-     * @see java.security.SecureRandom#getInstance(String)
-     *    
+     * @param ba1 the first byte[] to be compared
+     * @param ba2 the byte[] to be compared with ba2
+     * 
+     * @return <code>true</code> if ba1 and ba2 are identical; 
+     * <code>false</code> otherwise
+     * 
+     * @see java.util.Arrays#equals(byte[], byte[])
      */
-    
-    public static byte[] getRandomBA(int length){
+    public static boolean compareBAs(byte[] ba1, byte[] ba2){
 
+        return Arrays.equals(ba1, ba2);
 
-       byte[] randomBytes = new byte[length];
-
-       try{
-    	   SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
-    	   rnd.nextBytes(randomBytes);
-       }catch(NoSuchAlgorithmException e){
-    	   return new byte[length];
-       }
-       
-    	   
-       return randomBytes;
     }
-    
-    /**
-     * Returns a randomized Byte Array of the specified length. 
-     * As the resulting array is generated using the SecureRandom class,
-     * it is suitable for cryptographic purposes.
-     * @param length an int representing the length (in bytes) of the Byte Array 
-     * to be generated
-     * @param alg a String containing the algorithm that will be used for generating
-     * the randomized Byte Array.  
-     * @return the random Byte Array 
-     * @throws NoSuchAlgorithmException  
-     * @see java.security.SecureRandom#getInstance(String)
-     */
-   
-    public static byte[] getRandomBA(int length, String alg) 
-    		throws NoSuchAlgorithmException{
-
-        byte[] randomBytes = new byte[length];
-
-        try{
-
-            SecureRandom rnd = SecureRandom.getInstance(alg);
-            rnd.nextBytes(randomBytes);
-
-        }catch(NoSuchAlgorithmException e){
-            throw e;
-       }
-
-       return randomBytes;
-    }
-    
+ 
     //TODO 3 Documentar
     
     /**
@@ -1112,43 +1075,96 @@ public class BAUtils {
     	return(DigitUtils.isNeg(toString(ba), bo));
     	
     }
+
+
+
+    
+    // Array Generation Methods
+
+    /**
+     * Returns a randomized byte array of the specified length generating
+     * with SHA1PRNG algorithm. 
+     * As the resulting array is generated using the SecureRandom class,
+     * it is suitable for cryptographic purposes.
+     * 
+     * @param length the length (in bytes) of the byte array to be generated
+     *  
+     * @return the random byte array
+     *  
+     * @see java.security.SecureRandom#getInstance(String)
+     *    
+     */
+    public static byte[] getRandomBA(int length){
+
+
+       byte[] randomBytes = new byte[length];
+
+       try{
+    	   SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
+    	   rnd.nextBytes(randomBytes);
+       }catch(NoSuchAlgorithmException e){
+    	   return new byte[length];
+       }
+       
+    	   
+       return randomBytes;
+    }
     
     /**
-     * Orientation in which a Byte Array should be rotated.
+     * Returns a randomized byte array of the specified length. 
+     * As the resulting array is generated using the SecureRandom class,
+     * it is suitable for cryptographic purposes.
+     * @param length an int representing the length (in bytes) of the byte array 
+     * to be generated
+     * @param alg a String containing the algorithm that will be used for generating
+     * the randomized byte array.  
+     * @return the random byte array 
+     * @throws NoSuchAlgorithmException  
+     * @see java.security.SecureRandom#getInstance(String)
      */
-	public static enum Direction {
-    	/**
-    	 * Rotation will be done by the LEFT edge of the array.
-    	 * For example, if the array AFC811 was rotated one byte left,
-    	 * the resulting byte array would be C811AF.
-    	 */
-    	LEFT{
-			public String toString(){
-				return "Left";
-			}
-			
-		}, 
-    	/**
-    	 * Rotation will be done by the RIGHT edge of the array.
-    	 * For example, if the array AFC811 was rotated one byte right,
-    	 * the resulting byte array would be 11AFC8.
-    	 */
-    	RIGHT{
-			public String toString(){
-				return "Right";
-			}
-			
-		};
+    public static byte[] getRandomBA(int length, String alg) 
+    		throws NoSuchAlgorithmException{
+
+        byte[] randomBytes = new byte[length];
+
+        try{
+
+            SecureRandom rnd = SecureRandom.getInstance(alg);
+            rnd.nextBytes(randomBytes);
+
+        }catch(NoSuchAlgorithmException e){
+            throw e;
+       }
+
+       return randomBytes;
     }
-	
-	public static void main(String[] args){
+    
+
+    
+    /**
+     * Orientation in which a byte array should be rotated.
+     */
+    public static enum Direction {
+       /**
+        * Rotation will be done by the LEFT edge of the array.
+        * For example, if the array AFC811 was rotated one byte left,
+        * the resulting byte array would be C811AF.
+        */
+        LEFT{
+            public String toString(){
+                return "Left";
+            }
+        }, 
+        /**
+         * Rotation will be done by the RIGHT edge of the array.
+         * For example, if the array AFC811 was rotated one byte right,
+         * the resulting byte array would be 11AFC8.
+         */
+        RIGHT{
+            public String toString(){
+                return "Right";
+            }         
+        };
+    }
 		
-		String s = "A7";
-		
-		byte[] ba = toBA(s);
-		
-		System.out.println(toString(ba));
-			
-	}
-	
 }
