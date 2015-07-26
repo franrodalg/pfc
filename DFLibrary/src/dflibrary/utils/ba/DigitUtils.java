@@ -1,125 +1,107 @@
 package dflibrary.utils.ba;
 
 /**
-*
-* A collection of methods designed for providing help in Digit Format treatment.
-* 
-* @author Francisco Rodríguez Algarra
-* @version 28.8.2012
-*
+* A collection of methods designed for providing help in 
+* digit format treatment.
+* @author Francisco Rodriguez Algarra
 */
 
 public class DigitUtils {
 	
-	//TODO 2 Revisar comprobaciones redundantes
-	//TODO 2 Revisar excepciones lanzadas y documentarlas
-	//TODO 5 Ampliación: Strings con formato implícito (Ej: 0xA5)
-    //TODO 5 Ampliación: Octal y Decimal
+    //TODO Strings with implicit format (Ej: 0xA5)
+    //TODO Implementation of methods for pctal and decimal formats
 
-	
-	/**
-	 * Format of the digits representing a value
-	 */
-	public enum DigitFormat{
-		/**
-		 * Hexadecimal
-		 */
-		HEX{
-			public String toString(){
-				return "Hexadecimal";
-			}
-			
-		},
-		/**
-		 * Binary
-		 */
-		BIN{
-			public String toString(){
-				return "Binary";
-			}
-			
-		},
-		/**
-		 * Decimal
-		 */
-		DEC{
-			public String toString(){
-				return "Decimal";
-			}
-			
-		},
-		/**
-		 * Octal
-		 */
-		OCT{
-			public String toString(){
-				return "Octal";
-			}
-			
-		};	
-	}
-	
-	/**
-	 * Indicates whether a number should be interpreted as Signed or Unsigned
-	 */
-	public static enum SignMode {
-		/**
-		 * A signed number.
-		 */
-		SIGNED{
-			public String toString(){
-				return "Signed";
-			}
-			
-		},
-		/**
-		 * An unsigned number.
-		 */
-		UNSIGNED{
-			public String toString(){
-				return "Unsigned";
-			}
-			
-		};
-	}
-	
-	/**
-	 * Byte significance order of the number representation.
-	 */
-	public static enum ByteOrder {
-		/**
-		 * Less Significant Byte to Most Significant Byte
-		 */
-		LSB_MSB{
-			public String toString(){
-				return "Less Significant Byte to Most Significant Byte";
-			}
-			
-		},
-		/**
-		 * Most Significant Byte to Less Significant Byte
-		 */
-		MSB_LSB{
-			public String toString(){
-				return "Most Significant Byte to Less Significant Byte";
-			}
-			
-		};
-	}
-	
+    // Auxiliary classes
+
     /**
-     * Sole constructor. (For invocation by subclass constructors, typically implicit.)
+     * Format of the digits representing a value
      */
-    
-    protected DigitUtils(){}
-    
-    
+    public enum DigitFormat{
+        /**
+         * Hexadecimal
+    	 */
+        HEX{
+            public String toString(){
+                return "Hexadecimal";
+            }
+        },
+    	/**
+         * Binary
+         */
+    	BIN{
+            public String toString(){
+                return "Binary";
+            }		
+	},
+        /**
+    	 * Decimal
+         * */
+    	DEC{
+            public String toString(){
+                return "Decimal";
+            }		
+    	},
+        /**
+    	 * Octal
+         * */
+    	OCT{
+            public String toString(){
+                return "Octal";
+    	    }		
+	};	
+    }
+	
     /**
-     * Returns a byte representing the value stored in the hexadecimal String <code>s</code>.
-     * 
-     * @param s the String containing a byte in hexadecimal format
+     * Indicates whether a number should be interpreted as 
+     * Signed or Unsigned
+     */
+    public static enum SignMode {
+        /**
+    	 * A signed number.
+         */
+	SIGNED{
+            public String toString(){
+                return "Signed";
+            }		
+    	},
+        /**
+	 * An unsigned number.
+         * */
+	UNSIGNED{
+            public String toString(){
+                return "Unsigned";
+            }		
+	};
+    }
+	
+    /**
+     * Byte significance order of the number representation
+     */
+    public static enum ByteOrder {
+        /**
+    	 * Less Significant Byte to Most Significant Byte
+         * */
+    	LSB_MSB{
+            public String toString(){
+                return "Less Significant Byte to Most Significant Byte";
+            }
+    	},
+        /**
+    	 * Most Significant Byte to Less Significant Byte
+         * */
+    	MSB_LSB{
+            public String toString(){
+                return "Most Significant Byte to Less Significant Byte";
+            }		
+    	};
+    }    
+   
+    // Type Conversion Methods
+
+    /**
+     * Converts an hexadecimal string into its byte equivalent
+     * @param s the string containing a byte in hexadecimal format
      * @return a byte equivalent to <code>s</code>
-     * @throws IllegalArgumentException
      */
     public static byte toByte(String s){
     	
@@ -128,74 +110,80 @@ public class DigitUtils {
     }
     
     /**
-     * Returns a byte representing the value stored in the String <code>s</code>.
-     * 
-     * @param s the String containing a byte
-     * @param df the Digit Format of the String <code>s</code>
+     * Converts a string in <code>df</code> digit format
+     * into its byte equivalent
+     * @param s the string containing a byte
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>s</code>
+     * should be interpreted
      * @return a byte equivalent to <code>s</code>
-     * @throws IllegalArgumentException
      */
-    
     public static byte toByte(String s, DigitFormat df){   	
     	
-    	if(!checkDigits(s,df)) throw new IllegalArgumentException("Invalid " + df + " Digit Format: " + s);  
+    	if(!checkDigits(s,df))
+            throw new IllegalArgumentException(
+                    "Invalid " + df + " Digit Format: " + s);  
     	   	
-    	if(numOfBytes(s,df)!=1) throw new IllegalArgumentException("Invalid String Length: " + s);
+    	if(numOfBytes(s,df)!=1)
+            throw new IllegalArgumentException(
+                    "Invalid String Length: " + s);
     	
     	return (byte)toInt(s,df);  			 		  	
     }
     
     /**
-     * Returns a byte representing the value stored in the hexadecimal char <code>c</code>.
-     * 
+     * Converts an hexadecimal char into its byte equivalent
      * @param c the char containing a digit in hexadecimal format
      * @return a byte equivalent to <code>c</code>
-     * @throws IllegalArgumentException
      */
     public static byte toByte(char c){
-    	
-    		return toByte(c, DigitFormat.HEX);
+
+        return toByte(c, DigitFormat.HEX);
 
     }
     
     /**
-     * Returns a byte representing the value stored in the char <code>s</code>.
-     * 
-     * @param c the char containing a digit
-     * @param df the Digit Format of the char <code>c</code>
+     * Converts a char in <code>df</code> digit format
+     * into its byte equivalent
+     * @param c the char containing a digit in <code>df</code> format
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>c</code>
+     * should be interpreted
      * @return a byte equivalent to <code>c</code>
-     * @throws IllegalArgumentException
      */
     public static byte toByte(char c, DigitFormat df){
     	
-    	if(!checkDigit(c, df)) throw new IllegalArgumentException("Invalid " + df + " Digit Format: " + c);
+    	if(!checkDigit(c, df))
+            throw new IllegalArgumentException(
+                    "Invalid " + df + " Digit Format: " + c);
     	  	
     	return (byte)toInt(c, df);
     	
     }
         
     /**
-     * Returns a unsigned int number representing the value stored in the String <code>s</code> 
-     * in hexadecimal digit format, with bytes ordered form less significant to most significant.
-     * 
-     * @param s the String containing a unsigned number
-     * @return a unsigned int number equivalent to <code>s</code>
-     * @throws IllegalArgumentException
+     * Converts an unsigned hexadecimal string with bytes stored
+     * from less significant to most significant into its int
+     * equivalent
+     * @param s the string containing an unsigned number
+     * @return an unsigned int number equivalent to <code>s</code>
      */
     public static int toInt(String s){
     	
-    	return toInt(s, DigitFormat.HEX, SignMode.UNSIGNED, ByteOrder.LSB_MSB);
+    	return toInt(s, DigitFormat.HEX, SignMode.UNSIGNED,
+                ByteOrder.LSB_MSB);
 
     }
     
     /**
-     *  Returns a unsigned int number representing the value stored in the String <code>s</code> 
-     *  in digit format <code>df</code>, with bytes ordered from less significant to most significant.
-     * 
-     * @param s the String containing a unsigned number
-     * @param df the Digit Format of the String <code>s</code>
+     * Converts an unsigned string in <code>df</code> digit format
+     * with bytes stored from less significant to most significant 
+     * into its int equivalent
+     * @param s the string containing an unsigned number
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>s</code>
+     * should be interpreted
      * @return a unsigned int number equivalent to <code>s</code>
-     * @throws IllegalArgumentException
      */
     public static int toInt(String s, DigitFormat df){
     	
@@ -203,29 +191,32 @@ public class DigitUtils {
   	
     }
     
-    //TODO 3 Documentar
-    
     /**
-     * 
-     * 
-     * @param s
-     * @param sm
-     * @return
-     */
+     * Converts an hexadecimal string with <code>sm</code> sign mode and
+     * with bytes stored from less significant to most significant 
+     * into its int equivalent
+     * @param s the string containing a number
+     * @param sm an instance of class <code>SignMode</code>
+     * indicating whether <code>s</code> should be interpreted
+     * as representing a signed or unsigned value
+     * @return a int number equivalent to <code>s</code>
+       */
     public static int toInt(String s, SignMode sm){
     	
     	return toInt(s, DigitFormat.HEX, sm, ByteOrder.LSB_MSB);
     	
     }
     
-    //TODO 3 Documentar
-    
     /**
-     * 
-     * 
-     * @param s
-     * @param bo
-     * @return
+     * Converts an hexadecimal unsigned string
+     * with bytes stored as indicated by <code>bo</code> 
+     * into its int equivalent
+     * @param s the string containing an unsigned number
+     * @param bo an instance of class <code>ByteOrder</code>
+     * indicating whether <code>s</code> should be interpreted as
+     * being represented with the less significant bytes first or
+     * the most significant bytes first
+     * @return a unsigned int number equivalent to <code>s</code>
      */
     public static int toInt(String s, ByteOrder bo){
     	
@@ -234,15 +225,18 @@ public class DigitUtils {
     }
     
     /**
-     *  Returns a int number of sign mode <code>sm</code> representing the value stored in the 
-     *  String <code>s</code> in <code>df</code> digit format, with bytes ordered from less significant 
-     *  to most significant.
-     * 
-     * @param s the String containing a number
-     * @param df the Digit Format of the String <code>s</code>
-     * @param sm the Sign Mode of the value stored in <code>s</code>
+     * Converts a string in digit format <code>df</code>
+     * with <code>sm</code> sign mode and
+     * with bytes stored from less significant to most significant 
+     * into its int equivalent
+     * @param s the string containing a number
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>s</code>
+     * should be interpreted
+     * @param sm an instance of class <code>SignMode</code>
+     * indicating whether <code>s</code> should be interpreted
+     * as representing a signed or unsigned value
      * @return a int number equivalent to <code>s</code>
-     * @throws IllegalArgumentException
      */
     public static int toInt(String s, DigitFormat df, SignMode sm){
 
@@ -251,12 +245,18 @@ public class DigitUtils {
     }
     
     /**
-     * 
-     * 
-     * @param s
-     * @param df
-     * @param bo
-     * @return
+     * Converts an unsigned string in digit format <code>df</code>
+     * with bytes stored as indicated by <code>bo</code> 
+     * into its int equivalent
+     * @param s the string containing an unsigned number
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>s</code>
+     * should be interpreted
+     * @param bo an instance of class <code>ByteOrder</code>
+     * indicating whether <code>s</code> should be interpreted as
+     * being represented with the less significant bytes first or
+     * the most significant bytes first
+     * @return a unsigned int number equivalent to <code>s</code>
      */
     public static int toInt(String s, DigitFormat df, ByteOrder bo){
 
@@ -265,11 +265,18 @@ public class DigitUtils {
     }
   
     /**
-     * 
-     * @param s
-     * @param sm
-     * @param bo
-     * @return
+     * Converts an hexadecimal string with <code>sm</code> sign mode and
+     * with bytes stored as indicated by <code>bo</code> 
+     * into its int equivalent
+     * @param s the string containing an unsigned number
+     * @param sm an instance of class <code>SignMode</code>
+     * indicating whether <code>s</code> should be interpreted
+     * as representing a signed or unsigned value
+     * @param bo an instance of class <code>ByteOrder</code>
+     * indicating whether <code>s</code> should be interpreted as
+     * being represented with the less significant bytes first or
+     * the most significant bytes first
+     * @return an int number equivalent to <code>s</code>
      */
     public static int toInt(String s, SignMode sm, ByteOrder bo){
 
@@ -278,19 +285,25 @@ public class DigitUtils {
     }
     
     /**
-     *  Returns a int number of sign mode <code>sm</code> representing the value stored in the 
-     *  String <code>s</code> in <code>df</code> digit format, with bytes ordered as specified in 
-     *  <code>bo</code>
-     * 
-     * @param s the String containing a number
-     * @param df the Digit Format of the String <code>s</code>
-     * @param sm the Sign Mode of the value stored in <code>s</code>
-     * @param bo the Byte Order of the value stored in <code>s</code>
-     * @return a int number equivalent to <code>s</code>
-     * @throws IllegalArgumentException
+     * Converts a string in digit format <code>df</code>
+     * with <code>sm</code> sign mode and
+     * with bytes stored as indicated by <code>bo</code> 
+     * into its int equivalent
+     * @param s the string containing an unsigned number
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>s</code>
+     * should be interpreted
+     * @param sm an instance of class <code>SignMode</code>
+     * indicating whether <code>s</code> should be interpreted
+     * as representing a signed or unsigned value
+     * @param bo an instance of class <code>ByteOrder</code>
+     * indicating whether <code>s</code> should be interpreted as
+     * being represented with the less significant bytes first or
+     * the most significant bytes first
+     * @return an int number equivalent to <code>s</code>
      */
-    public static int toInt(String s, DigitFormat df, SignMode sm, ByteOrder bo){
-    	   	
+    public static int toInt(String s, DigitFormat df, SignMode sm, 
+            ByteOrder bo){
 
     	boolean neg = false;
     	
@@ -300,31 +313,41 @@ public class DigitUtils {
     	}
     	
     	int len = numOfBytes(s, df);
-    	if(!checkIntSpace(s, df, sm, bo)) throw new IllegalArgumentException("Invalid String Length: " + s);   	
+    	if(!checkIntSpace(s, df, sm, bo))
+            throw new IllegalArgumentException(
+                    "Invalid String Length: " + s);   	
        	
     	int blen = s.length()/len;
     	
     	int num = 0;
     	
-		if(bo == ByteOrder.LSB_MSB){
-			for(int i = 0; i<len;i++){
-				num = num + byteStringValue(s.substring(i*blen, i*blen + blen), df)*(int)Math.pow(256, i);
-			}
-		}
-		else{
-			for(int i = len-1; i>=0;i--){
-				num = num + byteStringValue(s.substring(i*blen, i*blen + blen), df)*(int)Math.pow(256, len-i-1);
-			}			
-		}
+	if(bo == ByteOrder.LSB_MSB){
+	    for(int i = 0; i<len;i++){
+                num = num +
+                    byteStringValue(s.substring(i*blen, i*blen + blen), df) *
+                    (int) Math.pow(256, i);
+            }
+	}
+    	else{
+            for(int i = len-1; i>=0;i--){			
+                num = num +
+                    byteStringValue(s.substring(i*blen, i*blen + blen), df) * 
+                    (int) Math.pow(256, len-i-1);
+		}			
+	    }
 		
-		if(neg) num = -num;
+	if(neg) num = -num;
 		
     	return num;
     	    	
     }
     
-    //TODO 3 Documentar byteValue(String s, DigitFormat df)
-    
+    /**
+     * Converts an hexadecimal string representing a single byte
+     * into its int equivalent
+     * @param s the string to be converted
+     * @return an int number equivalent to <code>s</code>
+     */
     public static int byteStringValue(String s){
     	
     	return byteStringValue(s, DigitFormat.HEX);    	
@@ -332,263 +355,299 @@ public class DigitUtils {
     }
     
     /**
-     * UNSIGNED
-     * 
-     * @param s the String containing a number
-     * @param df the Digit Format of the String <code>s</code>
-     * @return
-     * @throws IllegalArgumentException
+     * Converts a string in digit format <code>df</code>
+     * representing a single byte into its int equivalent
+     * @param s the string to be converted
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>s</code>
+     * should be interpreted
+     * @return an int number equivalent to <code>s</code>
      */
     public static int byteStringValue(String s, DigitFormat df){
     	
-    	
     	int base;
     	
-    	if(numOfBytes(s, df)!=1) throw new IllegalArgumentException("Invalid String Length: " + s);
+    	if(numOfBytes(s, df)!=1) 
+            throw new IllegalArgumentException(
+                    "Invalid String Length: " + s);
     	
     	if(df == DigitFormat.HEX) base = 16;
     	else if(df == DigitFormat.BIN) base = 2;
-    	else throw new IllegalArgumentException(df + " Digit Format Not Supported in " +
-    			"byteStringValue(String, DigitFormat):int");
+    	else 
+            throw new IllegalArgumentException(
+                    df +
+                    " Digit Format Not Supported in " +
+                    "byteStringValue(String, DigitFormat):int");
     	
     	int num = 0;
-		for (int i = s.length()-1; i >= 0; i--){
-			char c = s.charAt(i);
-			int n = toInt(c);
-			num = num + n*(int)Math.pow(base, s.length()-i-1); 		
-		}
+	for (int i = s.length()-1; i >= 0; i--){
+            char c = s.charAt(i);
+            int n = toInt(c);
+            num = num + n*(int)Math.pow(base, s.length()-i-1); 		
+    	}
     	
-		return num;
+        return num;
     	
     }
     
     /**
-     * Returns a int number representing the value stored in the hexadecimal char <code>s</code>.
-     * 
-     * @param c the char containing a hexadecimal digit
-     * @return a byte equivalent to <code>c</code> 
-     * @throws IllegalArgumentException
-     * 
+     * Converts an haxadecimal char into its int equivalent
+     * @param c the char to be converted
+     * @return an int equivalent to <code>c</code> 
      */
     public static int toInt(char c){
     	
-    		return toInt(c, DigitFormat.HEX);	
+    	return toInt(c, DigitFormat.HEX);	
     	
     }
-    
-    //TODO 3 Documentar toInt(char c, DigitFormat df)
-    
+   
     /**
-     * 
-     * @param c the char containing a digit
-     * @param df the Digit Format of the char <code>c</code>
-     * @return
-     * @throws IllegalArgumentException
+     * Converts a char in digit format <code>df</code> into
+     * its int equivalent
+     * @param c the char to be converted
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>c</code>
+     * should be interpreted
+     * @return an int equivalent to <code>c</code> 
      */
     public static int toInt(char c, DigitFormat df){
     	
-    	if(!checkDigit(c,df)) throw new IllegalArgumentException("Invalid " + df + " Digit Format: " + c);
-    	
+    	if(!checkDigit(c,df))
+            throw new IllegalArgumentException(
+                    "Invalid " + df + " Digit Format: " + c);
     	
     	if((c >= '0')&&(c<='9')) return c - '0';
     	else if ((c >= 'a')&&(c <= 'f')) return c - 'a' + 10;
     	else return c - 'A' + 10;
     	
     }
-    
-    //TODO 3 Documentar toString(String, DigitFormat, DigitFormat)
-    
+ 
     /**
-     * 
-     * 
-     * @param s the String containing a number
-     * @param idf the Digit Format of the String <code>s</code>
-     * @param odf the Digit Format of the output String
-     * @return
-     * @throws IllegalArgumentException
+     * Changes the digit format representation of a string 
+     * @param s the string to be modified
+     * @param idf an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which the input string
+     * <code>s</code> should be interpreted
+     * @param odf an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which the output string
+     * should be represented
+     * @return a string equivalent to <code>s</code> but in
+     * <code>odf</code> digit format
      */
-    public static String toString(String s, DigitFormat idf, DigitFormat odf){
+    public static String toString(String s, DigitFormat idf, 
+            DigitFormat odf){
     	
-    		return toString(toInt(s,idf), odf);    	
+        return toString(toInt(s,idf), odf);    	
+    
     }
-    
-    //TODO 3 Documentar toString(byte b)
-    
+   
     /**
-     * 
-     * 
-     * @param b
-     * @return
-     * @throws IllegalArgumentException
+     * Generates an hexadecimal unsigned string representation of a byte
+     * @param b the byte to be converted
+     * @return a string representation of <code>b</code>
      */
     public static String toString(byte b){
     	
-    		return toString(b, DigitFormat.HEX, SignMode.UNSIGNED);
+    	return toString(b, DigitFormat.HEX, SignMode.UNSIGNED);
 
     } 
-    
-    //TODO 3 Documentar toString(byte b, DigitFormat df)
-    
+   
     /**
-     * 
-     * 
-     * @param b
-     * @param df the Digit Format of the output String
-     * @return
-     * @throws IllegalArgumentException
+     * Generates an unsigned string representation in <code>df</code>
+     * digit format of a byte
+     * @param b the byte to be converted
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which the output string
+     * should be represented
+     * @return a string representation of <code>b</code>
      */
     public static String toString(byte b, DigitFormat df){
     	
-    		return toString(b, df, SignMode.UNSIGNED);
+    	return toString(b, df, SignMode.UNSIGNED);
     	
     }
     
     /**
-     * 
-     * @param b
-     * @param sm
-     * @return
+     * Generates an hexadecimal string representation
+     * with <code>sm</code> sign mode of a byte
+     * @param b the byte to be converted
+     * @param sm an instance of class <code>SignMode</code>
+     * indicating whether the output string should be represented
+     * as a signed or unsigned value
+     * @return a string representation of <code>b</code>
      */
     public static String toString(byte b, SignMode sm){
     	
-		return toString(b, DigitFormat.HEX, sm);
+	return toString(b, DigitFormat.HEX, sm);
 	
     }
-    
-    //TODO 3 Documentar toString(byte b, DigitFormat df, SignMode sm)
-    
+   
     /**
-     * 
-     * @param b
-     * @param df the Digit Format of the output String
-     * @param sm the Sign Mode of the output String
-     * @return
-     * @throws IllegalArgumentException
+     * Generates a string representation in <code>df</code>
+     * digit format with <code>sm</code> sign mode of a byte
+     * @param b the byte to be converted
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which the output string
+     * should be represented
+     * @param sm an instance of class <code>SignMode</code>
+     * indicating whether the output string should be represented
+     * as a signed or unsigned value
+     * @return a string representation of <code>b</code>
      */
     public static String toString(byte b, DigitFormat df, SignMode sm){
     	
-    		return toByteString((int)b, df);
+    	return toByteString((int)b, df);
     	
     }
-    
-    //TODO 3 Documentar toString(int num)
-    
+   
     /**
-     * 
-     * 
-     * @param num
-     * @return
-     * @throws IllegalArgumentException
+     * Generates an hexadecimal unsigned byte string representation
+     * with the bytes ordered from less significant to most significant
+     * of an int
+     * @param num the int to be converted
+     * @return a string representation of <code>num</code>
      */
     public static String toString(int num){
     	
-    		return toString(num, DigitFormat.HEX, SignMode.UNSIGNED, ByteOrder.LSB_MSB);
+    	return toString(num, DigitFormat.HEX, 
+                SignMode.UNSIGNED, ByteOrder.LSB_MSB);
 
     } 
-    
-    //TODO 3 Documentar toString(int num, DigitFormat df)
-    
+   
     /**
-     * 
-     * 
-     * @param num
-     * @param df the Digit Format of the output String
-     * @return
-     * @throws IllegalArgumentException
+     * Generates an unsigned byte string representation
+     * in <code>df</code> digit format 
+     * with the bytes ordered from less significant to most significant
+     * of an int
+     * @param num the int to be converted
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which the output string
+     * should be represented
+     * @return a string representation of <code>num</code>
      */
     public static String toString(int num, DigitFormat df){
     	
-    		return toString(num, df, SignMode.UNSIGNED, ByteOrder.LSB_MSB);
+    	return toString(num, df, SignMode.UNSIGNED, ByteOrder.LSB_MSB);
     		
     }
-    
-    //TODO 3 Documentar
-    
+   
     /**
-     * 
-     * @param num
-     * @param sm
-     * @return
+     * Generates an hexadecimal byte string representation
+     * with <code>sm</code> sign mode and 
+     * with the bytes ordered from less significant to most significant
+     * of an int
+     * @param num the int to be converted
+     * @param sm an instance of class <code>SignMode</code>
+     * indicating whether the output string should be represented
+     * as a signed or unsigned value
+     * @return a string representation of <code>num</code>
      */
     public static String toString(int num, SignMode sm){
     	
-		return toString(num, DigitFormat.HEX, sm, ByteOrder.LSB_MSB);
+	return toString(num, DigitFormat.HEX, sm, ByteOrder.LSB_MSB);
 		
     }
-    
-    //TODO 3 Documentar
-    
+   
     /**
-     * 
-     * @param num
-     * @param bo
-     * @return
+     * Generates an hexadecimal unsigned byte string representation
+     * with the bytes ordered as indicated by <code>bo</code>
+     * of an int
+     * @param num the int to be converted
+     * @param bo an instance of class <code>ByteOrder</code>
+     * indicating whether <code>s</code> should be represented
+     * with the less significant bytes first or
+     * the most significant bytes first
+     * @return a string representation of <code>num</code>
      */
     public static String toString(int num, ByteOrder bo){
     	
-		return toString(num, DigitFormat.HEX, SignMode.UNSIGNED, bo);
+	return toString(num, DigitFormat.HEX, SignMode.UNSIGNED, bo);
 		
     }
-    
-    //TODO 3 Documentar
-    
+   
     /**
-     * 
-     * 
-     * @param num
-     * @param df
-     * @param sm
-     * @return
+     * Generates a byte string representation in <code>df</code> digit format
+     * with <code>sm</code> sign mode and 
+     * with the bytes ordered from less significant to most significant
+     * of an int
+     * @param num the int to be converted
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which the output string
+     * should be represented
+     * @param sm an instance of class <code>SignMode</code>
+     * indicating whether the output string should be represented
+     * as a signed or unsigned value
+     * @return a string representation of <code>num</code>
      */
     public static String toString(int num, DigitFormat df, SignMode sm){
     	
     	return toString(num, df, sm, ByteOrder.LSB_MSB);
     	
     }
-    
-    //TODO 3 Documentar toString(int num, DigitFormat df, ByteOrder bo)
-    
+   
     /**
-     * 
-     * @param num
-     * @param df the Digit Format of the output String
-     * @param bo the Byte Order of the output String
-     * @return
-     * @throws IllegalArgumentException
+     * Generates an unsigned byte string representation 
+     * in <code>df</code> digit format
+     * with the bytes ordered as indicated by <code>bo</code>
+     * of an int
+     * @param num the int to be converted
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which the output string
+     * should be represented
+     * @param bo an instance of class <code>ByteOrder</code>
+     * indicating whether <code>s</code> should be represented
+     * with the less significant bytes first or
+     * the most significant bytes first
+     * @return a string representation of <code>num</code>
      */
     public static String toString(int num, DigitFormat df, ByteOrder bo){
     	
     	return toString(num, df, SignMode.UNSIGNED, bo);
     	
     }
-    
-    //TODO 3 Documentar
-    
+  
     /**
-     * 
-     * 
-     * @param num
-     * @param sm
-     * @param bo
-     * @return
+     * Generates an hexadecimal byte string representation 
+     * with <code>sm</code> sign mode and 
+     * with the bytes ordered as indicated by <code>bo</code>
+     * of an int
+     * @param num the int to be converted
+     * @param sm an instance of class <code>SignMode</code>
+     * indicating whether the output string should be represented
+     * as a signed or unsigned value     
+     * @param bo an instance of class <code>ByteOrder</code>
+     * indicating whether <code>s</code> should be represented
+     * with the less significant bytes first or
+     * the most significant bytes first
+     * @return a string representation of <code>num</code>
      */
     public static String toString(int num, SignMode sm, ByteOrder bo){
     	
     	return toString(num, DigitFormat.HEX, sm, bo);
     	
     }
-    
-    //TODO 3 Documentar toString(int num, DigitFormat df, SignMode sm, ByteOrder bo)
-    
+     
     /**
-     * 
-     * @param num
-     * @param df the Digit Format of the output String
-     * @param bo the Byte Order of the output String
-     * @return
-     * @throws IllegalArgumentException
+     * Generates a byte string representation 
+     * in <code>df</code> digit format
+     * with <code>sm</code> sign mode and 
+     * with the bytes ordered as indicated by <code>bo</code>
+     * of an int
+     * @param num the int to be converted
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which the output string
+     * should be represented
+     * @param sm an instance of class <code>SignMode</code>
+     * indicating whether the output string should be represented
+     * as a signed or unsigned value     
+     * @param bo an instance of class <code>ByteOrder</code>
+     * indicating whether <code>s</code> should be represented
+     * with the less significant bytes first or
+     * the most significant bytes first
+     * @return a string representation of <code>num</code>
      */
-    public static String toString(int num, DigitFormat df, SignMode sm, ByteOrder bo){
+    public static String toString(int num, DigitFormat df, 
+            SignMode sm, ByteOrder bo){
     	
     	StringBuilder sb = new StringBuilder();
     	String s;
@@ -599,42 +658,40 @@ public class DigitUtils {
     	
     	for(int i = 0; i<len; i++){
     		
-    		aux = num & mask;
+    	    aux = num & mask;
     		
-	    	s = toByteString(aux, df);
+    	    s = toByteString(aux, df);
 	    	
-	    	if(bo == ByteOrder.LSB_MSB) sb.append(s);
-	    	else sb.insert(0, s);
+	    if(bo == ByteOrder.LSB_MSB) sb.append(s);
+	    else sb.insert(0, s);
 	    	
-	    	num = num>>8;
+	    num = num>>8;
     	}
     	
     	return sb.toString();
     	
     }
-
-    //TODO 3 Documentar toByteString(int n)
-    
     
     /**
-     * 
-     * @param num
-     * @return
+     * Converts an int representing a single byte
+     * into its hexadecimal byte string equivalent
+     * @param num the int to be converted
+     * @return a string equivalent to <code>num</code>
      */
     public static String toByteString(int num){
     	
     	return toByteString(num, DigitFormat.HEX);
     	
     }
-    
-    //TODO 3 Documentar toByteString(int n, DigitFormat df)
-    
+  
     /**
-     * 
-     * @param num
-     * @param df the Digit Format of the output String
-     * @return
-     * @throws IllegalArgumentException
+     * Converts an int representing a single byte
+     * into its byte string equivalent
+     * @param num the int to be converted
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which the output string
+     * should be represented
+     * @return a string equivalent to <code>num</code>
      */
     public static String toByteString(int num, DigitFormat df){
     	
@@ -643,7 +700,9 @@ public class DigitUtils {
     	char c;
     	StringBuilder sb = new StringBuilder();
     	
-    	if(numOfBytes(num)!=1) throw new IllegalArgumentException("Invalid Int Length");    		
+    	if(numOfBytes(num)!=1)
+            throw new IllegalArgumentException(
+                    "Invalid Int Length");    		
     	
     	if(df == DigitFormat.HEX){
     		blen = 2;
@@ -654,8 +713,10 @@ public class DigitUtils {
     		blen = 8;
     		mask = 0x01;
     	}
-    	else throw new IllegalArgumentException(df + " Digit Format Not Supported in " +
-    			"toByteString(int, DigitFormat):String");
+    	else 
+            throw new IllegalArgumentException(df +
+                    " Digit Format Not Supported in " +
+                    "toByteString(int, DigitFormat):String");
     	
     	for(int i = 0; i < blen; i++){
     		aux = num & mask;
@@ -667,173 +728,210 @@ public class DigitUtils {
     	return sb.toString();
     	
     }
-    
-    //TODO 3 Documentar toDigit(int num)
-    
+   
     /**
-     * 
-     * @param num
-     * @return
+     * Converts an int representing a single nibble
+     * into its hexadecimal digit char equivalent
+     * @param num the int to be converted
+     * @return a char equivalent to <code>num</code>
      */
     public static char toDigit(int num){
     	
     	return toDigit(num, DigitFormat.HEX);
     	
     }
-    
-    //TODO 3 Documentar toDigit(int num, DigitFormat df)
-    
+  
     /**
-     * 
-     * @param num
-     * @param df the Digit Format of the output char
-     * @return
-     * @throws IllegalArgumentException
+     * Converts an int representing a single nibble
+     * into its digit char equivalent in <code>df</code> digit format
+     * @param num the int to be converted
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which the output char
+     * should be represented
+     * @return a char equivalent to <code>num</code>
      */
     public static char toDigit(int num, DigitFormat df){
     	
     	char c;
     	
-    	if((num>=0)&&(num<=9)) c = (char)('0' + num);
-    	else if((num>=10)&&(num<=15)) c = (char) ('A' + num - 10);
-    	else throw new IllegalArgumentException("Invalid int (" + num + ") for a " + df + " Digit");
+    	if((num>=0)&&(num<=9)) 
+            c = (char)('0' + num);
+    	else if((num>=10)&&(num<=15)) 
+            c = (char) ('A' + num - 10);
+    	else 
+            throw new IllegalArgumentException(
+                    "Invalid int (" + num + ") for a " + df + " Digit");
     	
-    	if(!checkDigit(c,df)) throw new IllegalArgumentException("Invalid int (" + num + ") " +
-    			"for a " + df + " Digit");
+    	if(!checkDigit(c,df)) 
+            throw new IllegalArgumentException(
+                    "Invalid int (" + num + ") " + 
+                    "for a " + df + " Digit");
     	
     	return c;
     }   
-    
-    //TODO 3 Documentar twoscomp(String s)
-    
+  
+    // Binary Operation Methods
+
+
     /**
-     * 
-     * @param s
-     * @return
+     * Computes the two's complement of the value stored in the 
+     * hexadecimal byte string <code>s</code>, represented
+     * from less significant byte to most significant byte
+     * @param s a string representing a value
+     * @return an hexadecimal byte string corresponding to the 
+     * two's complement of <code>s</code>, represented
+     * from less significant byte to most significant byte
      */
     public static String twosComp(String s){
 		
-		return twosComp(s, DigitFormat.HEX, ByteOrder.LSB_MSB);
+	return twosComp(s, DigitFormat.HEX, ByteOrder.LSB_MSB);
    	  	
     }
-    
-	//TODO 3 Documentar twoscomp(String, DigitFormat)
-    
+   
     /**
-     * 
-     * @param s
-     * @param df
-     * @return
+     * Computes the two's complement of the value stored in the 
+     * byte string <code>s</code>, represented in
+     * <code>df</code> digit format
+     * from less significant byte to most significant byte
+     * @param s a string representing a value
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>s</code>
+     * should be interpreted
+     * @return a byte string corresponding to the 
+     * two's complement of <code>s</code>, represented
+     * in <code>df</code> digit format
+     * from less significant byte to most significant byte
      */
     public static String twosComp(String s, DigitFormat df){
 		
-		return twosComp(s, df, ByteOrder.LSB_MSB);
+	return twosComp(s, df, ByteOrder.LSB_MSB);
    	  	
     }
-
-    //TODO 3 Documentar twosComp(String, ByteOrder)
-    
+   
     /**
-     * 
-     * 
-     * @param s
-     * @param bo
-     * @return
+     * Computes the two's complement of the value stored in the 
+     * hexadecimal byte string <code>s</code>, represented
+     * in <code>bo</code> byte order
+     * @param s a string representing a value
+     * @param bo an instance of class <code>ByteOrder</code>
+     * indicating whether <code>s</code> should be represented
+     * with the less significant bytes first or
+     * the most significant bytes first
+     * @return an hexadecimal byte string corresponding to the 
+     * two's complement of <code>s</code>, represented
+     * in <code>bo</code> byte order
      */
     public static String twosComp(String s, ByteOrder bo){
 		
-		return twosComp(s, DigitFormat.HEX, bo);
+	return twosComp(s, DigitFormat.HEX, bo);
    	  	
     }
-    
-    //TODO 3 Documentar twoscomp(String, DigitFormat, ByteOrder)
-    
+   
     /**
-     * 
-     * @param s
-     * @param df the Digit Format of the String <code>s</code>
-     * @param bo
-     * @return
-     * @throws IllegalArgumentException
+     * Computes the two's complement of the value stored in the 
+     * byte string <code>s</code>, represented
+     * in <code>df</code> digit format
+     * with <code>bo</code> byte order
+     * @param s a string representing a value
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>s</code>
+     * should be interpreted
+     * @param bo an instance of class <code>ByteOrder</code>
+     * indicating whether <code>s</code> should be represented
+     * with the less significant bytes first or
+     * the most significant bytes first
+     * @return a byte string corresponding to the 
+     * two's complement of <code>s</code>, represented
+     * in <code>df</code> digit format with
+     * <code>bo</code> byte order
      */
     public static String twosComp(String s, DigitFormat df, ByteOrder bo){
 
-		s = not(s, df);
-		return toString(toInt(s, df, DigitUtils.SignMode.UNSIGNED, bo) + 1, df, bo);
+	s = not(s, df);
+	return toString(
+                toInt(s, df, DigitUtils.SignMode.UNSIGNED, bo) + 1,
+                df, bo);
    	  	
     }
-    
-    //TODO 3 Documentar not(String)
-    
+   
     /**
-     * 
-     * 
-     * @param s
-     * @return
-     */
+     * Computes the logical negation (NOT) of the hexadecimal
+     * byte string <code>s</code>
+     * @param ba the byte string to be negated
+     * @return the negated byte string
+     * */
     public static String not(String s){
     	
     	return not(s, DigitFormat.HEX);
     	
     }
-    
-    //TODO 3 Documentar not(String s, DigitFormat df)
-    
+   
     /**
-     * 
-     * 
-     * @param s
-     * @param df the Digit Format of the String <code>s</code>
-     * @return
-     * @throws IllegalArgumentException
+     * Computes the logical negation (NOT) of the
+     * byte string <code>s</code>, represented in
+     * <code>df</code> digit format
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>s</code>
+     * should be interpreted
+     * @param ba the byte string to be negated
+     * @return the negated byte string
      */
     public static String not(String s, DigitFormat df){
     	
     	int base;
    	
     	if(df == DigitFormat.HEX){
-    		base = 16; 		
+    	    base = 16; 		
     	}
     	else if(df == DigitFormat.BIN){
-    		base = 2;
+    	    base = 2;
     	}
-    	else throw new IllegalArgumentException(df + " Digit Format Not Supported in " +
-    			"not(String, DigitFormat):String");
+    	else 
+            throw new IllegalArgumentException(df + 
+                    " Digit Format Not Supported in " +
+                    "not(String, DigitFormat):String");
     	
     	StringBuilder sb = new StringBuilder(s);
     	
     	for(int i = 0; i<sb.length(); i++){    		
-     			char oc = sb.charAt(i);
-    			int n = toInt(oc, df);
-    			char nc = toDigit((base-1-n)%base, df);
-    			sb.setCharAt(i, nc);
+     	    char oc = sb.charAt(i);
+    	    int n = toInt(oc, df);
+    	    char nc = toDigit((base-1-n)%base, df);
+    	    sb.setCharAt(i, nc);
     	}
     	
     	return sb.toString();
+    
     }
     
-	//TODO 3 Documentar checkIntSpace(String s)
+    // Checker methods
 
-    
     /**
-     * 
-     * @param s
-     * @return
+     * Checks whether an hexadecimal unsigned byte string <code>s</code>,
+     * represented from less significant to most significant byte
+     * can be fitted within the size of a Java int
+     * @param s a byte string
+     * @return <code>true</code> if <code>s</code> fits in an int;
+     * <code>false</code> otherwise
      */
     public static boolean checkIntSpace(String s){
     	
-    	return checkIntSpace(s, DigitFormat.HEX, SignMode.UNSIGNED, ByteOrder.LSB_MSB);
+    	return checkIntSpace(
+                s, DigitFormat.HEX, SignMode.UNSIGNED, ByteOrder.LSB_MSB);
     	
     }
     
-    //TODO 3 Documentar checkIntSpace(String s, ByteOrder)
-
-    
     /**
-     * 
-     * @param s
-     * @param df
-     * @return
+     * Checks whether an unsigned byte string <code>s</code>,
+     * represented in <code>df</code> digit format
+     * from less significant to most significant byte
+     * can be fitted within the size of a Java int
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>s</code>
+     * should be interpreted
+     * @param s a byte string
+     * @return <code>true</code> if <code>s</code> fits in an int;
+     * <code>false</code> otherwise
      */
     public static boolean checkIntSpace(String s, DigitFormat df){
     	
@@ -841,166 +939,212 @@ public class DigitUtils {
     	
     }
     
-    //TODO 3 Documentar checkIntSpace(String, SignMode)
-
-    
     /**
-     * 
-     * @param s
-     * @param sm
-     * @return
+     * Checks whether an hexadecimal byte string <code>s</code>,
+     * represented in <code>df</code> digit format
+     * from less significant to most significant byte
+     * can be fitted within the size of a Java int
+     * @param sm an instance of class <code>SignMode</code>
+     * indicating whether <code>s</code> should be interpreted
+     * as representing a signed or unsigned value
+     * @param s a byte string
+     * @return <code>true</code> if <code>s</code> fits in an int;
+     * <code>false</code> otherwise
      */
     public static boolean checkIntSpace(String s, SignMode sm){
     	
     	return checkIntSpace(s, DigitFormat.HEX, sm, ByteOrder.LSB_MSB);
     	
     }
-    
-    //TODO 3 Documentar checkIntSpace(String s, ByteOrder)
-
-    
+   
     /**
-     * 
-     * @param s
-     * @param bo
-     * @return
+     * Checks whether an unsigned hexadecimal byte string <code>s</code>,
+     * represented in <code>bo</code> byte order
+     * can be fitted within the size of a Java int
+     * @param bo an instance of class <code>ByteOrder</code>
+     * indicating whether <code>s</code> should be interpreted as
+     * being represented with the less significant bytes first or
+     * the most significant bytes first
+     * @param s a byte string
+     * @return <code>true</code> if <code>s</code> fits in an int;
+     * <code>false</code> otherwise
      */
     public static boolean checkIntSpace(String s, ByteOrder bo){
     	
     	return checkIntSpace(s, DigitFormat.HEX, SignMode.UNSIGNED, bo);
     	
     }
-    
-    //TODO 3 Documentar checkIntSpace(String s, DigitFormat, SignMode)
-    
+  
     /**
-     * 
-     * @param s
-     * @param df
-     * @param sm
-     * @return
+     * Checks whether a byte string <code>s</code>,
+     * represented in <code>df</code> digit format
+     * and <code>sm</code> sign mode
+     * from less significant to most significant byte
+     * can be fitted within the size of a Java int
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>s</code>
+     * should be interpreted
+     * @param sm an instance of class <code>SignMode</code>
+     * indicating whether <code>s</code> should be interpreted
+     * as representing a signed or unsigned value
+     * @param s a byte string
+     * @return <code>true</code> if <code>s</code> fits in an int;
+     * <code>false</code> otherwise
      */
-    public static boolean checkIntSpace(String s, DigitFormat df, SignMode sm){
+    public static boolean checkIntSpace(String s, DigitFormat df, 
+            SignMode sm){
     	
     	return checkIntSpace(s, df, sm, ByteOrder.LSB_MSB);
     	
     }
-    
-    //TODO 3 Documentar checkIntSpace(String s, DigitFormat, ByteOrder)
-    
+   
     /**
-     * 
-     * @param s
-     * @param df
-     * @param bo
-     * @return
+     * Checks whether an unsigned byte string <code>s</code>,
+     * represented in <code>df</code> digit format
+     * with <code>bo</code> byte order
+     * can be fitted within the size of a Java int
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>s</code>
+     * should be interpreted
+     * @param bo an instance of class <code>ByteOrder</code>
+     * indicating whether <code>s</code> should be interpreted as
+     * being represented with the less significant bytes first or
+     * the most significant bytes first
+     * @param s a byte string
+     * @return <code>true</code> if <code>s</code> fits in an int;
+     * <code>false</code> otherwise
      */
-    public static boolean checkIntSpace(String s, DigitFormat df, ByteOrder bo){
+    public static boolean checkIntSpace(String s, DigitFormat df, 
+            ByteOrder bo){
     	
     	return checkIntSpace(s, df, SignMode.UNSIGNED, bo);
     	
     }
     
-    //TODO 3 Documentar checkIntSpace(String s, SignMode, ByteOrder)
-    
     /**
-     * 
-     * @param s
-     * @param sm
-     * @param bo
-     * @return
+     * Checks whether an hexadecimal byte string <code>s</code>,
+     * represented in <code>sm</code> sign mode
+     * with <code>bo</code> byte order
+     * can be fitted within the size of a Java int
+     * @param sm an instance of class <code>SignMode</code>
+     * indicating whether <code>s</code> should be interpreted
+     * as representing a signed or unsigned value    
+     * @param bo an instance of class <code>ByteOrder</code>
+     * indicating whether <code>s</code> should be interpreted as
+     * being represented with the less significant bytes first or
+     * the most significant bytes first
+     * @param s a byte string
+     * @return <code>true</code> if <code>s</code> fits in an int;
+     * <code>false</code> otherwise
      */
-    public static boolean checkIntSpace(String s, SignMode sm, ByteOrder bo){
+    public static boolean checkIntSpace(String s, SignMode sm, 
+            ByteOrder bo){
     	
     	return checkIntSpace(s, DigitFormat.HEX, sm, bo);
     	
     }
     
-    //TODO 3 Documentar checkIntSpace(String s, DigitFormat df, SignMode sm, ByteOrder bo)
-    
     /**
-     * 
-     * @param s
-     * @param df the Digit Format of the String <code>s</code>
-     * @param sm  the Sign Mode of value stored in <code>s</code>
-     * @param bo
-     * @return
-     * @throws IllegalArgumentException
+     * Checks whether a byte string <code>s</code>,
+     * represented in <code>df</code> digit format
+     * and <code>sm</code> sign mode
+     * with <code>bo</code> byte order
+     * can be fitted within the size of a Java int
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>s</code>
+     * should be interpreted
+     * @param sm an instance of class <code>SignMode</code>
+     * indicating whether <code>s</code> should be interpreted
+     * as representing a signed or unsigned value    
+     * @param bo an instance of class <code>ByteOrder</code>
+     * indicating whether <code>s</code> should be interpreted as
+     * being represented with the less significant bytes first or
+     * the most significant bytes first
+     * @param s a byte string
+     * @return <code>true</code> if <code>s</code> fits in an int;
+     * <code>false</code> otherwise
      */
-    public static boolean checkIntSpace(String s, DigitFormat df, SignMode sm, ByteOrder bo){
+    public static boolean checkIntSpace(String s, DigitFormat df, 
+            SignMode sm, ByteOrder bo){
     	
     	int len = numOfBytes(s, df);
 
     	if(len > 4) return false;
     	else if(len == 4){
-    		if((isNeg(s,df,bo)) && (sm == SignMode.UNSIGNED)) return false;
-    		else return true;
+    	    if((isNeg(s,df,bo)) && (sm == SignMode.UNSIGNED)) 
+                return false;
+    	    else return true;
     	}
     	else return true;
 
     }
     
-   //TODO 3 Documentar numOfBytes(String s)
-    
     /**
-     * 
-     * @param s
-     * @return
-     * @throws IllegalArgumentException
+     * Determines the number of bytes that the hexadecimal
+     * byte string <code>s</code> represents
+     * @param s a byte string
+     * @return an int indicating the number of bytes contained
+     * in <code>s</code>
      */
     public static int numOfBytes(String s){
     	
-    		return numOfBytes(s, DigitFormat.HEX);
+    	return numOfBytes(s, DigitFormat.HEX);
     	
     }
-    
-    //TODO 3 Documentar numOfBytes(String s, DigitFormat df)
-    
+  
     /**
-     * 
-     * @param s
-     * @param df the Digit Format of the String <code>s</code>
-     * @return
-     * @throws IllegalArgumentException
+     * Determines the number of bytes that the
+     * byte string <code>s</code> represents
+     * @param s a byte string
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>s</code>
+     * should be interpreted
+     * @return an int indicating the number of bytes contained
+     * in <code>s</code>
      */
     public static int numOfBytes(String s, DigitFormat df){
     	
-    	if(!checkDigits(s, df)) throw new IllegalArgumentException("Invalid " + df + " Digit Format: " + s);
+    	if(!checkDigits(s, df))
+            throw new IllegalArgumentException(
+                    "Invalid " + df + " Digit Format: " + s);
     	
     	int len = s.length();
     	int blen;
     	
     	if(df == DigitFormat.HEX) blen = 2;
     	else if(df == DigitFormat.BIN) blen = 8;
-    	else throw new IllegalArgumentException(df + " Digit Format not supported in "
-    			+ "numOfBytes(String, DigitFormat):int" );
+    	else throw new IllegalArgumentException(
+                df + " Digit Format not supported in " +
+                "numOfBytes(String, DigitFormat):int" );
     	
-    	if(len%blen != 0) throw new IllegalArgumentException("Invalid String Length: " + s);
+    	if(len%blen != 0)
+            throw new IllegalArgumentException(
+                    "Invalid String Length: " + s);
     	else return len/blen;
     	
     }
     
-    //TODO 3 Documentar numOfBytes(int n)
-    
     /**
-     * 
-     * @param n
-     * @return
-     * @throws IllegalArgumentException
+     * Determines the number of bytes that the
+     * int <code>num</code> represents
+     * @param num an int
+     * @return an int indicating the number of bytes contained
+     * in <code>num</code>
      */
     public static int numOfBytes(int num){
     	
     	return numOfBytes(num, SignMode.UNSIGNED);
     }
-    
-    //TODO 3 Documentar numOfBytes(int num, SignMode sm)
-    
+  
    /**
-    * 
-    * @param num
-    * @param sm 
-    * @return
-    * @throws IllegalArgumentException
+     * Determines the number of bytes that the
+     * int <code>num</code> represents
+     * @param num an int 
+     * @param sm an instance of class <code>SignMode</code>
+     * indicating whether <code>num</code> should be interpreted
+     * as representing a signed or unsigned value   
+     * @return an int indicating the number of bytes contained
+     * in <code>num</code>
     */
     public static int numOfBytes(int num, SignMode sm){
     	
@@ -1021,99 +1165,111 @@ public class DigitUtils {
     	return 4;
     	
     }
-    
-    //TODO 3 Documentar isNeg(String s)
-    
+   
     /**
-     * 
-     * @param s
-     * @return
-     * @throws IllegalArgumentException
+     * Checks whether the hexadecimal string <code>s</code>,
+     * represented from less significant byte to most significant byte
+     * corresponds to a negative value or not
+     * @param s a byte string
+     * @return <code>true</code> if <code>s</code> represents a negative
+     * value; <code>false</code> otherwise
      */
     public static boolean isNeg(String s){
     	
-    		return isNeg(s, DigitFormat.HEX, ByteOrder.LSB_MSB);
+    	return isNeg(s, DigitFormat.HEX, ByteOrder.LSB_MSB);
     		
     }
-    
-    //TODO 3 Documentar isNeg(String s, DigitFormat df)
-    
+  
     /**
-     * 
-     * @param s
-     * @param df the Digit Format of the output String
-     * @return
-     * @throws IllegalArgumentException
+     * Checks whether the string <code>s</code>,
+     * represented in <code>df</code> digit format
+     * from less significant byte to most significant byte
+     * corresponds to a negative value or not
+     * @param s a byte string
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>s</code>
+     * should be interpreted
+     * @return <code>true</code> if <code>s</code> represents a negative
+     * value; <code>false</code> otherwise
      */
     public static boolean isNeg(String s, DigitFormat df){
 
-    		return isNeg(s, df, ByteOrder.LSB_MSB);
+    	return isNeg(s, df, ByteOrder.LSB_MSB);
     	
     }
-    
-    //TODO 3 Documentar isNeg(String s, ByteOrder bo)
-    
+  
     /**
-     * 
-     * @param s
-     * @param bo
-     * @return
-     * @throws IllegalArgumentException
+     * Checks whether the hexadecimal string <code>s</code>,
+     * represented with <code>bo</code> byte order
+     * corresponds to a negative value or not
+     * @param s a byte string
+     * @param bo an instance of class <code>ByteOrder</code>
+     * indicating whether <code>s</code> should be interpreted as
+     * being represented with the less significant bytes first or
+     * the most significant bytes first
+     * @return <code>true</code> if <code>s</code> represents a negative
+     * value; <code>false</code> otherwise
      */
     public static boolean isNeg(String s, ByteOrder bo){
     	
-    		return isNeg(s, DigitFormat.HEX, bo); 
+    	return isNeg(s, DigitFormat.HEX, bo); 
     		
     }
-    
-    //TODO 3 Documentar isNeg(String s, DigitFormat df, ByteOrder bo)
-    
+  
     /**
-     * 
-     * @param s
-     * @param df the Digit Format of the output String
-     * @param bo
-     * @return
-     * @throws IllegalArgumentException
+     * Checks whether the string <code>s</code>,
+     * represented in <code>df</code> digit format
+     * from less significant byte to most significant byte
+     * corresponds to a negative value or not
+     * @param s a byte string
+     * @param df an instance of class <code>DigitFormat</code>
+     * indicating the digit format in which <code>s</code>
+     * should be interpreted
+     * @param bo an instance of class <code>ByteOrder</code>
+     * indicating whether <code>s</code> should be interpreted as
+     * being represented with the less significant bytes first or
+     * the most significant bytes first
+     * @return <code>true</code> if <code>s</code> represents a negative
+     * value; <code>false</code> otherwise
      */
     public static boolean isNeg(String s, DigitFormat df, ByteOrder bo){
     	
-    		if(!checkDigits(s, df)) throw new IllegalArgumentException("Invalid " + df + " Digit Format: "+ s);
+    	if(!checkDigits(s, df))
+            throw new IllegalArgumentException(
+                    "Invalid " + df + " Digit Format: "+ s);
     	
-    		if(bo == ByteOrder.LSB_MSB){
-    			if(df == DigitFormat.HEX){
-    				if(toInt(s.charAt(s.length()-2))>=8) return true;
-    				else return false;
-    			}
-    			else if(df == DigitFormat.BIN){
-    				if(toInt(s.charAt(s.length()-8))==1) return true;
-    				else return false;    				
-    			}    			
-    		}
-    		else{
-    			if(df == DigitFormat.HEX){
-    				if(toInt(s.charAt(0))>=8) return true;
-    				else return false;
-    			}
-    			else if(df == DigitFormat.BIN){
-    				if(toInt(s.charAt(0))==1) return true;
-    				else return false;    				
-    			}
-    		}
-    		return false;
+    	if(bo == ByteOrder.LSB_MSB){
+            if(df == DigitFormat.HEX){
+                if(toInt(s.charAt(s.length()-2))>=8) return true;
+    		else return false;
+            }
+            else if(df == DigitFormat.BIN){
+                if(toInt(s.charAt(s.length()-8))==1) return true;
+    		else return false;    				
+            }    			
+    	}
+        else{
+            if(df == DigitFormat.HEX){
+                if(toInt(s.charAt(0))>=8) return true;
+		else return false;
+            }
+            else if(df == DigitFormat.BIN){
+                if(toInt(s.charAt(0))==1) return true;
+    		else return false;    				
+    	    }
+    	}
+        return false;
     	
     }
     
-    
     /**
-     * Returns <code>true</code> if all characters of <code>s</code> are valid <code>df</code> digits
-     * 
-     * @param s a String representing a value
-     * @param df the digit format of the String <code>s</code>
-     * @return <code>true</code> if if all characters of <code>s</code> are valid <code>df</code> digits; 
+     * Checks whether the string <code>s</code> is a valid
+     * representation in <code>df</code> digit format
+     * @param s a byte string
+     * @param df the digit format to be checked
+     * @return <code>true</code> if all characters of 
+     * <code>s</code> are valid <code>df</code> digits; 
      * <code>false</code> otherwise
-     * @throws IllegalArgumentException
-     * @see DigitFormat
      */    
     public static boolean checkDigits(String s, DigitFormat df){
     	
@@ -1121,20 +1277,21 @@ public class DigitUtils {
     	else if(df == DigitFormat.BIN) return checkBinDigits(s);
     	else if(df == DigitFormat.DEC) return checkDecDigits(s);
     	else if(df == DigitFormat.OCT) return checkOctDigits(s);
-    	else throw new IllegalArgumentException(df + " Digit Format Not Supported in " +
-    			"checkDigits(String, DigitFormat):boolean");
+    	else 
+            throw new IllegalArgumentException(df +
+                    " Digit Format Not Supported in " +
+                    "checkDigits(String, DigitFormat):boolean");
 
     }
     
     /**
-     * Returns <code>true</code> if <code>c</code> is a valid <code>df</code> digit
-     * 
-     * @param c a char representing a digit
-     * @param df the digit format of the char <code>c</code>
-     * @return <code>true</code> if <code>c</code> is a valid <code>df</code> digit; 
+     * Checks whether the char <code>c</code> is a valid
+     * representation in <code>df</code> digit format
+     * @param c a char
+     * @param df the digit format to be checked
+     * @return <code>true</code> if <code>c</code> is a valid
+     * <code>df</code> digit; 
      * <code>false</code> otherwise
-     * @throws IllegalArgumentException
-     * @see DigitFormat
      */
     public static boolean checkDigit(char c, DigitFormat df){
     	
@@ -1142,16 +1299,19 @@ public class DigitUtils {
     	else if(df == DigitFormat.BIN) return checkBinDigit(c);
     	else if(df == DigitFormat.DEC) return checkDecDigit(c);
     	else if(df == DigitFormat.OCT) return checkOctDigit(c);
-    	else throw new IllegalArgumentException(df + " Digit Format Not Supported in " +
-    			"checkDigit(char, DigitFormat):boolean");
+    	else 
+            throw new IllegalArgumentException(df +
+                    " Digit Format Not Supported in " +
+                    "checkDigit(char, DigitFormat):boolean");
     	
     }
     
     /**
-     * Returns <code>true</code> if all characters of <code>s</code> are valid Hexadecimal digits
-     * 
-     * @param s a String representing a Hexadecimal value
-     * @return <code>true</code> if all characters of <code>s</code> are valid Hexadecimal digits; 
+     * Checks whether the string <code>s</code> is a valid
+     * representation in hexadecimal digit format
+     * @param s a byte string
+     * @return <code>true</code> if all characters of 
+     * <code>s</code> are valid hexadecimal digits; 
      * <code>false</code> otherwise
     */
     public static boolean checkHexDigits(String s){
@@ -1165,10 +1325,11 @@ public class DigitUtils {
     
     
     /**
-     * Returns <code>true</code> if <code>c</code> is a valid Hexadecimal digit 
-     * 
-     * @param c a char representing a Hexadecimal digit
-     * @return <code>true</code> if <code>c</code> is a valid Hexadecimal digit; 
+     * Checks whether the char <code>c</code> is a valid
+     * representation in hexadecimal digit format
+     * @param s a char
+     * @return <code>true</code> if <code>c</code> is a valid
+     * hexadecimal digit; 
      * <code>false</code> otherwise
     */
     public static boolean checkHexDigit(char c){
@@ -1180,10 +1341,11 @@ public class DigitUtils {
     }
     
     /**
-     * Returns <code>true</code> if all characters of <code>s</code> are valid Binary digits 
-     * 
-     * @param s a String representing a Binary value 
-     * @return <code>true</code> if all characters of <code>s</code> are valid Binary digits; 
+     * Checks whether the string <code>s</code> is a valid
+     * representation in binary digit format
+     * @param s a byte string
+     * @return <code>true</code> if all characters of 
+     * <code>s</code> are valid binary digits; 
      * <code>false</code> otherwise
     */
     public static boolean checkBinDigits(String s){
@@ -1197,10 +1359,11 @@ public class DigitUtils {
     
     
     /**
-     * Returns <code>true</code> if <code>c</code> is a valid Binary digit
-     * 
-     * @param c a char representing a Binary digit 
-     * @return <code>true</code> if <code>c</code> is a valid Binary digit; 
+     * Checks whether the char <code>c</code> is a valid
+     * representation in binary digit format
+     * @param s a char
+     * @return <code>true</code> if <code>c</code> is a valid
+     * binary digit; 
      * <code>false</code> otherwise
     */
     public static boolean checkBinDigit(char c){
@@ -1210,10 +1373,11 @@ public class DigitUtils {
     }
 
     /**
-     * Returns <code>true</code> if all characters of <code>s</code> are valid Decimal digits
-     * 
-     * @param s a String representing a Decimal value 
-     * @return <code>true</code> if all characters of <code>s</code> are valid Decimal digits; 
+     * Checks whether the string <code>s</code> is a valid
+     * representation in decimal digit format
+     * @param s a byte string
+     * @return <code>true</code> if all characters of 
+     * <code>s</code> are valid decimal digits; 
      * <code>false</code> otherwise
     */
     public static boolean checkDecDigits(String s){
@@ -1227,10 +1391,11 @@ public class DigitUtils {
     
     
     /**
-     * Returns <code>true</code> if <code>c</code> is a valid Decimal digit
-     * 
-     * @param c a char representing a Decimal digit 
-     * @return <code>true</code> if <code>c</code> is a valid Decimal digit; 
+     * Checks whether the char <code>c</code> is a valid
+     * representation in decimal digit format
+     * @param s a char
+     * @return <code>true</code> if <code>c</code> is a valid
+     * decimal digit; 
      * <code>false</code> otherwise
     */
     public static boolean checkDecDigit(char c){
@@ -1240,10 +1405,11 @@ public class DigitUtils {
     }
     
     /**
-     * Returns <code>true</code> if all characters of <code>s</code> are valid Octal digits
-     * 
-     * @param s a String representing a Octal value 
-     * @return <code>true</code> if all characters of <code>s</code> are valid Octal digits; 
+     * Checks whether the string <code>s</code> is a valid
+     * representation in octal digit format
+     * @param s a byte string
+     * @return <code>true</code> if all characters of 
+     * <code>s</code> are valid octal digits; 
      * <code>false</code> otherwise
     */
     public static boolean checkOctDigits(String s){
@@ -1256,10 +1422,11 @@ public class DigitUtils {
     }
     
     /**
-     * Returns <code>true</code> if <code>c</code> is a valid Decimal digit
-     * 
-     * @param c a char representing a Decimal digit 
-     * @return <code>true</code> if <code>c</code> is a valid Decimal digit; 
+     * Checks whether the char <code>c</code> is a valid
+     * representation in octal digit format
+     * @param s a char
+     * @return <code>true</code> if <code>c</code> is a valid
+     * octal digit; 
      * <code>false</code> otherwise
     */
     public static boolean checkOctDigit(char c){

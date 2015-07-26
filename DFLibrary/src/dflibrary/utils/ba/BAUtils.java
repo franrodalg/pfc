@@ -710,7 +710,6 @@ public class BAUtils {
      * @return a byte array representing the AND operation 
      * of <code>bas</code> byte arrays
      */
-    
     public static byte[] and(ByteOrder bo, byte[]...bas){
 
         byte[][] baMatrix = alignBAs(bo, bas);
@@ -735,15 +734,11 @@ public class BAUtils {
         return ba;
 
     }
-    
-    //TODO 3 Documentar
-    
+
     /**
-     * Returns the logical negation of <code>ba</code>.
-     * 
-     * @param ba byte array to be inverted
-     * 
-     * @return the inverted byte array
+     * Computes the logical negation (NOT) of <code>ba</code>
+     * @param ba the byte array to be negated
+     * @return the negated byte array
      */
     
     public static byte[] not(byte[] ba){
@@ -763,34 +758,37 @@ public class BAUtils {
     // Array Transformation Methods
     
     /**
-     * Returns a new byte array of <code>len</code> bytes that is the result of
-     * expanding <code>ba</code> with zero-filled bytes.
-     * 
-     * @param ba the original byte array
-     * @param len number of bytes of the expanded byte array
-     * 
+     * Generates a new byte array of <code>olen</code> bytes 
+     * that is the result of expanding <code>ba</code> with 
+     * zero-filled bytes
+     * @param ba the original byte array, represented from
+     * less significant byte to most significant byte
+     * @param olen the number of bytes of the expanded byte array
      * @return the expanded byte array
      */
-     
     public static byte[] padding(byte[] ba, int olen){
 
     	return padding(ba, olen, ByteOrder.LSB_MSB);
         
     }
     
-    //TODO 3 Documentar
-    
     /**
-     * 
-     * @param ba
-     * @param len
-     * @param bo
-     * @return
+     * Generates a new byte array of <code>olen</code> bytes 
+     * that is the result of expanding <code>ba</code> with 
+     * zero-filled bytes
+     * @param ba the original byte array
+     * @param olen the number of bytes of the expanded byte array
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes of <code>bas</code>
+     * should be interpreted
+     * @return the expanded byte array
+
      */
     public static byte[] padding(byte[] ba, int olen, ByteOrder bo){
     	
-    	if((ba.length == 0) || ba.length > olen) 
-        	throw new IllegalArgumentException("Invalid Byte Array Length: " + toString(ba));
+    	if((ba.length == 0) || ba.length > olen)
+            throw new IllegalArgumentException(
+                    "Invalid Byte Array Length: " + toString(ba));
         
        byte[] auxba = new byte[olen - ba.length];
        
@@ -804,19 +802,15 @@ public class BAUtils {
     		
     }
     
-    //TODO 4 Documentación: mejora y ejemplos
-       
     /**
-     * Returns a new byte array that is the result of a circular movement of the
-     * parameter <code>ba</ba>. 
-     * 
-     * @param ba byte array whose bytes are moved
-     * @param count number of positions to move each byte
-     * @param dir Direction in which the bytes move
-     * 
+     * Generates a new byte array that is the result of a 
+     * circular movement of the parameter <code>ba</code> 
+     * @param ba the byte array whose bytes should moved
+     * @param count the number of positions to move each byte
+     * @param dir an instance of class <code>Direction</code>
+     * indicating whether the bytes should move to the right or
+     * left edge of the array
      * @return the rotated byte array
-     * 
-     * @see  Direction
      */
     public static byte[] rotateBA(byte[] ba, int count, Direction dir){
 
@@ -836,9 +830,10 @@ public class BAUtils {
     }
  
     /**
-     * 
-     * @param ba
-     * @return
+     * Generates a new byte array that is the result of reversing
+     * the order of the bytes of <code>ba</code>
+     * @param ba the byte array to be reversed
+     * @return the reversed byte array
      */
     public static byte[] reverseBA(byte[] ba){
     	
@@ -854,21 +849,18 @@ public class BAUtils {
     }
     
     /**
-     * Returns a new byte array that is a subarray of the <code>ba</code> parameter. 
-     * The subarray begins at the position specified by <code>beginIndex</code> 
-     * and it has <code>length</length> bytes.
-     * 
-     * @param ba the byte array 
-     * @param beginIndex position where the subarray begins inside <code>ba</code>
-     * @param length the number of bytes of the returned byte array
-     * 
+     * Extracts a subarray of length <code>olen</code> from
+     * <code>ba</code>, starting from <code>begin</code> position
+     * @param ba the original byte array 
+     * @param begin the position where the subarray 
+     * begins inside <code>ba</code>
+     * @param olen the number of bytes of the returned byte array
      * @return the extracted byte array
      */
-
-    
     public static byte[] extractSubBA(byte[] ba, int begin, int olen){
     	
-    	if((begin + olen)>ba.length) throw new IllegalArgumentException("Length Parameter too high");
+    	if((begin + olen)>ba.length)
+            throw new IllegalArgumentException("Length Parameter too high");
 
         byte[] auxba = new byte[olen];
 
@@ -880,11 +872,8 @@ public class BAUtils {
     // Array Combination Methods
 
     /**
-     * Returns a new byte array that is the result of joining the byte arrays
-     * received in <code>bas</code>. 
-     * 
-     * @param bas the byte arrays to join
-     * 
+     * Concatenates the byte arrays included in <code>bas</code> 
+     * @param bas the byte arrays to be joined
      * @return the concatenated byte array
      */
     public static byte[] concatenateBAs(byte[]...bas){
@@ -907,41 +896,35 @@ public class BAUtils {
     }   
     
     /**
-     * Generates a matrix where each row contains one of the byte arrays received as
-     * parameters, all of them aligned considering a Less Significant Byte to
-     * Most Significant Byte Order.
-     * Therefore, bytes with the same relevance will end located at the same column
-     * regardless of the size of its array.
-     *  
-     * @param bas byte arrays to be aligned
-     * 
-     * @return a matrix containing aligned byte arrays
-     * 
-     * @see #alignBAs(ByteOrder, byte[])
-     * 
+     * Generates a bi-dimensional array where each row contains 
+     * one of the byte arrays received as parameters, 
+     * all of them aligned considering 
+     * a less significant byte to most significant byte order.
+     * Therefore, bytes with the same relevance will end located at 
+     * the same column egardless of the size of its array.
+     * @param bas the byte arrays to be aligned
+     * @return a bi-dimensional array containing aligned byte arrays
      */
     public static byte[][] alignBAs(byte[]...bas){
 
         return alignBAs(ByteOrder.LSB_MSB, bas);
 
     }
-    
-    //TODO 4 Documentación: ejemplo
-    
+
     /**
-     * Returns a matrix where each row contains one of the byte arrays received as
-     * parameters, all of them aligned taking into account the Byte Order specified.
-     * Therefore, bytes with the same relevance will end located at the same column
-     * regardless of the size of its array.
-     *  
-     * @param bo the order of the bytes in the byte arrays
-     * @param bas byte arrays to be aligned
-     * 
-     * @return a matrix containing aligned byte arrays
-     * 
+     * Generates a bi-dimensional array where each row contains 
+     * one of the byte arrays received as parameters, 
+     * all of them aligned according
+     * to the byte order indicated by <code>bo</code>.
+     * Therefore, bytes with the same relevance will end located at 
+     * the same column egardless of the size of its array.
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes of <code>bas</code>
+     * should be interpreted
+     * @param bas the byte arrays to be aligned
+     * @return a bi-dimensional array containing aligned byte arrays 
      */
     public static byte[][] alignBAs(ByteOrder bo, byte[]...bas){
-
 
         int len = 0;
 
@@ -969,9 +952,10 @@ public class BAUtils {
     }
 
     /**
-     * 
-     * @param bas
-     * @return
+     * Generates a bi-dimensional array from the byte arrays contained
+     * in <code>bas</code>, without specific byte alignment
+     * @param bas the byte arrays to be joined
+     * @return a bi-dimensional byte array
      */
     public static byte[][] create2dBA(byte[]...bas){
     	
@@ -989,10 +973,12 @@ public class BAUtils {
     }
     
     /**
-     * 
-     * @param ba2d
-     * @param bas
-     * @return
+     * Generates a bi-dimensional array joining the bi-dimensional
+     * array <code>ba2d</code> and the byte arrays contained
+     * in <code>bas</code>, without specific byte alignment
+     * @param ba2d a bi-dimensional byte array
+     * @param bas the byte arrays to be joined
+     * @return a bi-dimensional byte array
      */
     public static byte[][] create2dBA(byte[][] ba2d, byte[]...bas){
     	
@@ -1002,9 +988,11 @@ public class BAUtils {
     }
     
     /**
-     * 
-     * @param bas
-     * @return
+     * Generates a bi-dimensional array joining the bi-dimensional
+     * arrays contained in <code>bas</code>,
+     * without specific byte alignment
+     * @param bas the bi-dimensional byte arrays to be joined
+     * @return a bi-dimensional byte array
      */
     public static byte[][] join2dBAs(byte[][]...bas){
     	
@@ -1033,28 +1021,28 @@ public class BAUtils {
     // Array Check Methods
 
     /**
-     * Returns <code>true</code> if two byte arrays are equal to each other
-     * 
-     * @param ba1 the first byte[] to be compared
-     * @param ba2 the byte[] to be compared with ba2
-     * 
-     * @return <code>true</code> if ba1 and ba2 are identical; 
+     * Checks if two byte arrays are identical to each other.
+     * Wrapping of the <code>Arrays.equals(byte[], byte[])</code>
+     * method
+     * @param ba1 the first byte array to be compared
+     * @param ba2 the byte array to be compared with <code>ba1</code>
+     * @return <code>true</code> if <code>ba1</code> and <code>ba2</code>
+     * are identical; 
      * <code>false</code> otherwise
-     * 
-     * @see java.util.Arrays#equals(byte[], byte[])
      */
     public static boolean compareBAs(byte[] ba1, byte[] ba2){
 
         return Arrays.equals(ba1, ba2);
 
     }
- 
-    //TODO 3 Documentar
     
     /**
-     * 
-     * @param ba
-     * @return
+     * Checks if a byte array represents a negative value 
+     * @param ba the byte array to check, represented from
+     * less significant byte to most significant byte
+     * @return <code>true</code> if <code>ba</code> may represent
+     * a negative value;
+     * <code>false</code> otherwise
      */
     public static boolean isNeg(byte[] ba){
     	
@@ -1062,48 +1050,46 @@ public class BAUtils {
     	
     }
     
-    //TODO 3 Documentar
-    
     /**
-     * 
-     * @param ba
-     * @param bo
-     * @return
+     * Checks if a byte array represents a negative value 
+     * @param ba the byte array to check, represented in the
+     * byte order indicated by <code>bo</code>
+     * @param bo an instance of class <code>ByteOrder</code> indicating
+     * the order in which the bytes of <code>baa</code>
+     * should be interpreted
+     * @return <code>true</code> if <code>ba</code> may represent
+     * a negative value;
+     * <code>false</code> otherwise
      */
     public static boolean isNeg(byte[] ba, ByteOrder bo){
     	
     	return(DigitUtils.isNeg(toString(ba), bo));
     	
     }
-
-
-
     
     // Array Generation Methods
 
     /**
-     * Returns a randomized byte array of the specified length generating
-     * with SHA1PRNG algorithm. 
-     * As the resulting array is generated using the SecureRandom class,
-     * it is suitable for cryptographic purposes.
-     * 
-     * @param length the length (in bytes) of the byte array to be generated
-     *  
+     * Generates a randomized byte array of the specified length
+     * using the <code>SHA1PRNG</code> algorithm. 
+     * As the resulting array is generated using the 
+     * <code>SecureRandom</code> class,
+     * it should be suitable for cryptographic purposes.
+     * @param olen an int representing the length (in bytes) 
+     * of the byte array to be generated
      * @return the random byte array
-     *  
-     * @see java.security.SecureRandom#getInstance(String)
      *    
      */
-    public static byte[] getRandomBA(int length){
+    public static byte[] getRandomBA(int olen){
 
 
-       byte[] randomBytes = new byte[length];
+       byte[] randomBytes = new byte[olen];
 
        try{
     	   SecureRandom rnd = SecureRandom.getInstance("SHA1PRNG");
     	   rnd.nextBytes(randomBytes);
        }catch(NoSuchAlgorithmException e){
-    	   return new byte[length];
+    	   return new byte[olen];
        }
        
     	   
@@ -1112,20 +1098,19 @@ public class BAUtils {
     
     /**
      * Returns a randomized byte array of the specified length. 
-     * As the resulting array is generated using the SecureRandom class,
-     * it is suitable for cryptographic purposes.
-     * @param length an int representing the length (in bytes) of the byte array 
-     * to be generated
-     * @param alg a String containing the algorithm that will be used for generating
-     * the randomized byte array.  
+     * As the resulting array is generated using the 
+     * <code>SecureRandom</code> class,
+     * it should be suitable for cryptographic purposes.
+     * @param olen an int representing the length (in bytes) 
+     * of the byte array to be generated
+     * @param alg a string indicating the algorithm
+     * that will be used for generating the randomized byte array.  
      * @return the random byte array 
-     * @throws NoSuchAlgorithmException  
-     * @see java.security.SecureRandom#getInstance(String)
      */
-    public static byte[] getRandomBA(int length, String alg) 
+    public static byte[] getRandomBA(int olen, String alg) 
     		throws NoSuchAlgorithmException{
 
-        byte[] randomBytes = new byte[length];
+        byte[] randomBytes = new byte[olen];
 
         try{
 
@@ -1139,8 +1124,8 @@ public class BAUtils {
        return randomBytes;
     }
     
+    // Auxiliary classes
 
-    
     /**
      * Orientation in which a byte array should be rotated.
      */
