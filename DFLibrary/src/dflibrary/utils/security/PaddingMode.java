@@ -1,19 +1,20 @@
 package dflibrary.utils.security;
 
 /**
- * 
- * @author Francisco Rodríguez Algarra
+ * Provides singleton objects for representing the different options
+ * for padding arrays
+ * @author Francisco Rodriguez Algarra
  *
  */
 public enum PaddingMode {
 
-	/**
-	 * 
-	 */
-	ZEROPadding{},
-	/**
-	 * 
-	 */
-	EIGHTPadding{};
+    /**
+     * Padding with zeros 
+     */
+    ZEROPadding{},
+    /**
+     * Padding with zeros and 0x80
+     */
+    EIGHTPadding{};
 	
 }

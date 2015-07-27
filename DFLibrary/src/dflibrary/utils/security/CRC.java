@@ -5,39 +5,39 @@ import java.util.zip.CRC32;
 import dflibrary.utils.ba.BAUtils;
 
 /**
- * 
+ * Provides methods for the computation of CRCs
  * @author Francisco Rodríguez Algarra
- *
  */
 public class CRC {
 
-	/**
-	 * 
-	 * @param data
-	 * @return
-	 */
-	public static byte[] CRC32(byte[] data){
+    /**
+     * Computes the 32-bit CRC of <code>data</code>
+     * @param data a byte array
+     * @return the 32-bit CRC of <code>data</code>
+     */
+    public static byte[] CRC32(byte[] data){
 		
-		if(data == null) throw new NullPointerException();
+    	if(data == null) throw new NullPointerException();
 		
-		CRC32 crc = new CRC32();
+    	CRC32 crc = new CRC32();
 		
-		crc.update(data);
+        crc.update(data);
 		
-		String res = Long.toHexString(~crc.getValue());
-		
-		return BAUtils.reverseBA(BAUtils.extractSubBA(BAUtils.toBA(res), 4, 4));
+    	String res = Long.toHexString(~crc.getValue());
 
-	}
+	return BAUtils.reverseBA(
+                BAUtils.extractSubBA(BAUtils.toBA(res), 4, 4));
+
+    }
 	
-	/**
-	 * 
-	 * @param data
-	 * @return
-	 */
-	public static byte[] CRC16(byte[] data){
+    /**
+     * Computes the 16-bit CRC of <code>data</code> 
+     * @param data a byte array
+     * @return the 16-bit array of <code>data</code>
+     */
+    public static byte[] CRC16(byte[] data){
 		
-		if(data == null) throw new NullPointerException();
+        if(data == null) throw new NullPointerException();
 
         byte[] crc = BAUtils.toBA("6363");
 
@@ -47,19 +47,13 @@ public class CRC {
 
         }
 
-        return crc;
-		
-		
-	}
+        return crc;	
+
+    }
 	
-	/**
-	 * 
-	 * @param crc
-	 * @return
-	 */
-	private static byte[] updateCRC16(byte data, byte[] crc){
+    private static byte[] updateCRC16(byte data, byte[] crc){
 		
-		if(crc == null) throw new NullPointerException();
+	if(crc == null) throw new NullPointerException();
         
         int b = (data ^ crc[0]) & 0xFF;
 
@@ -77,17 +71,20 @@ public class CRC {
 
         return crc;
 		
-	}
-	
-	public static final byte[] CRC32_PRESET = {(byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF};
-	public static final byte[] CRC32_POLY = {(byte)0xED, (byte)0xB8,  (byte)0x83, (byte)0x20};
-	
-	public static void main(String[] args){
+    }
+
+    /**
+     * The initial value for 32-bit CRC computation
+     */
+    public static final byte[] CRC32_PRESET = {
+        (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF
+    };
+
+    /**
+     * The polynomial for 32-bit CRC computation
+     */
+    public static final byte[] CRC32_POLY = {
+        (byte)0xED, (byte)0xB8,  (byte)0x83, (byte)0x20
+    };
 		
-		byte[] ba = BAUtils.toBA("01000000");
-		
-		System.out.println(BAUtils.toString(CRC16(ba)));
-		
-	}
-	
 }
