@@ -213,11 +213,6 @@ public class JSCIOComManager implements ComManager {
 		
 	}
 	
-	/**
-	 * 
-	 * @param e
-	 * @return
-	 */
 	protected static DFLException convertException(Exception e){
 		
 		String m = e.getCause().getMessage();

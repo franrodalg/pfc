@@ -857,7 +857,7 @@ public class DigitUtils {
     /**
      * Computes the logical negation (NOT) of the hexadecimal
      * byte string <code>s</code>
-     * @param ba the byte string to be negated
+     * @param s the byte string to be negated
      * @return the negated byte string
      * */
     public static String not(String s){
@@ -873,7 +873,7 @@ public class DigitUtils {
      * @param df an instance of class <code>DigitFormat</code>
      * indicating the digit format in which <code>s</code>
      * should be interpreted
-     * @param ba the byte string to be negated
+     * @param s the byte string to be negated
      * @return the negated byte string
      */
     public static String not(String s, DigitFormat df){
@@ -1327,7 +1327,7 @@ public class DigitUtils {
     /**
      * Checks whether the char <code>c</code> is a valid
      * representation in hexadecimal digit format
-     * @param s a char
+     * @param c a char
      * @return <code>true</code> if <code>c</code> is a valid
      * hexadecimal digit; 
      * <code>false</code> otherwise
@@ -1361,7 +1361,7 @@ public class DigitUtils {
     /**
      * Checks whether the char <code>c</code> is a valid
      * representation in binary digit format
-     * @param s a char
+     * @param c a char
      * @return <code>true</code> if <code>c</code> is a valid
      * binary digit; 
      * <code>false</code> otherwise
@@ -1393,7 +1393,7 @@ public class DigitUtils {
     /**
      * Checks whether the char <code>c</code> is a valid
      * representation in decimal digit format
-     * @param s a char
+     * @param c a char
      * @return <code>true</code> if <code>c</code> is a valid
      * decimal digit; 
      * <code>false</code> otherwise
@@ -1424,7 +1424,7 @@ public class DigitUtils {
     /**
      * Checks whether the char <code>c</code> is a valid
      * representation in octal digit format
-     * @param s a char
+     * @param c a char
      * @return <code>true</code> if <code>c</code> is a valid
      * octal digit; 
      * <code>false</code> otherwise

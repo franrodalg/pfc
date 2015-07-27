@@ -111,7 +111,7 @@ public class KeyProvider {
 		
 		byte[] divInput = BAUtils.concatenateBAs(CT, uid.toBA());
 		
-		byte[] keyData = key.getKeyBytes();
+		byte[] keyData = key.getKeyData();
 		
 		try{
 			byte[] divKey = Crypto.encode(keyData, keyData, divInput, ChainMode.CBCSendISO, key.getAlg(), PaddingMode.ZEROPadding);
@@ -151,7 +151,7 @@ public class KeyProvider {
 		
 		byte[] aux = BAUtils.concatenateBAs(AES_DIV_CONSTANT, divInput);
 		
-		byte[] divKey = MAC.cmac(aux, key.getKeyBytes(), new byte[16], key.getAlg(), 32);
+		byte[] divKey = MAC.cmac(aux, key.getKeyData(), new byte[16], key.getAlg(), 32);
 		
 		return new DFKey(divKey, key.getAlg(), key.getKeyVersion());
 		
@@ -168,8 +168,8 @@ public class KeyProvider {
 		byte[] aux1 = BAUtils.concatenateBAs(TDEA2_DIV_CONSTANT_1, divInput);
 		byte[] aux2 = BAUtils.concatenateBAs(TDEA2_DIV_CONSTANT_2, divInput);
 		
-		byte[] divKey1 = MAC.cmac(aux1, key.getKeyBytes(), new byte[8], key.getAlg(), 16);
-		byte[] divKey2 = MAC.cmac(aux2, key.getKeyBytes(), new byte[8], key.getAlg(), 16);
+		byte[] divKey1 = MAC.cmac(aux1, key.getKeyData(), new byte[8], key.getAlg(), 16);
+		byte[] divKey2 = MAC.cmac(aux2, key.getKeyData(), new byte[8], key.getAlg(), 16);
 		
 		return new DFKey(BAUtils.concatenateBAs(divKey1, divKey2), key.getAlg(), key.getKeyVersion());
 		
@@ -187,9 +187,9 @@ public class KeyProvider {
 		byte[] aux2 = BAUtils.concatenateBAs(TDEA3_DIV_CONSTANT_2, divInput);
 		byte[] aux3 = BAUtils.concatenateBAs(TDEA3_DIV_CONSTANT_3, divInput);
 		
-		byte[] divKey1 = MAC.cmac(aux1, key.getKeyBytes(), new byte[8], key.getAlg(), 16);
-		byte[] divKey2 = MAC.cmac(aux2, key.getKeyBytes(), new byte[8], key.getAlg(), 16);
-		byte[] divKey3 = MAC.cmac(aux3, key.getKeyBytes(), new byte[8], key.getAlg(), 16);
+		byte[] divKey1 = MAC.cmac(aux1, key.getKeyData(), new byte[8], key.getAlg(), 16);
+		byte[] divKey2 = MAC.cmac(aux2, key.getKeyData(), new byte[8], key.getAlg(), 16);
+		byte[] divKey3 = MAC.cmac(aux3, key.getKeyData(), new byte[8], key.getAlg(), 16);
 		
 		return new DFKey(BAUtils.concatenateBAs(divKey1, divKey2, divKey3), key.getAlg(), key.getKeyVersion());
 		

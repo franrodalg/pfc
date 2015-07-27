@@ -72,12 +72,6 @@ public class JPCSCComManager implements ComManager {
 
 	}
 
-	/**
-	 * 
-	 * @param readerName
-	 * @param readers
-	 * @return
-	 */
 	private boolean findReader(String readerName, String[] readers){
 		
 		if((readerName == null) || (readers == null)) 
@@ -258,9 +252,6 @@ public class JPCSCComManager implements ComManager {
 		
 	}
 	
-	/**
-	 * 
-	 */
 	private void checkSetUp(){
 		
 		if(this.context == null)
@@ -271,11 +262,6 @@ public class JPCSCComManager implements ComManager {
 		
 	}
 
-	/**
-	 * 
-	 * @param e
-	 * @return
-	 */
 	protected static DFLException convertException(Exception e){
 	
 		ExType type;
